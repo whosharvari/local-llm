@@ -1,0 +1,47 @@
+{
+  "elapsed_s": 606.1,
+  "n_train": 109,
+  "n_dev": 0,
+  "config": {
+    "base_model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "train_file": "data/curated/sft_train.jsonl",
+    "dev_file": null,
+    "output_dir": "outputs/sft-qwen2.5-1.5b",
+    "epochs": 3,
+    "batch_size": 1,
+    "grad_accum": 8,
+    "learning_rate": 0.0002,
+    "max_seq_length": 1024,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "lora_target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "precision": "bf16",
+    "seed": 0,
+    "mps_high_watermark_ratio": 0.7,
+    "extra": {
+      "gradient_checkpointing": true,
+      "gradient_checkpointing_kwargs": {
+        "use_reentrant": false
+      }
+    }
+  },
+  "model_dtype": "torch.bfloat16",
+  "device": "mps:0",
+  "result": {
+    "training_time": 598.182165145874,
+    "final_loss": 0.1333298608660698,
+    "model_path": "/Users/sharvari/Desktop/untitled folder 2/llm/outputs/sft-qwen2.5-1.5b/adapter",
+    "steps": 40,
+    "epochs": 0,
+    "task_type": "sft"
+  }
+}
