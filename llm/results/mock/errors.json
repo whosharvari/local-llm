@@ -1,0 +1,20 @@
+{
+  "over_abstained": [
+    "h01",
+    "h10",
+    "h11",
+    "h14",
+    "h17",
+    "h38",
+    "h40"
+  ],
+  "answered_unanswerable:distractor": [
+    "h23",
+    "h25",
+    "h26",
+    "h29"
+  ],
+  "wrong_answer": [
+    "h39"
+  ]
+}

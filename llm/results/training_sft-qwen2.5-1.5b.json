@@ -1,0 +1,100 @@
+{
+  "run": "sft-qwen2.5-1.5b",
+  "elapsed_s": 606.1,
+  "model_dtype": "torch.bfloat16",
+  "device": "mps:0",
+  "n_train": 109,
+  "config": {
+    "base_model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "train_file": "data/curated/sft_train.jsonl",
+    "dev_file": null,
+    "output_dir": "outputs/sft-qwen2.5-1.5b",
+    "epochs": 3,
+    "batch_size": 1,
+    "grad_accum": 8,
+    "learning_rate": 0.0002,
+    "max_seq_length": 1024,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "lora_target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "precision": "bf16",
+    "seed": 0,
+    "mps_high_watermark_ratio": 0.7,
+    "extra": {
+      "gradient_checkpointing": true,
+      "gradient_checkpointing_kwargs": {
+        "use_reentrant": false
+      }
+    }
+  },
+  "loss_log": [
+    {
+      "loss": "0.2492",
+      "grad_norm": "0.3824",
+      "learning_rate": "0.0001906",
+      "entropy": "0.1193",
+      "mean_token_accuracy": "0.9409",
+      "num_tokens": "2.473e+04",
+      "epoch": "0.7339"
+    },
+    {
+      "loss": "0.1732",
+      "grad_norm": "0.5266",
+      "learning_rate": "0.0001259",
+      "entropy": "0.1453",
+      "mean_token_accuracy": "0.9538",
+      "num_tokens": "4.948e+04",
+      "epoch": "1.44"
+    },
+    {
+      "loss": "0.05845",
+      "grad_norm": "0.2365",
+      "learning_rate": "4.264e-05",
+      "entropy": "0.07375",
+      "mean_token_accuracy": "0.9857",
+      "num_tokens": "7.346e+04",
+      "epoch": "2.147"
+    },
+    {
+      "loss": "0.05243",
+      "grad_norm": "0.4123",
+      "learning_rate": "3.805e-07",
+      "entropy": "0.05806",
+      "mean_token_accuracy": "0.989",
+      "num_tokens": "9.856e+04",
+      "epoch": "2.881"
+    }
+  ],
+  "final": {
+    "train_runtime": "598",
+    "train_samples_per_second": "0.535",
+    "train_steps_per_second": "0.067",
+    "train_loss": "0.1333",
+    "epoch": "2.881"
+  },
+  "lora": {
+    "r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": [
+      "v_proj",
+      "q_proj",
+      "k_proj",
+      "up_proj",
+      "gate_proj",
+      "down_proj",
+      "o_proj"
+    ]
+  },
+  "trainable_params": "18,464,768 / 1,562,179,072 (1.18%)",
+  "peak_footprint_gb_observed": 8.5
+}

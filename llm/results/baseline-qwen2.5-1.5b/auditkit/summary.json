@@ -1,0 +1,10 @@
+{
+  "tag": "baseline-qwen2.5-1.5b",
+  "n": 40,
+  "n_answered": 25,
+  "f1_score_all": 0.48215582284081593,
+  "f1_fingerprint": "41278d8804a80cd0",
+  "lexical_groundedness_answered": 0.7475761579321951,
+  "hallucination_answered": 0.175,
+  "grounding_fingerprint": "6e8a666f6cec1777"
+}

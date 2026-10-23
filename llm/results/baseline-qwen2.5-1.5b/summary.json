@@ -1,0 +1,32 @@
+{
+  "n": 40,
+  "n_answerable": 23,
+  "n_unanswerable": 17,
+  "grounded_accuracy": 0.575,
+  "answer_accuracy": 0.6522,
+  "answer_token_f1": 0.5299,
+  "over_abstention_rate": 0.2609,
+  "appropriate_abstention_rate": 0.4706,
+  "hallucinated_answer_rate": 0.5294,
+  "citation_precision": 1.0,
+  "citation_recall": 0.9706,
+  "unsupported_claim_rate": 0.4074,
+  "answers_with_unsupported_numbers": 1,
+  "uncited_answers": 5,
+  "invalid_citation_ids": 3,
+  "json_parse_rate": 0.95,
+  "latency_p50_s": 1.754,
+  "latency_p95_s": 2.882,
+  "latency_mean_s": 1.7945,
+  "grounded_accuracy_by_category": {
+    "answerable": 0.65,
+    "answerable_multi": 0.6667,
+    "distractor": 0.5,
+    "no_evidence": 0.6667,
+    "off_topic": 0.25
+  },
+  "wall_time_s": 18.69,
+  "throughput_qps": 2.14,
+  "mean_completion_tokens": 33.6,
+  "sglang_server_mem_gb": 8.69
+}
