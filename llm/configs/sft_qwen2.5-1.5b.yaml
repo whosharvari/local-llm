@@ -1,0 +1,16 @@
+# LoRA SFT of the baseline model on CuratorKIT-curated grounded QA (AlignTune, TRL backend, Apple MPS).
+base_model: Qwen/Qwen2.5-1.5B-Instruct
+train_file: data/curated/sft_train.jsonl   # 109 rows: 60 answerable, 37 distractor-abstain, 12 no-evidence
+dev_file: null                             # dev split (data/curated/sft_dev.jsonl) is used for post-hoc eval, not in-loop
+output_dir: outputs/sft-qwen2.5-1.5b
+epochs: 3
+batch_size: 2
+grad_accum: 4          # effective batch 8 -> AlignTune computes max_steps = 109*3 // 8 = 40
+learning_rate: 2.0e-4
+max_seq_length: 1024   # longest prompt+answer in the data is well under this
+lora_r: 16
+lora_alpha: 32
+lora_dropout: 0.05
+lora_target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+precision: null        # AlignTune default for the device
+seed: 0

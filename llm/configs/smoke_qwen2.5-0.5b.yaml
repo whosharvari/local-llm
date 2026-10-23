@@ -1,0 +1,16 @@
+# Smoke test: tiny run to verify the AlignTune/TRL/MPS path end to end. Not a real experiment.
+base_model: Qwen/Qwen2.5-0.5B-Instruct
+train_file: outputs/smoke/sft_smoke.jsonl
+dev_file: null
+output_dir: outputs/smoke
+epochs: 1
+batch_size: 2
+grad_accum: 1
+learning_rate: 2.0e-4
+max_seq_length: 768
+lora_r: 8
+lora_alpha: 16
+lora_dropout: 0.05
+lora_target_modules: [q_proj, k_proj, v_proj, o_proj]
+precision: null
+seed: 0
