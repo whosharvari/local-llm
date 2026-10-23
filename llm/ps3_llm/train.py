@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import time
 from pathlib import Path
 
@@ -70,8 +71,11 @@ def train(cfg: dict) -> Path:
     )
     result = trainer.train()
     elapsed = time.time() - t0
+    param = next(trainer.model.parameters())
+    print(f"[ps3] trained model dtype={param.dtype} device={param.device}", flush=True)
     (out / "train_summary.json").write_text(json.dumps(
         {"elapsed_s": round(elapsed, 1), "n_train": n_train, "n_dev": n_dev, "config": cfg,
+         "model_dtype": str(param.dtype), "device": str(param.device),
          "result": {k: v for k, v in (result or {}).items() if isinstance(v, (int, float, str))}},
         indent=2, default=str))
     return out / "adapter"
@@ -101,6 +105,12 @@ def main() -> None:
     ap.add_argument("--no-merge", action="store_true")
     args = ap.parse_args()
     cfg = yaml.safe_load(args.config.read_text())
+    # Cap the MPS caching allocator (fraction of the recommended max working set) so it releases
+    # cached blocks instead of growing into swap on a 16 GB machine. Must be set before torch import.
+    if cfg.get("mps_high_watermark_ratio") is not None:
+        os.environ.setdefault("PYTORCH_MPS_HIGH_WATERMARK_RATIO", str(cfg["mps_high_watermark_ratio"]))
+        # the low watermark (default 1.4) must not exceed the high one
+        os.environ.setdefault("PYTORCH_MPS_LOW_WATERMARK_RATIO", str(min(0.5, cfg["mps_high_watermark_ratio"])))
     if not args.merge_only:
         train(cfg)
     if not args.no_merge:
