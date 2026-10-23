@@ -1,38 +1,51 @@
-"""Side-by-side comparison of two eval runs on the same held-out set.
+"""Side-by-side comparison of two v2-scored runs on the same held-out set.
 
-    python -m ps3_llm.compare baseline-qwen2.5-1.5b sft-qwen2.5-1.5b
--> results/compare_<a>_vs_<b>.md (metric table, per-category table, per-example flips, error buckets)
+    python -m ps3_llm.compare v2/baseline-qwen2.5-1.5b v2/sft-qwen2.5-1.5b [--out results/v2/compare.md]
+
+Reports serving and intent decisions separately (see ps3_llm.metrics), per-category grounded accuracy,
+item-level flips with an exact two-sided McNemar (binomial) test, and error buckets. No significance is
+claimed by this tool; it only reports the test so readers can see how little 40 items can show.
 """
 
 from __future__ import annotations
 
+import argparse
 import json
-import sys
+from math import comb
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 RESULTS = ROOT / "results"
 
-HEADLINE = [
-    ("grounded_accuracy", "Grounded accuracy (all 40)", True),
-    ("answer_accuracy", "Answer accuracy (answerable)", True),
-    ("answer_token_f1", "Answer token F1 (answerable)", True),
-    ("appropriate_abstention_rate", "Appropriate abstention (unanswerable)", True),
-    ("hallucinated_answer_rate", "Hallucinated answer rate (unanswerable)", False),
-    ("over_abstention_rate", "Over-abstention rate (answerable)", False),
-    ("unsupported_claim_rate", "Unsupported claim rate (answered)", False),
-    ("answers_with_unsupported_numbers", "Answers with invented numbers", False),
-    ("uncited_answers", "Answers without citations", False),
-    ("invalid_citation_ids", "Cited non-existent passage ids", False),
-    ("citation_precision", "Citation precision", True),
-    ("citation_recall", "Citation recall", True),
-    ("json_parse_rate", "Valid JSON output rate", True),
-    ("latency_p50_s", "Latency p50 (s)", False),
-    ("latency_p95_s", "Latency p95 (s)", False),
-    ("mean_completion_tokens", "Mean completion tokens", False),
-    ("throughput_qps", "Throughput (queries/s, concurrency 4)", True),
-    ("sglang_server_mem_gb", "SGLang scheduler memory (GB)", False),
+ROWS = [
+    ("grounded_accuracy", "Grounded accuracy (all items)", True),
+    ("grounded_accuracy_excl_ambiguous", "Grounded accuracy excl. ambiguous h30", True),
+    ("answer_correct_rate", "Answer correct (answerable)", True),
+    ("wrong_answer_rate", "Wrong answer (answerable)", False),
+    ("inappropriate_abstention_rate", "Inappropriate abstention (answerable)", False),
+    ("correct_abstention_rate", "Correct abstention (unanswerable)", True),
+    ("hallucinated_answer_rate", "Hallucinated answer (unanswerable)", False),
+    ("cites_gold_rate", "Cites >=1 gold passage (answered answerable)", True),
+    ("all_gold_cited_rate", "Cites all gold passages (answered answerable)", True),
+    ("citation_precision", "Citation precision (answered answerable)", True),
+    ("unsupported_claim_rate", "Unsupported claim rate (claims in answers)", False),
+    ("uncited_answers", "Answers with no valid citation (count)", False),
+    ("answer_token_f1", "Answer token F1 vs gold (answerable)", True),
 ]
+TOP = [
+    ("json_valid_rate", "Valid JSON", True),
+    ("schema_valid_rate", "Schema-valid JSON (3 keys, boolean flag)", True),
+    ("invalid_citation_ids", "Invented citation ids (count)", False),
+    ("inference_errors", "Inference errors (count)", False),
+    ("latency_p50_s", "Latency p50 (s), single run", False),
+    ("latency_p95_s", "Latency p95 (s), single run", False),
+    ("sglang_server_mem_gb", "SGLang scheduler memory (GB), single reading", False),
+]
+
+
+def mcnemar_p(b: int, c: int) -> float:
+    n = b + c
+    return 1.0 if n == 0 else min(1.0, 2 * sum(comb(n, i) for i in range(min(b, c) + 1)) / 2 ** n)
 
 
 def _load(tag: str):
@@ -47,48 +60,68 @@ def _fmt(v):
     return "–" if v is None else (f"{v:.3f}" if isinstance(v, float) else str(v))
 
 
-def main(a: str, b: str) -> Path:
+def _better(va, vb, higher, a, b):
+    if isinstance(va, (int, float)) and isinstance(vb, (int, float)) and va != vb:
+        return b if (vb > va) == higher else a
+    return "="
+
+
+def main(a: str, b: str, out: Path | None = None) -> Path:
     sa, ra, pa, ea = _load(a)
     sb, rb, pb, eb = _load(b)
-    questions = {json.loads(line)["query_id"]: json.loads(line)["question"]
-                 for line in (ROOT / "data/mock/heldout_eval.jsonl").read_text().splitlines()}
-    lines = [f"# {a} vs {b}", "", f"Same held-out set (n={sa['n']}), same metrics, temperature 0.", "",
-             f"| Metric | {a} | {b} | Better |", "|---|---|---|---|"]
-    for key, label, higher in HEADLINE:
-        va, vb = sa.get(key), sb.get(key)
-        better = ""
-        if isinstance(va, (int, float)) and isinstance(vb, (int, float)) and va != vb:
-            better = b if (vb > va) == higher else a
-        lines.append(f"| {label} | {_fmt(va)} | {_fmt(vb)} | {better} |")
+    assert sa["n"] == sb["n"] and set(ra) == set(rb), "runs are not on the same items"
+    qs = {json.loads(line)["query_id"]: json.loads(line)["question"]
+          for line in (ROOT / "data/mock/heldout_eval.jsonl").read_text().splitlines()}
+    na, nb = a.split("/")[-1], b.split("/")[-1]
+    L = [f"# {na} vs {nb} (metrics {sa.get('metrics_version')})", "",
+         f"n = {sa['n']} ({sa['n_answerable']} answerable, {sa['n_unanswerable']} unanswerable, "
+         f"{sa['n_ambiguous']} ambiguous). One item = {100 / sa['n']:.1f} points of grounded accuracy. "
+         "Small-sample evidence only; no statistical significance is claimed.", "",
+         "**serving** = what the API returns (flag respected, contradictions withheld, citation required). "
+         "**intent** = whether the answer text is substantive, flag ignored.", "",
+         f"| Metric | {na} serving | {nb} serving | {na} intent | {nb} intent | Better (intent) |", "|---|---|---|---|---|---|"]
+    for k, label, hi in ROWS:
+        L.append(f"| {label} | {_fmt(sa['serving'][k])} | {_fmt(sb['serving'][k])} | {_fmt(sa['intent'][k])} | "
+                 f"{_fmt(sb['intent'][k])} | {_better(sa['intent'][k], sb['intent'][k], hi, na, nb)} |")
+    L += ["", f"| Output / runtime | {na} | {nb} | Better |", "|---|---|---|---|"]
+    for k, label, hi in TOP:
+        L.append(f"| {label} | {_fmt(sa.get(k))} | {_fmt(sb.get(k))} | {_better(sa.get(k), sb.get(k), hi, na, nb)} |")
+    L.append(f"| Contract violations | {sa['contract_violations']} | {sb['contract_violations']} | |")
 
-    lines += ["", "## Grounded accuracy by category", "", f"| Category | {a} | {b} |", "|---|---|---|"]
-    for cat in sa["grounded_accuracy_by_category"]:
-        lines.append(f"| {cat} | {_fmt(sa['grounded_accuracy_by_category'][cat])} | "
-                     f"{_fmt(sb['grounded_accuracy_by_category'].get(cat))} |")
-
-    fixed = [q for q in ra if not ra[q]["grounded_correct"] and rb[q]["grounded_correct"]]
-    broke = [q for q in ra if ra[q]["grounded_correct"] and not rb[q]["grounded_correct"]]
-    still = [q for q in ra if not ra[q]["grounded_correct"] and not rb[q]["grounded_correct"]]
-    lines += ["", f"## Per-example changes ({len(fixed)} fixed, {len(broke)} regressed, {len(still)} wrong in both)", ""]
-
-    def show(p):
-        return "ABSTAIN" if p["abstained"] else f"{p['answer']} {p['citations']}"
-
-    for title, ids in (("Fixed", fixed), ("Regressed", broke), ("Wrong in both", still)):
-        lines += [f"### {title}", "", f"| id | category | question | {a} | {b} |", "|---|---|---|---|---|"]
-        for q in ids:
-            lines.append(f"| {q} | {ra[q]['category']} | {questions[q]} | {show(pa[q])} | {show(pb[q])} |".replace("\n", " "))
-        lines.append("")
-
-    lines += ["## Error buckets", "", f"| Bucket | {a} | {b} |", "|---|---|---|"]
-    for k in sorted(set(ea) | set(eb)):
-        lines.append(f"| {k} | {', '.join(ea.get(k, [])) or '–'} | {', '.join(eb.get(k, [])) or '–'} |")
-
-    out = RESULTS / f"compare_{a}_vs_{b}.md"
-    out.write_text("\n".join(lines) + "\n")
-    print("\n".join(lines))
+    for mode in ("intent", "serving"):
+        fixed = sorted(q for q in ra if not ra[q][mode]["grounded"] and rb[q][mode]["grounded"])
+        broke = sorted(q for q in ra if ra[q][mode]["grounded"] and not rb[q][mode]["grounded"])
+        both = sorted(q for q in ra if not ra[q][mode]["grounded"] and not rb[q][mode]["grounded"])
+        L += ["", f"## Item flips — {mode}", "",
+              f"{len(fixed)} improved, {len(broke)} regressed, {len(both)} wrong in both; "
+              f"exact McNemar p = {mcnemar_p(len(fixed), len(broke)):.3f}", ""]
+        if mode == "intent":
+            L += [f"| id | category | question | {na} | {nb} |", "|---|---|---|---|---|"]
+            for title, ids in (("improved", fixed), ("regressed", broke), ("wrong in both", both)):
+                for q in ids:
+                    def show(r, p):
+                        cell = f"{'ANSWER' if r[mode]['answered'] else 'ABSTAIN'}: {p['raw_output'][:110]}"
+                        return cell.replace("\n", " ").replace("|", "\\|")
+                    L.append(f"| {q} ({title}) | {ra[q]['category']} | {qs[q]} | {show(ra[q], pa[q])} | {show(rb[q], pb[q])} |")
+    L += ["", "## Grounded accuracy by category", "", f"| Category | {na} serving | {nb} serving | {na} intent | {nb} intent |",
+          "|---|---|---|---|---|"]
+    for cat in sa["intent"]["grounded_accuracy_by_category"]:
+        L.append(f"| {cat} | " + " | ".join(_fmt(s[m]["grounded_accuracy_by_category"].get(cat))
+                                            for m in ("serving", "intent") for s in (sa, sb)).replace(" | ", " | ") + " |")
+    L += ["", "## Error buckets (intent)", "", f"| Bucket | {na} | {nb} |", "|---|---|---|"]
+    for k in sorted(set(ea["intent"]) | set(eb["intent"])):
+        L.append(f"| {k} | {', '.join(ea['intent'].get(k, [])) or '–'} | {', '.join(eb['intent'].get(k, [])) or '–'} |")
+    out = out or RESULTS / f"compare_{na}_vs_{nb}.md"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text("\n".join(L) + "\n")
+    print("\n".join(L))
     return out
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    ap = argparse.ArgumentParser()
+    ap.add_argument("baseline")
+    ap.add_argument("candidate")
+    ap.add_argument("--out", type=Path, default=None)
+    args = ap.parse_args()
+    main(args.baseline, args.candidate, args.out)
