@@ -10,13 +10,12 @@ from __future__ import annotations
 import json
 import re
 import time
-import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from typing import Protocol
 
 from .prompting import build_messages, parse_model_output
-from .schemas import GroundedAnswer, GroundedQuery
+from .schemas import INFERENCE_ERROR_PREFIX, GroundedAnswer, GroundedQuery
 
 ANSWER_JSON_SCHEMA = {
     "type": "object",
@@ -74,7 +73,7 @@ class MockAdapter:
                     best = (score, sent.strip(), ch.chunk_id)
         if best[0] < self.min_overlap:
             out = GroundedAnswer(answer="", citations=[], abstained=True,
-                                 abstain_reason="low lexical overlap with evidence")
+                                 abstain_reason="model_abstained")
         else:
             out = GroundedAnswer(answer=best[1], citations=[best[2]], abstained=False)
         out.query_id, out.model = query.query_id, self.name
@@ -110,13 +109,21 @@ class SGLangAdapter:
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
         self.api_key = api_key
-        self.model = model or self._served_model()
+        self._model = model          # resolved lazily from /v1/models; never raises in __init__
         self.temperature = temperature
         self.max_tokens = max_tokens
         self.constrained = constrained
         self.concurrency = concurrency
         self.extra_body = extra_body or {}
-        self.name = name or f"sglang:{self.model}"
+        self._name = name
+
+    @property
+    def model(self) -> str | None:
+        return self._model
+
+    @property
+    def name(self) -> str:
+        return self._name or f"sglang:{self._model or 'unresolved'}"
 
     def _request(self, path: str, payload: dict | None = None) -> dict:
         data = None if payload is None else json.dumps(payload).encode()
@@ -130,9 +137,21 @@ class SGLangAdapter:
     def _served_model(self) -> str:
         return self._request("/models")["data"][0]["id"]
 
+    def _error_answer(self, query: GroundedQuery, err: BaseException, t0: float) -> GroundedAnswer:
+        return GroundedAnswer(answer="", citations=[], abstained=True,
+                              abstain_reason=f"{INFERENCE_ERROR_PREFIX}{type(err).__name__}: {err}",
+                              query_id=query.query_id, model=self.name, parse_ok=False,
+                              latency_s=time.perf_counter() - t0, warnings=["inference_error"])
+
     def answer(self, query: GroundedQuery) -> GroundedAnswer:
+        t0 = time.perf_counter()
+        if self._model is None:
+            try:
+                self._model = self._served_model()
+            except Exception as e:  # server down, bad URL, malformed /v1/models response
+                return self._error_answer(query, e, t0)
         payload = {
-            "model": self.model,
+            "model": self._model,
             "messages": build_messages(query),
             "temperature": self.temperature,
             "max_tokens": self.max_tokens,
@@ -143,28 +162,30 @@ class SGLangAdapter:
                 "type": "json_schema",
                 "json_schema": {"name": "grounded_answer", "schema": ANSWER_JSON_SCHEMA},
             }
-        t0 = time.perf_counter()
         try:
             resp = self._request("/chat/completions", payload)
             text = resp["choices"][0]["message"]["content"] or ""
             usage = resp.get("usage") or {}
-        except (urllib.error.URLError, TimeoutError, KeyError) as e:
-            return GroundedAnswer(answer="", citations=[], abstained=True, abstain_reason=f"inference_error: {e}",
-                                  query_id=query.query_id, model=self.name, parse_ok=False,
-                                  latency_s=time.perf_counter() - t0)
+        except Exception as e:  # HTTP/URL errors, timeouts, connection resets, malformed responses
+            return self._error_answer(query, e, t0)
         latency = time.perf_counter() - t0
-        parsed = parse_model_output(text, {c.chunk_id for c in query.evidence})
-        return GroundedAnswer(
-            answer=parsed["answer"], citations=parsed["citations"], abstained=parsed["abstained"],
-            abstain_reason="model abstained" if parsed["abstained"] else "",
-            query_id=query.query_id, model=self.name, latency_s=latency, raw_output=text,
-            parse_ok=parsed["parse_ok"],
-            usage={**usage, "invalid_citations": parsed["invalid_citations"]},
-        )
+        return answer_from_text(text, query, self.name, latency, usage)
 
     def answer_batch(self, queries: list[GroundedQuery]) -> list[GroundedAnswer]:
         with ThreadPoolExecutor(max_workers=self.concurrency) as pool:
             return list(pool.map(self.answer, queries))
+
+
+def answer_from_text(text: str, query: GroundedQuery, model: str, latency_s: float | None,
+                     usage: dict | None = None) -> GroundedAnswer:
+    """Apply the serving policy (prompting.parse_model_output) to raw model text."""
+    parsed = parse_model_output(text, {c.chunk_id for c in query.evidence})
+    return GroundedAnswer(
+        answer=parsed["answer"], citations=parsed["citations"], abstained=parsed["abstained"],
+        abstain_reason=parsed["abstain_reason"], query_id=query.query_id, model=model, latency_s=latency_s,
+        raw_output=text, parse_ok=parsed["parse_ok"], warnings=parsed["violations"],
+        usage={**(usage or {}), "invalid_citations": parsed["invalid_citations"]},
+    )
 
 
 def get_adapter(kind: str, **kwargs) -> ModelAdapter:

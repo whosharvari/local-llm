@@ -58,31 +58,73 @@ def format_target(answer: str, citations: list[str], abstain: bool) -> str:
 
 _JSON_OBJ = re.compile(r"\{.*\}", re.DOTALL)
 _THINK = re.compile(r"<think>.*?</think>", re.DOTALL)
-_ABSTAIN_PHRASES = (
-    "do not contain", "does not contain", "not enough information", "cannot be answered",
-    "can't be answered", "no information", "not mentioned", "not provided", "insufficient",
-    "unable to answer", "cannot answer", "not stated", "not specified",
+
+# A refusal written as answer text. Bare words must be the whole answer; phrases may appear anywhere.
+_REFUSAL_WORD = re.compile(r"^\W*(?:abstain(?:ed|ing)?|refuse[ds]?|no answer)\W*$", re.IGNORECASE)
+_REFUSAL_PHRASES = (
+    "do not contain", "does not contain", "doesn't contain", "don't contain", "not enough information",
+    "insufficient information", "insufficient evidence", "cannot be answered", "can't be answered",
+    "cannot be determined", "can't be determined", "no information", "no relevant information",
+    "not mentioned", "not explicitly mentioned", "not provided in", "not specified", "not stated",
+    "unable to answer", "cannot answer", "can't answer", "not found in the",
 )
-_ABSTAIN_WORD = re.compile(r"^\W*abstain\b", re.IGNORECASE)
+_TRUE_STR = {"true", "yes", "1", "abstain", "abstained"}
+_FALSE_STR = {"false", "no", "0"}
+
+# Serving decision reasons (GroundedAnswer.abstain_reason)
+REASON_MODEL = "model_abstained"
+REASON_UNPARSEABLE = "unparseable_output"
+REASON_CONTRADICTION = "contradictory_flag"
+REASON_NO_CITATION = "no_valid_citation"
 
 
-def is_abstention_text(answer: str) -> bool:
+def is_refusal_text(answer: str) -> bool:
     """True when the answer *text* is itself a refusal ("abstain", "not specified in the evidence")."""
     low = answer.strip().lower()
-    return bool(_ABSTAIN_WORD.match(low)) or any(p in low for p in _ABSTAIN_PHRASES)
+    return bool(_REFUSAL_WORD.match(low)) or any(p in low for p in _REFUSAL_PHRASES)
 
 
-def parse_model_output(text: str, valid_ids: set[str], lenient_abstain: bool = False) -> dict[str, Any]:
-    """Parse model text into {answer, citations, abstained, parse_ok}.
+def parse_flag(value: Any) -> bool | None:
+    """Interpret the "abstain" field. bool as-is; "true"/"yes"/"1"/"abstain" -> True;
+    "false"/"no"/"0" -> False; 1/0 -> bool; anything else (missing, null, other strings) -> None."""
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)) and value in (0, 1):
+        return bool(value)
+    if isinstance(value, str):
+        v = value.strip().lower()
+        if v in _TRUE_STR:
+            return True
+        if v in _FALSE_STR:
+            return False
+    return None
 
-    Tolerates code fences, <think> blocks and trailing prose. When JSON parsing fails we fall
-    back to treating the whole text as the answer and detect abstention heuristically; parse_ok
-    is then False so the failure shows up in evaluation instead of being hidden.
-    lenient_abstain=True also treats a JSON answer whose text is a refusal (e.g. "abstain",
-    "not specified in the evidence") as an abstention even when the "abstain" flag is false/absent.
-    Strict mode (default) is used for serving; lenient mode is an evaluation sensitivity check.
-    Citations are filtered to ids present in the query evidence (hallucinated ids are dropped
-    and counted).
+
+def _clean_id(c: Any) -> str:
+    return re.sub(r"^\[(.*)\]$", r"\1", str(c).strip()).strip()
+
+
+def parse_model_output(text: str, valid_ids: set[str]) -> dict[str, Any]:
+    """Parse raw model text deterministically into a serving decision and an intent reading.
+
+    Two decisions with different purposes:
+
+    * Serving (`abstained`, `answer`, `citations`, `abstain_reason`) — what the API returns.
+      Conservative: answer only if the output is valid JSON, the answer text is substantive,
+      the flag does not say abstain, and at least one cited id exists in the request evidence.
+        1. not JSON                                   -> abstain (unparseable_output)
+        2. empty answer or refusal text               -> abstain (model_abstained)
+        3. flag True + substantive answer             -> abstain (contradictory_flag)
+        4. substantive, flag False/missing, no valid id -> abstain (no_valid_citation)
+        5. otherwise                                  -> answer with the valid ids only
+    * Intent (`intent_answered`, `intent_answer`) — retrospective scoring of what the model
+      *meant*, independent of the flag: answered iff the answer text (or, for non-JSON output, the
+      whole text minus a trailing "citations:" line) is substantive and not a refusal. Used to compare
+      models whose flag usage differs; never used for serving.
+
+    `violations` lists every contract breach (non-JSON, missing/non-boolean flag, flag/answer
+    contradictions, invented citation ids, missing keys) so they are visible, not silently resolved.
+    Citation ids are never returned unless they are in `valid_ids`.
     """
     cleaned = _THINK.sub("", text).strip()
     cleaned = re.sub(r"^```(?:json)?\s*|\s*```$", "", cleaned)
@@ -91,38 +133,64 @@ def parse_model_output(text: str, valid_ids: set[str], lenient_abstain: bool = F
     if m:
         try:
             cand = json.loads(m.group(0))
-            if isinstance(cand, dict):
-                obj = cand
+            obj = cand if isinstance(cand, dict) else None
         except json.JSONDecodeError:
             obj = None
 
+    violations: list[str] = []
     if obj is None:
-        low = cleaned.lower()
-        abstained = any(p in low for p in _ABSTAIN_PHRASES)
-        cited = re.findall(r"\[([^\[\]]+)\]", cleaned)
-        valid = [c for c in cited if c in valid_ids]
-        return {
-            "answer": "" if abstained else cleaned,
-            "citations": list(dict.fromkeys(valid)),
-            "abstained": abstained,
-            "parse_ok": False,
-            "invalid_citations": [c for c in cited if c not in valid_ids],
-        }
+        violations.append("not_json")
+        answer = re.sub(r"\n?\s*citations\s*:.*$", "", cleaned, flags=re.IGNORECASE | re.DOTALL).strip()
+        raw_cits = re.findall(r"\[([^\[\]]+)\]", cleaned)
+        flag = None
+    else:
+        missing = {"abstain", "answer", "citations"} - set(obj)
+        if missing:
+            violations.append("missing_keys:" + ",".join(sorted(missing)))
+        raw_flag = obj.get("abstain")
+        flag = parse_flag(raw_flag)
+        if raw_flag is not None and not isinstance(raw_flag, bool):
+            violations.append(f"non_boolean_flag:{raw_flag!r}")
+        if flag is None:
+            violations.append("flag_unrecognised" if "abstain" in obj else "flag_missing")
+        answer = str(obj.get("answer") or "").strip()
+        raw_cits = obj.get("citations") or []
+        raw_cits = [raw_cits] if isinstance(raw_cits, str) else raw_cits
+    cits = [_clean_id(c) for c in raw_cits]
+    valid = list(dict.fromkeys(c for c in cits if c in valid_ids))
+    invalid = [c for c in cits if c not in valid_ids]
+    if invalid:
+        violations.append("invalid_citation_ids")
 
-    raw_cits = obj.get("citations") or []
-    if isinstance(raw_cits, str):
-        raw_cits = [raw_cits]
-    raw_cits = [str(c).strip().strip("[]") for c in raw_cits]
-    valid = [c for c in raw_cits if c in valid_ids]
-    abstain_flag = obj.get("abstain")
-    if isinstance(abstain_flag, str):
-        abstain_flag = abstain_flag.strip().lower() == "true"
-    answer = str(obj.get("answer") or "").strip()
-    abstained = bool(abstain_flag) or (not answer) or (lenient_abstain and is_abstention_text(answer))
+    refusal = is_refusal_text(answer) if answer else False
+    substantive = bool(answer) and not refusal
+    if flag is True and substantive:
+        violations.append("flag_true_but_substantive_answer")
+    if flag is False and not substantive:
+        violations.append("flag_false_but_refusal_or_empty")
+
+    if obj is None:
+        abstained, reason = True, REASON_UNPARSEABLE
+    elif not substantive:
+        abstained, reason = True, REASON_MODEL
+    elif flag is True:
+        abstained, reason = True, REASON_CONTRADICTION
+    elif not valid:
+        abstained, reason = True, REASON_NO_CITATION
+    else:
+        abstained, reason = False, ""
+
     return {
         "answer": "" if abstained else answer,
-        "citations": [] if abstained else list(dict.fromkeys(valid)),
+        "citations": [] if abstained else valid,
         "abstained": abstained,
-        "parse_ok": True,
-        "invalid_citations": [c for c in raw_cits if c not in valid_ids],
+        "abstain_reason": reason,
+        "parse_ok": obj is not None,
+        "schema_ok": obj is not None and not ({"abstain", "answer", "citations"} - set(obj)) and isinstance(obj.get("abstain"), bool),
+        "invalid_citations": invalid,
+        "violations": violations,
+        "flag": flag,
+        "intent_answered": substantive,
+        "intent_answer": answer if substantive else "",
+        "intent_citations": valid if substantive else [],
     }
