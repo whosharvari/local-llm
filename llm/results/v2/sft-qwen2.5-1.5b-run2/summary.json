@@ -1,0 +1,75 @@
+{
+  "metrics_version": "v2",
+  "n": 40,
+  "n_answerable": 23,
+  "n_unanswerable": 16,
+  "n_ambiguous": 1,
+  "json_valid_rate": 1.0,
+  "schema_valid_rate": 1.0,
+  "invalid_citation_ids": 0,
+  "contract_violations": {},
+  "inference_errors": 0,
+  "latency_p50_s": 2.268,
+  "latency_p95_s": 3.69,
+  "serving": {
+    "grounded_accuracy": 0.775,
+    "grounded_accuracy_excl_ambiguous": 0.7692,
+    "answer_correct_rate": 0.7826,
+    "wrong_answer_rate": 0.0435,
+    "inappropriate_abstention_rate": 0.1739,
+    "correct_abstention_rate": 0.8125,
+    "hallucinated_answer_rate": 0.1875,
+    "ambiguous_items_grounded": [
+      "h30"
+    ],
+    "n_answered": 22,
+    "cites_gold_rate": 0.9474,
+    "all_gold_cited_rate": 0.8421,
+    "citation_precision": 0.9474,
+    "answer_token_f1": 0.4555,
+    "unsupported_claim_rate": 0.2727,
+    "n_claims": 22,
+    "uncited_answers": 0,
+    "grounded_accuracy_by_category": {
+      "ambiguous": 1.0,
+      "answerable": 0.8,
+      "answerable_multi": 0.3333,
+      "distractor": 0.6667,
+      "no_evidence": 1.0,
+      "off_topic": 1.0
+    }
+  },
+  "intent": {
+    "grounded_accuracy": 0.775,
+    "grounded_accuracy_excl_ambiguous": 0.7692,
+    "answer_correct_rate": 0.7826,
+    "wrong_answer_rate": 0.0435,
+    "inappropriate_abstention_rate": 0.1739,
+    "correct_abstention_rate": 0.8125,
+    "hallucinated_answer_rate": 0.1875,
+    "ambiguous_items_grounded": [
+      "h30"
+    ],
+    "n_answered": 22,
+    "cites_gold_rate": 0.9474,
+    "all_gold_cited_rate": 0.8421,
+    "citation_precision": 0.9474,
+    "answer_token_f1": 0.4555,
+    "unsupported_claim_rate": 0.2727,
+    "n_claims": 22,
+    "uncited_answers": 0,
+    "grounded_accuracy_by_category": {
+      "ambiguous": 1.0,
+      "answerable": 0.8,
+      "answerable_multi": 0.3333,
+      "distractor": 0.6667,
+      "no_evidence": 1.0,
+      "off_topic": 1.0
+    }
+  },
+  "wall_time_s": 22.0,
+  "throughput_qps": 1.818,
+  "mean_completion_tokens": 32.2,
+  "sglang_server_mem_gb": 8.03,
+  "rescored_from": "sft-qwen2.5-1.5b-run2"
+}

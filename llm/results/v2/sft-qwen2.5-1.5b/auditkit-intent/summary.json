@@ -1,0 +1,12 @@
+{
+  "tag": "v2/sft-qwen2.5-1.5b",
+  "mode": "intent",
+  "n": 40,
+  "n_answered_scored": 22,
+  "n_answered_without_evidence_excluded": 0,
+  "f1_score_all": 0.5907273560899322,
+  "f1_fingerprint": "f63b6b7617534b62",
+  "lexical_groundedness_answered": 0.8122265435099659,
+  "hallucination_answered": 0.17460317460317462,
+  "grounding_fingerprint": "9e5c04986fb6f417"
+}

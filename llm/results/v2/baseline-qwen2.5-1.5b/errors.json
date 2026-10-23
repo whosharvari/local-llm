@@ -1,0 +1,115 @@
+{
+  "serving": {
+    "flag_misuse": [
+      "h01",
+      "h02",
+      "h10",
+      "h12",
+      "h14",
+      "h18",
+      "h20",
+      "h21",
+      "h22",
+      "h24",
+      "h26",
+      "h27",
+      "h28",
+      "h30",
+      "h32",
+      "h35",
+      "h36",
+      "h37",
+      "h39"
+    ],
+    "inappropriate_abstention": [
+      "h01",
+      "h02",
+      "h10",
+      "h12",
+      "h14",
+      "h18",
+      "h20"
+    ],
+    "cited_nonexistent_passage": [
+      "h02",
+      "h27",
+      "h31"
+    ],
+    "has_unsupported_claims": [
+      "h13",
+      "h25",
+      "h38",
+      "h40"
+    ],
+    "answered_unanswerable:distractor": [
+      "h23",
+      "h25",
+      "h29"
+    ],
+    "not_json": [
+      "h33",
+      "h34"
+    ],
+    "wrong_answer": [
+      "h40"
+    ]
+  },
+  "intent": {
+    "flag_misuse": [
+      "h01",
+      "h02",
+      "h10",
+      "h12",
+      "h14",
+      "h18",
+      "h20",
+      "h21",
+      "h22",
+      "h24",
+      "h26",
+      "h27",
+      "h28",
+      "h30",
+      "h32",
+      "h35",
+      "h36",
+      "h37",
+      "h39"
+    ],
+    "has_unsupported_claims": [
+      "h01",
+      "h13",
+      "h21",
+      "h25",
+      "h31",
+      "h38",
+      "h40"
+    ],
+    "inappropriate_abstention": [
+      "h02"
+    ],
+    "cited_nonexistent_passage": [
+      "h02",
+      "h27",
+      "h31"
+    ],
+    "wrong_answer": [
+      "h14",
+      "h20",
+      "h40"
+    ],
+    "answered_unanswerable:distractor": [
+      "h21",
+      "h23",
+      "h25",
+      "h29"
+    ],
+    "answered_unanswerable:off_topic": [
+      "h31"
+    ],
+    "not_json": [
+      "h33",
+      "h34"
+    ]
+  }
+}
