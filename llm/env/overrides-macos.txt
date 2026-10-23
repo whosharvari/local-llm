@@ -1,0 +1,4 @@
+# uv overrides for Apple Silicon (no CUDA): vLLM cannot run on macOS, so trl[vllm]'s
+# vllm dependency is dropped here; torchao>=0.16 requires torch>=2.11.
+vllm ; sys_platform == 'linux'
+torch>=2.11
