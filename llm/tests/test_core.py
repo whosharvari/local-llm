@@ -152,3 +152,11 @@ def test_cli_contract_roundtrip():
     ans2 = json.loads(subprocess.run([sys.executable, "-m", "ps3_llm.cli"], input=empty, cwd=ROOT,
                                      capture_output=True, text=True, check=True).stdout)
     assert ans2["abstained"] and ans2["answer"] == "" and ans2["citations"] == []
+
+
+def test_lenient_abstention_only_when_requested():
+    text = '{"answer": "abstain", "citations": []}'
+    assert not parse_model_output(text, IDS)["abstained"]
+    assert parse_model_output(text, IDS, lenient_abstain=True)["abstained"]
+    real = '{"abstain": false, "answer": "Alcohol is not reimbursable.", "citations": ["a#1"]}'
+    assert not parse_model_output(real, IDS, lenient_abstain=True)["abstained"]

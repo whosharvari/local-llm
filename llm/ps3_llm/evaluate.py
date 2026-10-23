@@ -83,6 +83,32 @@ def run(adapter, examples: list[EvalExample], out_dir: Path, data_path: Path, ad
     return summary
 
 
+class ReplayAdapter:
+    """Re-parses the raw model outputs saved by an earlier run (no model call), e.g. to apply the
+    lenient abstention parser identically to baseline and fine-tuned outputs."""
+
+    def __init__(self, source_dir: Path, lenient_abstain: bool):
+        self.saved = {p["query_id"]: p for p in map(json.loads, (source_dir / "predictions.jsonl").read_text().splitlines())}
+        self.lenient = lenient_abstain
+        self.name = f"replay:{source_dir.name}" + (":lenient" if lenient_abstain else "")
+
+    def answer(self, query):
+        from .prompting import parse_model_output
+        from .schemas import GroundedAnswer
+
+        s = self.saved[query.query_id]
+        parsed = parse_model_output(s["raw_output"], {c.chunk_id for c in query.evidence}, self.lenient)
+        return GroundedAnswer(
+            answer=parsed["answer"], citations=parsed["citations"], abstained=parsed["abstained"],
+            abstain_reason="model abstained" if parsed["abstained"] else "", query_id=query.query_id,
+            model=s["model"], latency_s=s["latency_s"], raw_output=s["raw_output"], parse_ok=parsed["parse_ok"],
+            usage={**(s.get("usage") or {}), "invalid_citations": parsed["invalid_citations"]},
+        )
+
+    def answer_batch(self, queries):
+        return [self.answer(q) for q in queries]
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--adapter", choices=["mock", "sglang"], default="mock")
@@ -94,9 +120,24 @@ def main() -> None:
     ap.add_argument("--max-tokens", type=int, default=384)
     ap.add_argument("--concurrency", type=int, default=4)
     ap.add_argument("--constrained", action="store_true", help="JSON-schema constrained decoding via SGLang")
+    ap.add_argument("--rescore-from", default=None, help="re-parse saved raw outputs of this results tag")
+    ap.add_argument("--lenient-abstain", action="store_true", help="with --rescore-from: refusal text counts as abstain")
     args = ap.parse_args()
 
     examples = load_examples(args.data)
+    if args.rescore_from:
+        src = args.results_dir / args.rescore_from
+        adapter_args = {"rescore_from": args.rescore_from, "lenient_abstain": args.lenient_abstain}
+        summary = run(ReplayAdapter(src, args.lenient_abstain), examples, args.results_dir / args.tag,
+                      args.data, adapter_args)
+        # timing/resource numbers belong to the original generation run, not the replay
+        orig = json.loads((src / "summary.json").read_text())
+        for k in ("wall_time_s", "throughput_qps", "sglang_server_mem_gb", "latency_p50_s", "latency_p95_s",
+                  "latency_mean_s", "mean_completion_tokens"):
+            summary[k] = orig.get(k)
+        (args.results_dir / args.tag / "summary.json").write_text(json.dumps(summary, indent=2))
+        print(json.dumps(summary, indent=2))
+        return
     if args.adapter == "mock":
         adapter_args: dict = {}
     else:

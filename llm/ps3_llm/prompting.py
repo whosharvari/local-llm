@@ -63,14 +63,24 @@ _ABSTAIN_PHRASES = (
     "can't be answered", "no information", "not mentioned", "not provided", "insufficient",
     "unable to answer", "cannot answer", "not stated", "not specified",
 )
+_ABSTAIN_WORD = re.compile(r"^\W*abstain\b", re.IGNORECASE)
 
 
-def parse_model_output(text: str, valid_ids: set[str]) -> dict[str, Any]:
+def is_abstention_text(answer: str) -> bool:
+    """True when the answer *text* is itself a refusal ("abstain", "not specified in the evidence")."""
+    low = answer.strip().lower()
+    return bool(_ABSTAIN_WORD.match(low)) or any(p in low for p in _ABSTAIN_PHRASES)
+
+
+def parse_model_output(text: str, valid_ids: set[str], lenient_abstain: bool = False) -> dict[str, Any]:
     """Parse model text into {answer, citations, abstained, parse_ok}.
 
     Tolerates code fences, <think> blocks and trailing prose. When JSON parsing fails we fall
     back to treating the whole text as the answer and detect abstention heuristically; parse_ok
     is then False so the failure shows up in evaluation instead of being hidden.
+    lenient_abstain=True also treats a JSON answer whose text is a refusal (e.g. "abstain",
+    "not specified in the evidence") as an abstention even when the "abstain" flag is false/absent.
+    Strict mode (default) is used for serving; lenient mode is an evaluation sensitivity check.
     Citations are filtered to ids present in the query evidence (hallucinated ids are dropped
     and counted).
     """
@@ -108,7 +118,7 @@ def parse_model_output(text: str, valid_ids: set[str]) -> dict[str, Any]:
     if isinstance(abstain_flag, str):
         abstain_flag = abstain_flag.strip().lower() == "true"
     answer = str(obj.get("answer") or "").strip()
-    abstained = bool(abstain_flag) or (not answer)
+    abstained = bool(abstain_flag) or (not answer) or (lenient_abstain and is_abstention_text(answer))
     return {
         "answer": "" if abstained else answer,
         "citations": [] if abstained else list(dict.fromkeys(valid)),
