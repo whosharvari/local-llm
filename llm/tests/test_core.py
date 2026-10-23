@@ -135,3 +135,20 @@ def test_strict_ground_gate():
     assert strict_ground("Drills happen monthly to keep staff safe.", src)[0] is None
     out, note = strict_ground("Drills take place twice a year. This keeps everyone safe and prepared.", src)
     assert out == "Drills take place twice a year." and note == "dropped_unsupported_sentences"
+
+
+def test_cli_contract_roundtrip():
+    import subprocess
+    import sys
+
+    req = (ROOT / "data/mock/example_request.json").read_text()
+    out = subprocess.run([sys.executable, "-m", "ps3_llm.cli", "--adapter", "mock"], input=req, cwd=ROOT,
+                         capture_output=True, text=True, check=True).stdout
+    ans = json.loads(out)
+    ids = {e["chunk_id"] for e in json.loads(req)["evidence"]}
+    assert ans["query_id"] == "demo-1" and set(ans["citations"]) <= ids
+    assert ans["abstained"] is False and "15 business days" in ans["answer"]
+    empty = json.dumps({"query_id": "demo-2", "question": "What is the dress code?", "evidence": []})
+    ans2 = json.loads(subprocess.run([sys.executable, "-m", "ps3_llm.cli"], input=empty, cwd=ROOT,
+                                     capture_output=True, text=True, check=True).stdout)
+    assert ans2["abstained"] and ans2["answer"] == "" and ans2["citations"] == []
