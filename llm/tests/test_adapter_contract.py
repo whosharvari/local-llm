@@ -82,3 +82,51 @@ def test_cli_contract_roundtrip():
     empty = json.dumps({"query_id": "demo-2", "question": "What is the dress code?", "evidence": []})
     ans2 = json.loads(cli(empty)[1])
     assert ans2["abstained"] and ans2["answer"] == "" and ans2["citations"] == []
+
+
+def test_adapter_timeout_on_hung_server_is_structured():
+    """A server that accepts the connection but never replies must yield an inference_error, not hang/raise."""
+    import socket
+    import threading
+
+    srv = socket.socket()
+    srv.bind(("127.0.0.1", 0))
+    srv.listen(4)
+    conns = []
+    stop = threading.Event()
+
+    def accept():
+        srv.settimeout(0.2)
+        while not stop.is_set():
+            try:
+                conns.append(srv.accept()[0])     # accept and stay silent
+            except OSError:
+                pass
+
+    t = threading.Thread(target=accept, daemon=True)
+    t.start()
+    try:
+        port = srv.getsockname()[1]
+        adapter = SGLangAdapter(base_url=f"http://127.0.0.1:{port}/v1", timeout=1.0)
+        a = adapter.answer(GroundedQuery.from_dict(REQ)).to_dict()
+        _check_error_answer(a)
+        assert "timed out" in a["abstain_reason"].lower()
+    finally:
+        stop.set()
+        t.join(timeout=2)
+        for c in conns:
+            c.close()
+        srv.close()
+
+
+def test_cli_batch_preserves_order_with_invalid_items():
+    batch = [dict(REQ, query_id="b1"), {"query_id": "b2", "question": "x"}, dict(REQ, query_id="b3", evidence=[]),
+             "not an object", dict(REQ, query_id="b5")]
+    code, out, _ = cli(json.dumps(batch), "--adapter", "mock")
+    res = json.loads(out)
+    assert code == 0 and [r["query_id"] for r in res] == ["b1", "b2", "b3", "", "b5"]
+    assert [r["abstain_reason"].split(":")[0] for r in res[1:4]] == ["invalid_request", "model_abstained", "invalid_request"]
+    for r in res:
+        assert set(r) >= {"answer", "citations", "abstained", "abstain_reason", "query_id", "parse_ok", "warnings",
+                          "contract_version"}
+        assert r["abstained"] == (r["answer"] == "") and (not r["abstained"] or r["citations"] == [])
