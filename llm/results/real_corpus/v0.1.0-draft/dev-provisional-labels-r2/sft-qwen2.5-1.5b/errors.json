@@ -1,0 +1,86 @@
+{
+  "serving": {
+    "right_answer_wrong_citation": [
+      "rcd-rag-02",
+      "rcd-rag-03",
+      "rcd-rag-05",
+      "rcd-rag-11",
+      "rcd-resnet-03",
+      "rcd-resnet-06",
+      "rcd-resnet-08"
+    ],
+    "has_unsupported_claims": [
+      "rcd-rag-02",
+      "rcd-rag-03",
+      "rcd-rag-05",
+      "rcd-rag-11",
+      "rcd-resnet-01",
+      "rcd-resnet-03",
+      "rcd-resnet-06",
+      "rcd-resnet-08",
+      "rcd-resnet-11"
+    ],
+    "wrong_answer": [
+      "rcd-rag-08",
+      "rcd-resnet-01",
+      "rcd-resnet-04"
+    ],
+    "inappropriate_abstention": [
+      "rcd-resnet-02",
+      "rcd-resnet-09"
+    ],
+    "cited_nonexistent_passage": [
+      "rcd-resnet-02",
+      "rcd-resnet-09"
+    ],
+    "answered_unanswerable:unanswerable": [
+      "rcd-resnet-10",
+      "rcd-resnet-11"
+    ],
+    "answered_unanswerable:context_swap": [
+      "rcd-swap-02"
+    ]
+  },
+  "intent": {
+    "right_answer_wrong_citation": [
+      "rcd-rag-02",
+      "rcd-rag-03",
+      "rcd-rag-05",
+      "rcd-rag-11",
+      "rcd-resnet-03",
+      "rcd-resnet-06",
+      "rcd-resnet-08",
+      "rcd-resnet-09"
+    ],
+    "has_unsupported_claims": [
+      "rcd-rag-02",
+      "rcd-rag-03",
+      "rcd-rag-05",
+      "rcd-rag-11",
+      "rcd-resnet-01",
+      "rcd-resnet-02",
+      "rcd-resnet-03",
+      "rcd-resnet-06",
+      "rcd-resnet-08",
+      "rcd-resnet-09",
+      "rcd-resnet-11"
+    ],
+    "wrong_answer": [
+      "rcd-rag-08",
+      "rcd-resnet-01",
+      "rcd-resnet-02",
+      "rcd-resnet-04"
+    ],
+    "cited_nonexistent_passage": [
+      "rcd-resnet-02",
+      "rcd-resnet-09"
+    ],
+    "answered_unanswerable:unanswerable": [
+      "rcd-resnet-10",
+      "rcd-resnet-11"
+    ],
+    "answered_unanswerable:context_swap": [
+      "rcd-swap-02"
+    ]
+  }
+}

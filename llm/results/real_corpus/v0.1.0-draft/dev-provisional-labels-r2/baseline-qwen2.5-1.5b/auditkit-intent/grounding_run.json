@@ -1,0 +1,598 @@
+{
+  "run_id": "e0163e1f072be09b",
+  "fingerprint": "e0163e1f072be09b",
+  "headline": {
+    "lexical_groundedness": 0.5843647644266833
+  },
+  "stats": {
+    "lexical_groundedness": {
+      "name": "lexical_groundedness",
+      "count": 19,
+      "mean": 0.5843647644266833,
+      "stderr": 0.07301777187210551,
+      "std": 0.31827708867301463,
+      "min": 0.0,
+      "max": 1.0,
+      "values": [
+        0.96,
+        0.25,
+        0.6428571428571429,
+        0.7272727272727273,
+        0.42105263157894735,
+        0.8125,
+        0.0,
+        0.41379310344827586,
+        0.8208092485549133,
+        0.9130434782608695,
+        0.25,
+        0.6363636363636364,
+        0.9787234042553191,
+        1.0,
+        1.0,
+        0.3888888888888889,
+        0.0,
+        0.4444444444444444,
+        0.4431818181818182
+      ]
+    }
+  },
+  "predictions": [
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-rag-01",
+      "prompt": "What two components make up a Retrieval-Augmented Generation (RAG) model?",
+      "raw_output": "A Retrieval-Augmented Generation (RAG) model consists of a pre-trained seq2seq transformer (parametric memory) and a dense vector index of Wikipedia (non-parametric memory).",
+      "parsed_answer": "A Retrieval-Augmented Generation (RAG) model consists of a pre-trained seq2seq transformer (parametric memory) and a dense vector index of Wikipedia (non-parametric memory).",
+      "expected": null,
+      "correct": false,
+      "score": 0.96,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.96,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-rag-02",
+      "prompt": "What retriever architecture does the RAG paper use to fetch supporting documents?",
+      "raw_output": "The RAG paper uses a retriever architecture called Dense Passage Retriever (DPR) to fetch supporting documents.",
+      "parsed_answer": "The RAG paper uses a retriever architecture called Dense Passage Retriever (DPR) to fetch supporting documents.",
+      "expected": null,
+      "correct": false,
+      "score": 0.25,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.25,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-rag-03",
+      "prompt": "What is the difference between the RAG-Sequence and RAG-Token model variants?",
+      "raw_output": "The RAG-Sequence model uses the same document to predict each target token, while the RAG-Token model can predict each target token based on a different document.",
+      "parsed_answer": "The RAG-Sequence model uses the same document to predict each target token, while the RAG-Token model can predict each target token based on a different document.",
+      "expected": null,
+      "correct": false,
+      "score": 0.6428571428571429,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.6428571428571429,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-rag-04",
+      "prompt": "Which generator model does RAG use, and how many parameters does it have?",
+      "raw_output": "RAG uses BART as its generator model. BART has 400M parameters.",
+      "parsed_answer": "RAG uses BART as its generator model. BART has 400M parameters.",
+      "expected": null,
+      "correct": false,
+      "score": 0.7272727272727273,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.7272727272727273,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-rag-05",
+      "prompt": "Which RAG components are fine-tuned during training, and which are kept fixed?",
+      "raw_output": "The document encoder (and index) are kept fixed, only fine-tuning the query encoder BERTq and the BART generator.",
+      "parsed_answer": "The document encoder (and index) are kept fixed, only fine-tuning the query encoder BERTq and the BART generator.",
+      "expected": null,
+      "correct": false,
+      "score": 0.42105263157894735,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.42105263157894735,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-rag-06",
+      "prompt": "How is the Wikipedia knowledge source split into documents for RAG, and how many documents result?",
+      "raw_output": "Wikipedia articles are split into disjoint 100-word chunks, resulting in a total of 21M documents.",
+      "parsed_answer": "Wikipedia articles are split into disjoint 100-word chunks, resulting in a total of 21M documents.",
+      "expected": null,
+      "correct": false,
+      "score": 0.8125,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.8125,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-rag-11",
+      "prompt": "In the Jeopardy question generation human evaluation, how often was RAG judged more factual than BART?",
+      "raw_output": "42.7%",
+      "parsed_answer": "42.7%",
+      "expected": null,
+      "correct": false,
+      "score": 0.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-resnet-01",
+      "prompt": "What problem do residual connections address in very deep neural networks?",
+      "raw_output": "The problem addressed by residual connections in very deep neural networks is the degradation problem, where deeper networks start converging but then degrade rapidly as the network depth increases.",
+      "parsed_answer": "The problem addressed by residual connections in very deep neural networks is the degradation problem, where deeper networks start converging but then degrade rapidly as the network depth increases.",
+      "expected": null,
+      "correct": false,
+      "score": 0.41379310344827586,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.41379310344827586,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-resnet-02",
+      "prompt": "What is a shortcut (skip) connection in a residual block?",
+      "raw_output": "{\"abstain\": false, \"answer\": \"A shortcut connection, also known as a skip connection or skip link, is a type of connection that bypasses some or all of the layers in a neural network. It is used to connect the output of one layer to the input of another layer, allowing the network to learn to map inputs to outputs without the need for a direct path through all the layers. This can help to reduce the number of parameters and computational complexity of the network, and can also help to improve the training of the network by allowing it to learn more complex mappings. The shortcut connection is typically implemented by adding the output of the shortcut layer to the output of the layer it is connected to, and then applying a nonlinearity to the result. The shortcut connection is often used in conjunction with residual learning, where the output of the shortcut layer is added to the output of the layer it is connected to, and the result is passed through a nonlinearity. The shortcut connection is a common technique used in residual networks to improve the training of the network and to allow it to learn more complex mappings. The shortcut connection is not only attractive in practice but also important in our comparisons between plain and residual networks. It can be used to match the dimensions of the input and output vectors, and it can also be used to perform a linear projection to match the dimensions. The shortcut connection is a type of connection that bypasses some or all of the layers in a neural network, and it is used to connect the output of one layer to the input of another layer, allowing the network to learn to map inputs to outputs without the need for a direct path through all the layers. The shortcut connection is often used in conjunction with residual learning, where the output of the shortcut layer is added to the output of the layer it is connected to, and the result is passed through a nonlinearity. The",
+      "parsed_answer": "{\"abstain\": false, \"answer\": \"A shortcut connection, also known as a skip connection or skip link, is a type of connection that bypasses some or all of the layers in a neural network. It is used to connect the output of one layer to the input of another layer, allowing the network to learn to map inputs to outputs without the need for a direct path through all the layers. This can help to reduce the number of parameters and computational complexity of the network, and can also help to improve the training of the network by allowing it to learn more complex mappings. The shortcut connection is typically implemented by adding the output of the shortcut layer to the output of the layer it is connected to, and then applying a nonlinearity to the result. The shortcut connection is often used in conjunction with residual learning, where the output of the shortcut layer is added to the output of the layer it is connected to, and the result is passed through a nonlinearity. The shortcut connection is a common technique used in residual networks to improve the training of the network and to allow it to learn more complex mappings. The shortcut connection is not only attractive in practice but also important in our comparisons between plain and residual networks. It can be used to match the dimensions of the input and output vectors, and it can also be used to perform a linear projection to match the dimensions. The shortcut connection is a type of connection that bypasses some or all of the layers in a neural network, and it is used to connect the output of one layer to the input of another layer, allowing the network to learn to map inputs to outputs without the need for a direct path through all the layers. The shortcut connection is often used in conjunction with residual learning, where the output of the shortcut layer is added to the output of the layer it is connected to, and the result is passed through a nonlinearity. The",
+      "expected": null,
+      "correct": false,
+      "score": 0.8208092485549133,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.8208092485549133,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-resnet-03",
+      "prompt": "What layers make up the bottleneck building block used in ResNet-50/101/152?",
+      "raw_output": "The three layers in the bottleneck building block used in ResNet-50/101/152 are 1\u00d71, 3\u00d73, and 1\u00d71 convolutions.",
+      "parsed_answer": "The three layers in the bottleneck building block used in ResNet-50/101/152 are 1\u00d71, 3\u00d73, and 1\u00d71 convolutions.",
+      "expected": null,
+      "correct": false,
+      "score": 0.9130434782608695,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.9130434782608695,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-resnet-06",
+      "prompt": "How many FLOPs does the 152-layer ResNet have?",
+      "raw_output": "11.3 billion FLOPs",
+      "parsed_answer": "11.3 billion FLOPs",
+      "expected": null,
+      "correct": false,
+      "score": 0.25,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.25,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-resnet-08",
+      "prompt": "How was training of the 110-layer ResNet on CIFAR-10 warmed up?",
+      "raw_output": "The training of the 110-layer ResNet on CIFAR-10 was warmed up with an initial learning rate of 0.01 until the training error was below 80% (about 400 iterations), and then the learning rate was increased to 0.1 and continued training.",
+      "parsed_answer": "The training of the 110-layer ResNet on CIFAR-10 was warmed up with an initial learning rate of 0.01 until the training error was below 80% (about 400 iterations), and then the learning rate was increased to 0.1 and continued training.",
+      "expected": null,
+      "correct": false,
+      "score": 0.6363636363636364,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.6363636363636364,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-resnet-09",
+      "prompt": "What two shortcut options are considered when the dimensions increase?",
+      "raw_output": "The shortcut options considered when the dimensions increase are: (A) The shortcut still performs identity mapping, with extra zero entries padded for increasing dimensions. This option introduces no extra parameter; (B) The projection shortcut in Eqn.(2) is used to match dimensions (done by 1\u00d71 convolutions).",
+      "parsed_answer": "The shortcut options considered when the dimensions increase are: (A) The shortcut still performs identity mapping, with extra zero entries padded for increasing dimensions. This option introduces no extra parameter; (B) The projection shortcut in Eqn.(2) is used to match dimensions (done by 1\u00d71 convolutions).",
+      "expected": null,
+      "correct": false,
+      "score": 0.9787234042553191,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.9787234042553191,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-resnet-10",
+      "prompt": "How many GPUs were used to train the ImageNet classification models?",
+      "raw_output": "2",
+      "parsed_answer": "2",
+      "expected": null,
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-resnet-11",
+      "prompt": "What top-1 error does the 1202-layer ResNet achieve on ImageNet?",
+      "raw_output": "7.93%",
+      "parsed_answer": "7.93%",
+      "expected": null,
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-swap-01",
+      "prompt": "Which generator model does RAG use, and how many parameters does it have?",
+      "raw_output": "The passage does not provide specific information about the generator model used by RAG or its parameter count.",
+      "parsed_answer": "The passage does not provide specific information about the generator model used by RAG or its parameter count.",
+      "expected": null,
+      "correct": false,
+      "score": 0.3888888888888889,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.3888888888888889,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-ooc-04",
+      "prompt": "How does PagedAttention in vLLM manage the KV cache?",
+      "raw_output": "abstain\ncitations []",
+      "parsed_answer": "abstain\ncitations []",
+      "expected": null,
+      "correct": false,
+      "score": 0.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-ooc-05",
+      "prompt": "What is the recommended adult dosage of ibuprofen?",
+      "raw_output": "The recommended adult dosage of ibuprofen can vary depending on the specific formulation and the individual's health status, but it is generally recommended to follow the instructions provided by the manufacturer or a healthcare professional.",
+      "parsed_answer": "The recommended adult dosage of ibuprofen can vary depending on the specific formulation and the individual's health status, but it is generally recommended to follow the instructions provided by the manufacturer or a healthcare professional.",
+      "expected": null,
+      "correct": false,
+      "score": 0.4444444444444444,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.4444444444444444,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "e0163e1f072be09b",
+      "task": "generative",
+      "sample_id": "rcd-ooc-06",
+      "prompt": "How many paid vacation days do employees get per year?",
+      "raw_output": "The number of paid vacation days per year varies by country and company. In the United States, for example, employees typically receive 4 weeks of paid vacation per year, though this can vary depending on the employer and the specific job role. In other countries, such as Japan, employees may receive longer paid vacation periods, often ranging from 10 to 20 weeks per year. The exact number of paid vacation days can be found in the employee handbook or by contacting the human resources department of the company.",
+      "parsed_answer": "The number of paid vacation days per year varies by country and company. In the United States, for example, employees typically receive 4 weeks of paid vacation per year, though this can vary depending on the employer and the specific job role. In other countries, such as Japan, employees may receive longer paid vacation periods, often ranging from 10 to 20 weeks per year. The exact number of paid vacation days can be found in the employee handbook or by contacting the human resources department of the company.",
+      "expected": null,
+      "correct": false,
+      "score": 0.4431818181818182,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.4431818181818182,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "num_fewshot": null,
+    "limit": null,
+    "seed": null,
+    "trials": 1,
+    "batch_size": "auto",
+    "concurrency": 1,
+    "split": null,
+    "temperature": 0.0,
+    "top_p": null,
+    "top_k": null,
+    "max_tokens": null,
+    "stop_sequences": null,
+    "presence_penalty": null,
+    "frequency_penalty": null,
+    "num_completions": null,
+    "best_of": null,
+    "timeout": null,
+    "max_retries": 3,
+    "retry_delay": 1.0,
+    "judge_model": null,
+    "judge_prompt_version": null,
+    "track_performance": true,
+    "chat_template_kwargs": null,
+    "extra": {}
+  },
+  "model_spec": "<auditkit.model.PrecomputedModel object at 0x1095a4470>",
+  "errors": [],
+  "unscored": {},
+  "failed_count": 0,
+  "experiment_name": "real_corpus/v0.1.0-draft/dev-provisional-labels-r2/baseline-qwen2.5-1.5b-grounding",
+  "tags": [],
+  "perf": {
+    "latency_ms": {
+      "count": 0,
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "std": 0.0
+    },
+    "throughput": {
+      "rps": 0.0,
+      "total_requests": 0,
+      "total_time_ms": 0.0,
+      "output_tokens_per_sec": 0.0,
+      "total_tokens_per_sec": 0.0
+    }
+  },
+  "model_size": {
+    "is_local": false,
+    "model_name": "precomputed"
+  },
+  "token_usage": {
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0
+  },
+  "metadata": {
+    "inputs": []
+  }
+}

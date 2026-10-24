@@ -1,0 +1,9 @@
+{
+  "llm_model": "openai/mlx-community/Qwen2.5-7B-Instruct-4bit",
+  "judge_model": "openai/mlx-community/Qwen2.5-7B-Instruct-4bit",
+  "num_questions": 2,
+  "hallucination_threshold": 0.7,
+  "n_chunks": 122,
+  "passed": 7,
+  "rejected": 229
+}

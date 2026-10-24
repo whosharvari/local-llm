@@ -22,6 +22,7 @@ from pathlib import Path
 
 from .adapters import answer_from_text, get_adapter
 from .metrics import aggregate, error_buckets, load_adjudication, score_example
+from .prompting import SYSTEM_PROMPT
 from .schemas import INFERENCE_ERROR_PREFIX, EvalExample, GroundedAnswer
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -86,6 +87,7 @@ def run(adapter, examples: list[EvalExample], out_dir: Path, data_path: Path, ad
         "adjudication": rel(adjudication),
         "adjudication_sha256": hashlib.sha256(adjudication.read_bytes()).hexdigest(),
         "metrics_version": summary["metrics_version"],
+        "system_prompt_sha256": hashlib.sha256(SYSTEM_PROMPT.encode()).hexdigest(),
         "n_examples": len(examples),
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
         "platform": platform.platform(),

@@ -45,7 +45,8 @@ def export_train_chunks(docs_path: Path, out_path: Path) -> list[dict]:
 
 
 def run_curatorkit(chunks_path: Path, out_dir: Path, llm_model: str, api_base: str,
-                   num_questions: int, hallucination_threshold: float, concurrency: int):
+                   num_questions: int, hallucination_threshold: float, concurrency: int,
+                   judge_model: str | None = None, judge_base: str | None = None):
     from curatorkit import Curator, CuratorConfig
 
     # CuratorKIT reads raw text rows as language-modelling chunks ("pretrain" format), injects each
@@ -65,8 +66,8 @@ def run_curatorkit(chunks_path: Path, out_dir: Path, llm_model: str, api_base: s
         llm_api_key="EMPTY",
         llm_temperature=0.3,
         llm_concurrency=concurrency,
-        judge_llm_model=llm_model,
-        judge_llm_api_base=api_base,
+        judge_llm_model=judge_model or llm_model,     # a different model makes the gate independent of the generator
+        judge_llm_api_base=judge_base or api_base,
         generation_task="qa",
         num_questions=num_questions,
         difficulty="medium",

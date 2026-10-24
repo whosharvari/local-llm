@@ -1,6 +1,8 @@
 """Side-by-side comparison of two v2-scored runs on the same held-out set.
 
     python -m ps3_llm.compare v2/baseline-qwen2.5-1.5b v2/sft-qwen2.5-1.5b [--out results/v2/compare.md]
+    # runs written elsewhere, e.g. by `evaluate --results-dir /tmp/res`; the report defaults to that directory too
+    python -m ps3_llm.compare my-baseline my-sft --results-dir /tmp/res
 
 Reports serving and intent decisions separately (see ps3_llm.metrics), per-category grounded accuracy,
 item-level flips with an exact two-sided McNemar (binomial) test, and error buckets. No significance is
@@ -48,12 +50,25 @@ def mcnemar_p(b: int, c: int) -> float:
     return 1.0 if n == 0 else min(1.0, 2 * sum(comb(n, i) for i in range(min(b, c) + 1)) / 2 ** n)
 
 
-def _load(tag: str):
-    d = RESULTS / tag
-    return (json.loads((d / "summary.json").read_text()),
-            {r["query_id"]: r for r in map(json.loads, (d / "per_example.jsonl").read_text().splitlines())},
-            {p["query_id"]: p for p in map(json.loads, (d / "predictions.jsonl").read_text().splitlines())},
-            json.loads((d / "errors.json").read_text()))
+RUN_FILES = ("summary.json", "per_example.jsonl", "predictions.jsonl", "errors.json")
+
+
+def _load(tag: str, results: Path = RESULTS):
+    d = results / tag
+    missing = [f for f in RUN_FILES if not (d / f).is_file()]
+    if missing:
+        raise SystemExit(f"run {tag!r} in {results}: missing {', '.join(missing)} (expected an evaluate output dir)")
+    try:
+        loaded = (json.loads((d / "summary.json").read_text()),
+                  {r["query_id"]: r for r in map(json.loads, (d / "per_example.jsonl").read_text().splitlines())},
+                  {p["query_id"]: p for p in map(json.loads, (d / "predictions.jsonl").read_text().splitlines())},
+                  json.loads((d / "errors.json").read_text()))
+    except (json.JSONDecodeError, KeyError, TypeError) as e:
+        raise SystemExit(f"run {tag!r} in {results}: unreadable result files ({type(e).__name__}: {e})")
+    if not all(m in loaded[0] for m in ("serving", "intent")):
+        raise SystemExit(f"run {tag!r} in {results}: summary.json is not v2-scored; re-score it with "
+                         "`ps3_llm.evaluate --rescore-from`")
+    return loaded
 
 
 def _fmt(v):
@@ -66,12 +81,24 @@ def _better(va, vb, higher, a, b):
     return "="
 
 
-def main(a: str, b: str, out: Path | None = None) -> Path:
-    sa, ra, pa, ea = _load(a)
-    sb, rb, pb, eb = _load(b)
-    assert sa["n"] == sb["n"] and set(ra) == set(rb), "runs are not on the same items"
+def _run_data(tag: str, results: Path) -> tuple[Path, str | None]:
+    """Eval data file and its SHA-256 recorded by `evaluate` (older runs: the synthetic held-out set)."""
+    info_path = results / tag / "run_info.json"
+    info = json.loads(info_path.read_text()) if info_path.is_file() else {}
+    data = Path(info.get("data", "data/mock/heldout_eval.jsonl"))
+    return (data if data.is_absolute() else ROOT / data), info.get("data_sha256")
+
+
+def main(a: str, b: str, out: Path | None = None, results_dir: Path = RESULTS) -> Path:
+    sa, ra, pa, ea = _load(a, results_dir)
+    sb, rb, pb, eb = _load(b, results_dir)
+    if sa["n"] != sb["n"] or set(ra) != set(rb):
+        raise SystemExit(f"runs {a!r} and {b!r} are not on the same items")
+    (data_a, sha_a), (_, sha_b) = _run_data(a, results_dir), _run_data(b, results_dir)
+    if sha_a and sha_b and sha_a != sha_b:
+        raise SystemExit(f"runs {a!r} and {b!r} were scored on different data files (SHA-256 differs)")
     qs = {json.loads(line)["query_id"]: json.loads(line)["question"]
-          for line in (ROOT / "data/mock/heldout_eval.jsonl").read_text().splitlines()}
+          for line in data_a.read_text().splitlines() if line.strip()}
     na, nb = a.split("/")[-1], b.split("/")[-1]
     L = [f"# {na} vs {nb} (metrics {sa.get('metrics_version')})", "",
          f"n = {sa['n']} ({sa['n_answerable']} answerable, {sa['n_unanswerable']} unanswerable, "
@@ -111,7 +138,7 @@ def main(a: str, b: str, out: Path | None = None) -> Path:
     L += ["", "## Error buckets (intent)", "", f"| Bucket | {na} | {nb} |", "|---|---|---|"]
     for k in sorted(set(ea["intent"]) | set(eb["intent"])):
         L.append(f"| {k} | {', '.join(ea['intent'].get(k, [])) or '–'} | {', '.join(eb['intent'].get(k, [])) or '–'} |")
-    out = out or RESULTS / f"compare_{na}_vs_{nb}.md"
+    out = out or results_dir / f"compare_{na}_vs_{nb}.md"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("\n".join(L) + "\n")
     print("\n".join(L))
@@ -122,6 +149,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("baseline")
     ap.add_argument("candidate")
-    ap.add_argument("--out", type=Path, default=None)
+    ap.add_argument("--out", type=Path, default=None, help="report path (default: <results-dir>/compare_<a>_vs_<b>.md)")
+    ap.add_argument("--results-dir", type=Path, default=RESULTS, help="directory holding the run tags")
     args = ap.parse_args()
-    main(args.baseline, args.candidate, args.out)
+    main(args.baseline, args.candidate, args.out, args.results_dir)

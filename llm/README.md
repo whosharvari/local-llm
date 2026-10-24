@@ -29,8 +29,15 @@ ps3_llm/
   evaluate.py   run an adapter over the held-out set, or re-score saved raw outputs (--rescore-from)
   compare.py    baseline-vs-candidate report (both decisions, item flips, exact McNemar)
   audit.py      AuditKIT re-scoring of saved outputs (+ optional SGLang-served judge)
+  real_corpus.py  real-paper evaluation set: build, validate, human review, convert, leakage, report
+  retrieval.py  reads vector_store/index.faiss (numpy), all-MiniLM-L6-v2 search, retrieval gate
+  pipeline.py   end to end: question -> retrieval -> SGLang model -> checked answer / abstention (CLI)
+  realtrain.py  leakage-free real-paper training data (clean seeds, chunk selection, CuratorKIT, SFT build)
+  train_check.py  pre/post-training checks: truncation + loss mask, weight change, validation loss
 data/mock/      synthetic "Halden Group" policy documents (train_docs.json and heldout_docs.json are disjoint),
                 held-out set heldout_eval.jsonl (original labels) + heldout_adjudication.json (correctness criteria)
+data/real_corpus/  real-paper evaluation set (document-split; labels are machine drafts awaiting human review)
+data/real_train/  leakage-free real-paper training seeds; v1 CuratorKIT run failed (see its README)
 data/curated/   CuratorKIT outputs (manifest, provenance, checksums) and the SFT train/dev files
 configs/        training configs
 env/            dependency manifests and verified macOS arm64 lock files
@@ -70,7 +77,7 @@ rm sglang-src/python/pyproject.toml && mv sglang-src/python/pyproject_other.toml
 SGLANG_BUILD_RUST_EXTS=none uv pip install --no-deps -p .venv-sglang/bin/python "./sglang-src/python[srt_mps]"
 
 # verify
-(cd llm && ../.venv/bin/python -m pytest -q tests)                       # expect 65 passed
+(cd llm && ../.venv/bin/python -m pytest -q tests)                       # expect 129 passed, 1 skipped
 .venv-sglang/bin/python -c "import sglang, mlx.core as mx; print(mx.metal.is_available())"   # True
 ```
 
@@ -81,7 +88,7 @@ yanked. Other platforms (Linux/CUDA) are untested: use `llm/env/requirements-mai
 ## Reproduce (all commands from `llm/`)
 
 ```bash
-../.venv/bin/python -m pytest -q tests                                   # 65 tests, no model server needed
+../.venv/bin/python -m pytest -q tests                                   # 129 passed + 1 skipped (needs real-paper SFT data), no model server needed
 
 # 1. curation (~15 min on M4; regeneration is sampled at T=0.3, so pairs will differ from the committed ones)
 scripts/serve_sglang.sh mlx-community/Qwen2.5-7B-Instruct-4bit & scripts/wait_for_server.sh
@@ -113,6 +120,34 @@ Model weights: the baseline downloads from the Hugging Face Hub on first serve; 
 `outputs/sft-qwen2.5-1.5b/merged` (2.9 GB) is gitignored — regenerate with step 2 or copy it from Member 2.
 SHA-256 of the recorded run's weights: `verification/checkpoint_sha256.txt` (re-training on MPS is not
 guaranteed bit-identical).
+
+## Real-corpus evaluation, retrieval pipeline and real-paper training data
+
+- **Evaluation set** (`data/real_corpus/`): 106 items, 72 test and 34 dev, split by document.
+  - Test is the GPT-3 and RLHF papers; dev is RAG and ResNet; the other 9 papers are train.
+  - Labels quote their chunks verbatim, and the leakage checks pass.
+  - **All labels are machine drafts until a human reviews them**, so the test split cannot be frozen yet
+    (`REVIEW_QUEUE.md`). The model-selection and final-test protocol was fixed in advance in
+    `EVAL_PROTOCOL.md`.
+  - Dataset card: [`data/real_corpus/README.md`](data/real_corpus/README.md).
+- **End-to-end pipeline**: `python -m ps3_llm.pipeline "question" [--gate data/real_train/v1/retrieval_gate.json]`.
+  Demo: `scripts/demo.sh <checkpoint dir> <log.jsonl>`.
+  - Retrieval reads Member 1's `vector_store/` (verified: re-encoding chunks reproduces the stored vectors).
+  - Answers whose numbers are absent from the cited passages are withheld (`unsupported_numbers`).
+  - Abstain reasons: `INTEGRATION_GUIDE.md`. Tests: `tests/test_pipeline.py`.
+- **Locked evaluation of one model**:
+  `scripts/run_real_eval.sh <model> <served name> <tag> <data.jsonl> <adjudication.json>` serves the model,
+  evaluates it, writes `real_corpus_metrics.json`, records the checkpoint SHA-256 and stops the server.
+  The report covers serving, intent and serving-with-number-guard decisions, Wilson 95% intervals, abstention
+  precision/recall, the false-abstention rate, the serving outcome per reason, per-category and per-document
+  results, and token usage. Hand-computed tests: `tests/test_real_metrics.py`.
+- **Real-paper training data** (`data/real_train/v1/`):
+  - **Clean seeds:** 62 of Member 1's 104 grounded_qa train rows. The 42 rows with dev/test passages are
+    removed, with a reason recorded for each.
+  - **Chunks:** 122 selected from train papers.
+  - **CuratorKIT run of 2026-10-25 failed:** 227 of 234 judge calls failed after an SGLang GPU fault. Outputs
+    are preserved, and no real-paper model was trained. Recipe: `data/real_train/v1/README.md`. Config:
+    `configs/sft_real_v1_qwen2.5-1.5b.yaml`.
 
 ## Metrics (v2)
 

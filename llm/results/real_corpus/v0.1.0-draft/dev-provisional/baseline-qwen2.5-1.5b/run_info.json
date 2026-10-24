@@ -1,0 +1,21 @@
+{
+  "adapter": "sglang:Qwen/Qwen2.5-1.5B-Instruct",
+  "adapter_args": {
+    "base_url": "http://127.0.0.1:30000/v1",
+    "model": null,
+    "max_tokens": 384,
+    "concurrency": 4,
+    "constrained": false,
+    "temperature": 0.0
+  },
+  "data": "data/real_corpus/converted/dev_provisional.jsonl",
+  "data_sha256": "c873454710d7451e3ce75dde30aa025350d6f8b169f17134fcfd34249bca12ad",
+  "adjudication": "data/real_corpus/converted/dev_provisional_adjudication.json",
+  "adjudication_sha256": "31db42bb53ae2fb87be86bbf46857ad92a59922d78ab584d5d445bef496ac79e",
+  "metrics_version": "v2",
+  "n_examples": 34,
+  "timestamp": "2026-10-24T22:43:20+0530",
+  "platform": "macOS-26.3-arm64-arm-64bit",
+  "machine": "arm64",
+  "python": "3.12.13"
+}

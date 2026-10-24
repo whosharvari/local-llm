@@ -1,0 +1,73 @@
+{
+  "method": "calibrated_logreg",
+  "feature_names": [
+    "top1_score",
+    "best_passage_coverage"
+  ],
+  "weights": [
+    0.9157707064204331,
+    0.8367659028455153
+  ],
+  "bias": 0.03731245488184669,
+  "mean": [
+    0.5365484997630119,
+    0.44167361769500757
+  ],
+  "std": [
+    0.16155451384670932,
+    0.2713475153196372
+  ],
+  "threshold": 0.5885638245826095,
+  "metadata": {
+    "trained_on": "90 verified examples from /mnt/c/syn err 2/papermind/data/datasets/grounded_qa",
+    "n_answerable": 49,
+    "n_unanswerable": 41,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "top_k": 5,
+    "selected": "logreg[top1, best_coverage]",
+    "nested_cv": {
+      "answerable_answered": 0.8979591836734694,
+      "unanswerable_abstained": 0.975609756097561,
+      "abstention_precision": 0.8888888888888888,
+      "balanced_accuracy": 0.9367844698855152,
+      "auroc": 0.9686411149825784,
+      "accuracy_by_category": {
+        "adjacent-ml": {
+          "n": 19,
+          "accuracy": 1.0
+        },
+        "answerable": {
+          "n": 49,
+          "accuracy": 0.8979591836734694
+        },
+        "citation-only": {
+          "n": 3,
+          "accuracy": 1.0
+        },
+        "distant": {
+          "n": 7,
+          "accuracy": 1.0
+        },
+        "org-domain": {
+          "n": 7,
+          "accuracy": 1.0
+        },
+        "original-eval-set": {
+          "n": 5,
+          "accuracy": 0.8
+        }
+      },
+      "selected_per_fold": [
+        "logreg[top1, best_coverage]",
+        "logreg[top1, best_coverage]",
+        "logreg[top1, best_coverage, missing_term]",
+        "logreg[top1, best_coverage, missing_term]",
+        "logreg[top1, best_coverage, missing_term]"
+      ]
+    },
+    "claim_support_thresholds": {
+      "similarity": 0.3,
+      "coverage": 0.45
+    }
+  }
+}

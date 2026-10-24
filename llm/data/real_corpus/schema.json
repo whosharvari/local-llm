@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ps3-real-corpus-eval/item.schema.json",
+  "title": "PS3 real-corpus evaluation item (one line of items.jsonl)",
+  "description": "Built by `python -m ps3_llm.real_corpus build` from drafts.jsonl. Annotation status is NOT stored here: it is derived from reviews.jsonl (see review.schema below). ps3_llm.real_corpus.validate_item enforces this schema plus the provenance and leakage rules described in README.md.",
+  "type": "object",
+  "required": ["id", "split", "category", "tags", "answerable", "expected_behavior", "question", "reference_answer",
+               "required_facts", "reject", "acceptable_variations", "support", "gold_citations", "evidence",
+               "source_document", "swap_of", "absent_terms", "distractor_answers", "rationale", "provenance",
+               "label_sha256"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^rc[td]-[a-z0-9]+-[0-9]{2}$", "description": "Stable question id; rct- = test, rcd- = dev."},
+    "split": {"enum": ["test", "dev"]},
+    "category": {"enum": ["answerable", "numerical", "unanswerable", "context_swap", "out_of_corpus"],
+                 "description": "answerable/numerical: the evidence states the answer (numerical = the key fact is a number). unanswerable: related passages from the same paper, which never states the answer. context_swap: an answerable question paired with passages from a different paper. out_of_corpus: topic absent from all 13 papers."},
+    "tags": {"type": "array", "items": {"enum": ["multi_passage"]}},
+    "answerable": {"type": "boolean", "description": "Whether the answer is in the SUPPLIED evidence (not whether it is in the PDF)."},
+    "expected_behavior": {"enum": ["answer", "abstain"]},
+    "question": {"type": "string"},
+    "reference_answer": {"type": ["string", "null"], "description": "null exactly when expected_behavior = abstain."},
+    "required_facts": {"type": "array", "items": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+                       "description": "Answer criteria. Each inner list is one required fact, satisfied if ANY alternative occurs in the answer (case-insensitive, word-boundary, thousands separators ignored). Every fact must be stated in the support quotes and satisfied by reference_answer."},
+    "reject": {"type": "array", "items": {"type": "string"}, "description": "Phrases that make an answer wrong."},
+    "acceptable_variations": {"type": "array", "items": {"type": "string"}, "description": "Example acceptable phrasings, for reviewers (not used for scoring)."},
+    "support": {"type": "array", "items": {"type": "object", "required": ["chunk_id", "document_id", "page_number", "quote"],
+      "properties": {"chunk_id": {"type": "string"}, "document_id": {"type": "string"}, "page_number": {"type": "integer"},
+                     "quote": {"type": "string", "description": "Verbatim passage of the chunk (whitespace-normalised)."}}}},
+    "gold_citations": {"type": "array", "items": {"type": "string"}, "description": "Evidence chunk ids that support the answer (support chunks plus any evidence chunk containing a support quote)."},
+    "evidence": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["chunk_id", "document_id", "page_number", "text"],
+      "properties": {"chunk_id": {"type": "string"}, "document_id": {"type": "string"}, "page_number": {"type": "integer"},
+                     "text": {"type": "string", "description": "Exact chunk text from data/processed/chunks.json."}}}},
+    "source_document": {"type": ["string", "null"], "description": "The paper the question is about (null for out_of_corpus)."},
+    "swap_of": {"type": ["string", "null"], "description": "For context_swap: id of the answerable item whose question is reused."},
+    "absent_terms": {"type": "array", "items": {"type": "string"}, "description": "Terms verified absent from the evidence (and, for out_of_corpus, from the whole corpus)."},
+    "distractor_answers": {"type": "array", "items": {"type": "string"}, "description": "Plausible wrong answers a hallucinating model may give (informational)."},
+    "rationale": {"type": "string"},
+    "provenance": {"type": "object", "required": ["question_origin", "label_origin", "drafted_by", "drafted_at", "chunks_sha256"],
+      "properties": {"question_origin": {"type": "string", "description": "'drafted', 'grounded_qa:<Member 1 id>' or 'context swap of <id>'."},
+                     "label_origin": {"const": "machine_draft"},
+                     "drafted_by": {"type": "string"}, "drafted_at": {"type": "string"},
+                     "chunks_sha256": {"type": "string"}}},
+    "label_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "SHA-256 of the label fields; reviews are bound to it."}
+  },
+  "$defs": {
+    "review": {
+      "title": "One line of reviews.jsonl (append-only)",
+      "type": "object",
+      "required": ["item_id", "label_sha256", "decision", "reviewer"],
+      "properties": {
+        "item_id": {"type": "string"},
+        "label_sha256": {"type": "string", "description": "Hash of the label the reviewer saw; a review of an older label is ignored (stale)."},
+        "decision": {"enum": ["accept", "reject", "needs_revision"]},
+        "reviewer": {"type": "string", "description": "Full name of a human reviewer; names that look like a model or tool are refused."},
+        "reviewed_at": {"type": "string"},
+        "notes": {"type": "string", "description": "Required for reject and needs_revision."}
+      }
+    }
+  }
+}

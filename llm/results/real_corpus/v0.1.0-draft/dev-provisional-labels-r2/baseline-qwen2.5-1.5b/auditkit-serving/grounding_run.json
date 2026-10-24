@@ -1,0 +1,357 @@
+{
+  "run_id": "a68801008252b0d3",
+  "fingerprint": "a68801008252b0d3",
+  "headline": {
+    "lexical_groundedness": 0.6341650717703349,
+    "hallucination": 0.3
+  },
+  "stats": {
+    "lexical_groundedness": {
+      "name": "lexical_groundedness",
+      "count": 5,
+      "mean": 0.6341650717703349,
+      "stderr": 0.11655736735649055,
+      "std": 0.26063019668752785,
+      "min": 0.25,
+      "max": 0.96,
+      "values": [
+        0.96,
+        0.25,
+        0.7272727272727273,
+        0.42105263157894735,
+        0.8125
+      ]
+    },
+    "hallucination": {
+      "name": "hallucination",
+      "count": 5,
+      "mean": 0.3,
+      "stderr": 0.17888543819998315,
+      "std": 0.39999999999999997,
+      "min": 0.0,
+      "max": 1.0,
+      "values": [
+        0.0,
+        1.0,
+        0.0,
+        0.5,
+        0.0
+      ]
+    }
+  },
+  "predictions": [
+    {
+      "run_id": "a68801008252b0d3",
+      "task": "generative",
+      "sample_id": "rcd-rag-01",
+      "prompt": "What two components make up a Retrieval-Augmented Generation (RAG) model?",
+      "raw_output": "A Retrieval-Augmented Generation (RAG) model consists of a pre-trained seq2seq transformer (parametric memory) and a dense vector index of Wikipedia (non-parametric memory).",
+      "parsed_answer": "A Retrieval-Augmented Generation (RAG) model consists of a pre-trained seq2seq transformer (parametric memory) and a dense vector index of Wikipedia (non-parametric memory).",
+      "expected": null,
+      "correct": false,
+      "score": 0.96,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.96,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "A Retrieval-Augmented Generation (RAG) model exists.",
+                "A Retrieval-Augmented Generation (RAG) model consists of two components.",
+                "A Retrieval-Augmented Generation (RAG) model consists of a pre-trained seq2seq transformer.",
+                "A pre-trained seq2seq transformer is parametric.",
+                "A Retrieval-Augmented Generation (RAG) model consists of a dense vector index of Wikipedia.",
+                "A dense vector index of Wikipedia is non-parametric."
+              ],
+              "verdicts": [
+                "SUPPORTED",
+                "SUPPORTED",
+                "SUPPORTED",
+                "SUPPORTED",
+                "SUPPORTED",
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "a68801008252b0d3",
+      "task": "generative",
+      "sample_id": "rcd-rag-02",
+      "prompt": "What retriever architecture does the RAG paper use to fetch supporting documents?",
+      "raw_output": "The RAG paper uses a retriever architecture called Dense Passage Retriever (DPR) to fetch supporting documents.",
+      "parsed_answer": "The RAG paper uses a retriever architecture called Dense Passage Retriever (DPR) to fetch supporting documents.",
+      "expected": null,
+      "correct": false,
+      "score": 0.25,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.25,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "reason": "UNSUPPORTED: The RAG paper makes a factual claim about retriever architecture.; UNSUPPORTED: The RAG paper uses a retriever architecture.; UNSUPPORTED: The retriever architecture used by the RAG paper is called Dense Passage Retriever (DPR).; UNSUPPORTED: The Dense Passage Retriever (DPR) is used to fetch supporting documents.",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "The RAG paper makes a factual claim about retriever architecture.",
+                "The RAG paper uses a retriever architecture.",
+                "The retriever architecture used by the RAG paper is called Dense Passage Retriever (DPR).",
+                "The Dense Passage Retriever (DPR) is used to fetch supporting documents."
+              ],
+              "verdicts": [
+                "UNSUPPORTED",
+                "UNSUPPORTED",
+                "UNSUPPORTED",
+                "UNSUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "a68801008252b0d3",
+      "task": "generative",
+      "sample_id": "rcd-rag-04",
+      "prompt": "Which generator model does RAG use, and how many parameters does it have?",
+      "raw_output": "RAG uses BART as its generator model. BART has 400M parameters.",
+      "parsed_answer": "RAG uses BART as its generator model. BART has 400M parameters.",
+      "expected": null,
+      "correct": false,
+      "score": 0.7272727272727273,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.7272727272727273,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "RAG uses BART as its generator model.",
+                "BART has 400M parameters."
+              ],
+              "verdicts": [
+                "SUPPORTED",
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "a68801008252b0d3",
+      "task": "generative",
+      "sample_id": "rcd-rag-05",
+      "prompt": "Which RAG components are fine-tuned during training, and which are kept fixed?",
+      "raw_output": "The document encoder (and index) are kept fixed, only fine-tuning the query encoder BERTq and the BART generator.",
+      "parsed_answer": "The document encoder (and index) are kept fixed, only fine-tuning the query encoder BERTq and the BART generator.",
+      "expected": null,
+      "correct": false,
+      "score": 0.42105263157894735,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.42105263157894735,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.5,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "reason": "UNSUPPORTED: The document encoder is kept fixed.; UNSUPPORTED: The query encoder BERTq is fine-tuned during training.",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "The document encoder is kept fixed.",
+                "The index is kept fixed.",
+                "The query encoder BERTq is fine-tuned during training.",
+                "The BART generator is fine-tuned during training."
+              ],
+              "verdicts": [
+                "UNSUPPORTED",
+                "SUPPORTED",
+                "UNSUPPORTED",
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "a68801008252b0d3",
+      "task": "generative",
+      "sample_id": "rcd-rag-06",
+      "prompt": "How is the Wikipedia knowledge source split into documents for RAG, and how many documents result?",
+      "raw_output": "Wikipedia articles are split into disjoint 100-word chunks, resulting in a total of 21M documents.",
+      "parsed_answer": "Wikipedia articles are split into disjoint 100-word chunks, resulting in a total of 21M documents.",
+      "expected": null,
+      "correct": false,
+      "score": 0.8125,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.8125,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "Wikipedia articles are split into disjoint chunks.",
+                "The chunks are 100-word long.",
+                "A total of 21M documents result from the splitting process."
+              ],
+              "verdicts": [
+                "SUPPORTED",
+                "SUPPORTED",
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "num_fewshot": null,
+    "limit": null,
+    "seed": null,
+    "trials": 1,
+    "batch_size": "auto",
+    "concurrency": 1,
+    "split": null,
+    "temperature": 0.0,
+    "top_p": null,
+    "top_k": null,
+    "max_tokens": null,
+    "stop_sequences": null,
+    "presence_penalty": null,
+    "frequency_penalty": null,
+    "num_completions": null,
+    "best_of": null,
+    "timeout": null,
+    "max_retries": 3,
+    "retry_delay": 1.0,
+    "judge_model": null,
+    "judge_prompt_version": null,
+    "track_performance": true,
+    "chat_template_kwargs": null,
+    "extra": {}
+  },
+  "model_spec": "<auditkit.model.PrecomputedModel object at 0x1082605c0>",
+  "errors": [],
+  "unscored": {},
+  "failed_count": 0,
+  "experiment_name": "real_corpus/v0.1.0-draft/dev-provisional-labels-r2/baseline-qwen2.5-1.5b-grounding",
+  "tags": [],
+  "perf": {
+    "latency_ms": {
+      "count": 0,
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "std": 0.0
+    },
+    "throughput": {
+      "rps": 0.0,
+      "total_requests": 0,
+      "total_time_ms": 0.0,
+      "output_tokens_per_sec": 0.0,
+      "total_tokens_per_sec": 0.0
+    }
+  },
+  "model_size": {
+    "is_local": false,
+    "model_name": "precomputed"
+  },
+  "token_usage": {
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0
+  },
+  "metadata": {
+    "inputs": []
+  }
+}
