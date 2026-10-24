@@ -116,8 +116,14 @@ macOS 26.3 arm64 (Apple M4, 16 GB), CPython 3.12.13, uv.
 5. **Fine-tuned weights are not in Git** (2.9 GB). Regenerate them with the training command or obtain them
    from Member 2; hashes are in `llm/verification/checkpoint_sha256.txt`.
 6. **Locks cover macOS arm64 only** and carry no hashes. Linux/CUDA is untested.
-7. The raw logs in `llm/verification/logs/` are verbatim and contain absolute paths from the original
-   machine. That's intentional for evidence; no secrets were found in a pattern scan.
+7. **Local absolute paths remain in historical evidence only.** These files contain paths from the original
+   machine (`/Users/…`, `/private/tmp/…`): the verbatim logs in `llm/verification/logs/`, CuratorKIT's
+   `manifest.json` and `lexsi_provenance.json`, the fine-tuned runs' `predictions.jsonl` and `run_info.json`
+   (the model id was the checkpoint path), and Part B of this report. They are kept unedited because they are
+   evidence. Code, documentation, lock files and the integration examples contain none; new serving uses
+   `--served-model-name`.
+   - A secret-pattern scan over all 165 tracked files found no matches (HF/OpenAI/GitHub/AWS tokens, bearer
+     tokens, private keys).
 8. **Commit `1c1bec0` alone does not pass the full suite.** The old lenient-parser test was replaced only
    in `6c0940a`. Every later commit passes.
 
