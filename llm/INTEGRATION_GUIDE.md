@@ -121,6 +121,15 @@ An over-long prompt fails at SGLang and comes back as `inference_error`, not as 
 | `inference_error: …` | system: server down, HTTP error, timeout | **system error** — retry/alert, do not show "not found" |
 | `invalid_request: …` | system: request failed validation, model not called | **bug in the request** — fix the caller |
 
+Added by the end-to-end pipeline (`python -m ps3_llm.pipeline`, which retrieves from `vector_store/` itself);
+not produced by the JSON-in/JSON-out CLI:
+
+| `abstain_reason` | Who decided | Meaning |
+|---|---|---|
+| `retrieval_error: …` | system: index missing, encoder failure, empty result; model not called | system error |
+| `retrieval_gate` | policy (opt-in `--gate`): retrieval scores predict the corpus cannot answer; model not called | not found |
+| `unsupported_numbers` | policy: the answer states a number absent from every passage it cites; answer withheld | not found; the numbers are listed in `warnings` |
+
 **Empty evidence** (`"evidence": []`) is valid and is sent to the model, which (in all tests so far)
 abstains with `model_abstained`. Send it rather than skipping the call, so abstentions are logged consistently.
 

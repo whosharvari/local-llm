@@ -1,7 +1,7 @@
 # PS3 Verification Report — Member 2 module (model serving, post-training, evaluation)
 
-This file has two parts:
-- **Part A — Final state after fixes** (2026-10-24, on the model module's development branch). This is the current status.
+This file has three parts. **Part C (top) is the current status.**
+- **Part A — Final state after fixes** (2026-10-24, on the model module's development branch). Historical since Part C.
 - **Part B — Original audit** (2026-10-24, at the development commit "Document model module setup, commands,
   results and limitations"), kept verbatim as the historical record. Statements there such as "fixes not
   applied" describe the state before Part A.
@@ -13,6 +13,75 @@ Repository changes made after this report are recorded in the root `README.md`, 
 
 Labels: **VERIFIED** (re-checked from primary evidence by execution) · **PARTIALLY VERIFIED** · **FAILED** ·
 **NOT CHECKED**.
+
+---
+
+# Part C — Final submission state (2026-10-25)
+
+This part supersedes the "Status" lines of Parts A and B. Labels: **PASS** (verified by execution),
+**PARTIAL**, **FAIL**, **BLOCKED** (needs something not available here).
+
+## C1. Acceptance criteria
+
+| # | Criterion | Status | Evidence |
+|---|---|---|---|
+| 1 | SGLang serves the final model | **PASS** | `scripts/demo.sh` served `outputs/sft-qwen2.5-1.5b/merged` (SHA-256 `42f885c0…4764`, matches `llm/verification/checkpoint_sha256.txt`) from a fresh process on 127.0.0.1 and answered 3 questions; exit 0 (`llm/results/demo/demo_stage1_sft.jsonl`) |
+| 2 | CuratorKIT used for curation | **PASS** (Stage 1) / **FAIL** (real-paper run) | Stage 1: `llm/data/curated/curatorkit/manifest.json`. Real-paper run: 234 pairs generated, HallucinationGate 7 accepted / 227 `judge_error:RuntimeError` after an SGLang Metal GPU fault; outputs preserved (`llm/data/real_train/v1/README.md`) |
+| 3 | AlignTune used for fine-tuning | **PASS** (Stage 1 checkpoint) | Part A; `llm/verification/logs/train_sft-qwen2.5-1.5b.log`. No real-paper fine-tune was run (blocked by #2) |
+| 4 | AuditKIT used for evaluation | **PASS** (deterministic metrics) / **PARTIAL** (independent judge) | Dev intent run complete. Llama-3.1-8B judge run cut short by a GPU fault: 10 of 21 candidate items unjudged (`llm/results/*serving.INCOMPLETE.md`) |
+| 5 | Grounded answers and abstention, end to end | **PASS** | Demo: cited answer (BERT-base L=12, `bert.pdf` p.3); out-of-corpus question stopped by the gate (p = 0.198); hallucinated "592 V100 GPUs" withheld by the number guard. `tests/test_pipeline.py` covers supported, unanswerable, conflicting-number, invalid-citation, malformed-output, retrieval-failure and server-down cases |
+| 6 | Real-corpus eval set with traceable references | **PASS** | 106 items; every quote is verbatim and located (`real_corpus validate`: OK) |
+| 7 | Independently verified (human) labels | **BLOCKED** | 0 of 106 reviewed; none fabricated. Queue: `llm/data/real_corpus/REVIEW_QUEUE.md` |
+| 8 | Test split frozen | **BLOCKED** | Needs #7 (`freeze` refuses while any test item is unreviewed) |
+| 9 | Document-level split, leakage checks | **PASS** | `split_manifest.json`; `leakage`: 0 errors over 17 training artefacts; 42 leaky grounded_qa train rows removed into a separate versioned clean set (`llm/data/real_train/v1/`) |
+| 10 | Baseline vs candidate on the frozen test set | **BLOCKED** | Needs #8. The test split has never been run by any model |
+| 11 | Hallucination reduction demonstrated | **FAIL** (not demonstrated) | Synthetic: 3/16 vs 3/16. Real dev (provisional): baseline 0/14 (it abstains on 29/34), fine-tuned 3/14 |
+| 12 | Metrics defined, with denominators and uncertainty; regenerable from saved predictions | **PASS** | `real_corpus report` (Wilson 95% intervals, reasons, guard, per category and document); `tests/test_real_metrics.py`; `verify_v2.py` 0 mismatches |
+| 13 | Synthetic benchmark and historical results unchanged | **PASS** | `git status`: no file under `llm/results/v2`, `llm/results/<v1 tags>` or `llm/data/mock` is modified |
+
+## C2. Commands executed (2026-10-25, from `llm/` unless stated)
+
+| Command | Outcome |
+|---|---|
+| `../.venv/bin/python -m pytest -q tests` | **129 passed, 1 skipped**. The skipped test needs real-paper SFT files, which do not exist (#2) |
+| `python3 -I verification/verify_v2.py . baseline-qwen2.5-1.5b sft-qwen2.5-1.5b` | `MISMATCHES: 0` |
+| `../.venv/bin/python -m ps3_llm.real_corpus validate` | `OK: 106 items, 0 review records, 17 training artefacts clean`, plus one warning about the original grounded_qa file (handled by #9) |
+| `python -m ps3_llm.realtrain clean` / `chunks` | 62 kept, 42 leaky train rows removed (+35 dev/test-split rows); 122 chunks |
+| `python -m ps3_llm.realtrain curate --num-questions 2 --concurrency 3` (teacher `Qwen2.5-7B-Instruct-4bit`, `CTX=3072 --max-total-tokens 8192`) | Exited after 2259.6 s; the gate failed as in #2 |
+| `scripts/demo.sh $PWD/outputs/sft-qwen2.5-1.5b/merged results/demo/demo_stage1_sft.jsonl` | exit 0; three outputs as in #5 |
+| `python -m ps3_llm.real_corpus report results/real_corpus/v0.1.0-draft/dev-provisional-labels-r2/<model> --out real_corpus_metrics_v2.json` | Written for both models from saved predictions (no new generation) |
+| `python -m ps3_llm.audit --baseline … --candidate … --data data/real_corpus/converted/dev_provisional.jsonl --mode intent` | exit 0 |
+| same with `--mode serving --judge api:mlx-community/Meta-Llama-3.1-8B-Instruct-4bit` | exit 0, but the judge server crashed after 33 calls; marked INCOMPLETE |
+
+Failed attempts in the same session, recorded in `llm/data/real_train/v1/README.md`:
+
+- Teacher and judge served together ran out of Metal memory.
+- `--mem-fraction-static 0.3` gave a 250-token KV pool.
+- Four GPU faults (`kIOGPUCommandBufferCallbackErrorInnocentVictim`).
+
+## C3. Hashes and locations
+
+- **Final checkpoint:** `outputs/sft-qwen2.5-1.5b/merged/model.safetensors`, `42f885c0a302768bb9dbf76a54ec073e01e076d3abd6a7af2b7c7c6224e53764`.
+- **Corpus:** `chunks.json`, `787e1009a2843a98960a5155f86229ff663d02df20642d17ce40f173c5c1379a` (pinned in `split_manifest.json`).
+- **Converted dev set:** `converted/dev_provisional.jsonl`, `278eae96d2e1591307e72478b773d3053860eb8a0d2eddd27577f08b440b2a3e`.
+  The dev runs were scored on this file.
+- **Converted test set:** `converted/test_provisional.jsonl`, `e26cafc92f11641af047508ca22a4929f1de5239a8e828ec8a65227f8e7a66bb`.
+  This file is not frozen and has never been run.
+- **Evaluation outputs:** `llm/results/real_corpus/v0.1.0-draft/`, `llm/results/auditkit_real_corpus_*`, `llm/results/demo/`.
+
+## C4. To reproduce the final run, once labels are reviewed
+
+```bash
+cd llm
+../.venv/bin/python -m ps3_llm.real_corpus freeze --split test --name test-v1
+scripts/run_real_eval.sh Qwen/Qwen2.5-1.5B-Instruct ps3-baseline real_corpus/test-v1/baseline \
+    data/real_corpus/frozen/test-v1.jsonl data/real_corpus/frozen/test-v1_adjudication.json
+scripts/run_real_eval.sh "$PWD/outputs/sft-qwen2.5-1.5b/merged" ps3-sft real_corpus/test-v1/sft \
+    data/real_corpus/frozen/test-v1.jsonl data/real_corpus/frozen/test-v1_adjudication.json
+../.venv/bin/python -m ps3_llm.compare real_corpus/test-v1/baseline real_corpus/test-v1/sft
+```
+
+Decision rules: `llm/data/real_corpus/EVAL_PROTOCOL.md`.
 
 ---
 

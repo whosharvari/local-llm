@@ -81,13 +81,24 @@ def _better(va, vb, higher, a, b):
     return "="
 
 
+def _run_data(tag: str, results: Path) -> tuple[Path, str | None]:
+    """Eval data file and its SHA-256 recorded by `evaluate` (older runs: the synthetic held-out set)."""
+    info_path = results / tag / "run_info.json"
+    info = json.loads(info_path.read_text()) if info_path.is_file() else {}
+    data = Path(info.get("data", "data/mock/heldout_eval.jsonl"))
+    return (data if data.is_absolute() else ROOT / data), info.get("data_sha256")
+
+
 def main(a: str, b: str, out: Path | None = None, results_dir: Path = RESULTS) -> Path:
     sa, ra, pa, ea = _load(a, results_dir)
     sb, rb, pb, eb = _load(b, results_dir)
     if sa["n"] != sb["n"] or set(ra) != set(rb):
         raise SystemExit(f"runs {a!r} and {b!r} are not on the same items")
+    (data_a, sha_a), (_, sha_b) = _run_data(a, results_dir), _run_data(b, results_dir)
+    if sha_a and sha_b and sha_a != sha_b:
+        raise SystemExit(f"runs {a!r} and {b!r} were scored on different data files (SHA-256 differs)")
     qs = {json.loads(line)["query_id"]: json.loads(line)["question"]
-          for line in (ROOT / "data/mock/heldout_eval.jsonl").read_text().splitlines()}
+          for line in data_a.read_text().splitlines() if line.strip()}
     na, nb = a.split("/")[-1], b.split("/")[-1]
     L = [f"# {na} vs {nb} (metrics {sa.get('metrics_version')})", "",
          f"n = {sa['n']} ({sa['n_answerable']} answerable, {sa['n_unanswerable']} unanswerable, "

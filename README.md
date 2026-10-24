@@ -1,124 +1,157 @@
 # PS3 — Grounded document QA with a local LLM (Syntax Error 2026, Local LLM Track)
 
-**Objective:** answer questions about a document collection **only from retrieved evidence**, cite the
-passages used, and abstain when the evidence does not contain the answer — i.e. grounded answers with fewer
-hallucinations, served by a local model.
+**Objective:** answer questions about a collection of 13 ML research papers **only from retrieved evidence**,
+cite the passages used, and abstain when the evidence does not contain the answer. The goal is grounded
+answers with fewer hallucinations, from a local model served by SGLang.
 
-**Status (read first):** the serving, curation, fine-tuning and evaluation pipeline runs end to end on the
-model side, and the committed v2 metrics re-compute exactly from the saved model outputs. **A measurable reduction in hallucinations has NOT
-been demonstrated**: on the 40-item held-out set the fine-tuned model has the same hallucinated-answer rate as
-the baseline (3/16) and a higher unsupported-claim rate (0.273 vs 0.200). See [Limitations](#limitations).
+**Status (read first):**
+
+- **Works end to end.** The pipeline runs locally: question → retrieval over the paper index → SGLang-served
+  fine-tuned model → validated answer with citations, or a clear abstention (`llm/scripts/demo.sh`).
+- **Tools.** SGLang, CuratorKIT, AlignTune and AuditKIT are each integrated and have been executed.
+- **A hallucination reduction has NOT been demonstrated.** On the synthetic held-out set the fine-tuned model
+  has the same hallucinated-answer rate as the baseline (3/16 vs 3/16). On the real-paper **dev** split
+  (34 items, machine-drafted labels) it answers far more questions correctly, but hallucinates on 3/14
+  abstain items, against 0/14 for the baseline, which abstains on almost everything.
+- **The frozen real-paper test comparison is BLOCKED on human label review** (see
+  [What is blocked](#what-is-blocked)).
+- **Not retrained on real papers.** The real-paper fine-tune was not trained: its CuratorKIT run was broken
+  by a GPU fault, and the outputs are preserved.
+
+Full acceptance-criteria table and executed commands: [`VERIFICATION_REPORT.md` → Part C](VERIFICATION_REPORT.md).
 
 ## Repository layout
 
 | Path | Owner | Contents |
 |---|---|---|
-| [`llm/`](llm/) | Member 2 | Model module: prompting, SGLang adapter, CuratorKIT curation, AlignTune training, metrics, AuditKIT re-scoring, tests. Details: [`llm/README.md`](llm/README.md) |
-| [`llm/INTEGRATION_GUIDE.md`](llm/INTEGRATION_GUIDE.md) | Member 2 | JSON request/response contract between retrieval and the model (v1.1, **proposed**) |
-| [`VERIFICATION_REPORT.md`](VERIFICATION_REPORT.md) | — | Independent audit of the model module and its follow-up |
-| `data/raw/` | Member 1 | 13 ML research papers (PDF) — the retrieval corpus |
-| `data/processed/chunks.json` | Member 1 | 2,349 text chunks of those PDFs (`id`, `text`, `source_file`, `page_number`, `chunk_index`) |
-| `data/datasets/grounded_qa/` | Member 1 | 139 labelled questions over the corpus (answerable / context-swap / out-of-corpus; no reference answers) and 163 claim probes |
-| `vector_store/` | Member 1 | FAISS index (2,349 × 384-d, `all-MiniLM-L6-v2` per its calibration file), chunk metadata, retrieval-side abstention calibration |
+| [`llm/`](llm/) | Member 2 | Model module: prompting, SGLang adapter, retrieval + end-to-end pipeline, CuratorKIT curation, AlignTune training, metrics, AuditKIT re-scoring, tests. Details: [`llm/README.md`](llm/README.md) |
+| [`llm/INTEGRATION_GUIDE.md`](llm/INTEGRATION_GUIDE.md) | Member 2 | JSON request/response contract (v1.1) and abstain reasons |
+| [`llm/data/real_corpus/`](llm/data/real_corpus/README.md) | Member 2 | Real-paper evaluation set: 106 items, split by document. **Labels are machine drafts, not human-verified** |
+| [`llm/data/real_train/v1/`](llm/data/real_train/v1/README.md) | Member 2 | Leakage-free training seeds (62 grounded_qa rows, 122 chunks), refitted retrieval gate, failed CuratorKIT run (preserved) |
+| [`VERIFICATION_REPORT.md`](VERIFICATION_REPORT.md) | — | Part C: final submission state. Parts A/B: earlier audit (historical) |
+| `data/raw/`, `data/processed/chunks.json` | Member 1 | 13 papers (PDF) and their 2,349 text chunks |
+| `data/datasets/grounded_qa/` | Member 1 | 139 labelled questions (no reference answers), 163 claim probes. Unmodified |
+| `vector_store/` | Member 1 | FAISS IndexFlatIP (2,349 × 384, all-MiniLM-L6-v2), row-aligned metadata. Unmodified |
 
-The retrieval / ingestion **code** (Papermind) is not in this repository — only its artifacts above. The
-model module has not yet been run on this corpus or connected to this index; it was trained and evaluated
-on synthetic documents in `llm/data/mock/`.
-
-## Pipeline and tool roles
+## Architecture and data flow
 
 ```
-question + retrieved passages ──► ps3_llm (prompt, SGLang adapter, parser) ──► {answer, citations, abstained}
-                                          │
-             SGLang  ── serves the baseline, the fine-tuned model, and the 7B teacher/judge (OpenAI-compatible /v1)
-          CuratorKIT ── generates QA pairs from training chunks + HallucinationGate     (llm/ps3_llm/curate.py)
-           AlignTune ── LoRA SFT of Qwen2.5-1.5B-Instruct on the curated data (TRL/MPS) (llm/ps3_llm/train.py)
-            AuditKIT ── re-scores saved outputs: F1, LexicalGroundedness, LLM-judged Hallucination (llm/ps3_llm/audit.py)
+question ─► retrieval (ps3_llm.retrieval: vector_store/index.faiss, all-MiniLM-L6-v2, top-4, chunk/doc/page kept)
+         ─► optional retrieval gate (refitted on train-split questions only)
+         ─► prompt built from the retrieved passages only (ps3_llm.prompting; no labels on this path)
+         ─► SGLang-served model (OpenAI-compatible /v1, localhost)
+         ─► serving parser: JSON only, citations restricted to retrieved ids, refusal/contradiction -> abstain
+         ─► number guard: answers stating numbers absent from the cited passages are withheld
+         ─► {answer, citations with document + page} or a clear abstention; JSONL run log
 ```
 
-Deterministic v2 metrics (`llm/ps3_llm/metrics.py`) are the primary evaluation; AuditKIT is a second view.
+| Tool | Role | Where |
+|---|---|---|
+| **SGLang** (MLX backend) | Serves the baseline, the fine-tuned model, the 7B teacher and the AuditKIT judge | `llm/scripts/serve_sglang.sh`, `wait_for_server.sh` |
+| **CuratorKIT** | QA generation from training chunks + HallucinationGate (Stage 1 data; real-paper run failed, see above) | `llm/ps3_llm/curate.py`, `realtrain.py` |
+| **AlignTune** | LoRA SFT of Qwen2.5-1.5B-Instruct (TRL backend, Apple MPS) | `llm/ps3_llm/train.py` |
+| **AuditKIT** | Re-scores saved outputs: F1, LexicalGroundedness, LLM-judged Hallucination | `llm/ps3_llm/audit.py` |
+
+Primary metrics are deterministic (`llm/ps3_llm/metrics.py` v2 plus `real_corpus report`); AuditKIT is a second view.
 
 ## Setup
 
-Tested only on Apple Silicon (M4, 16 GB, macOS, CPython 3.12) with `uv`. Two virtualenvs at the repository
-root: `.venv` (CuratorKIT, AlignTune, AuditKIT, torch) and `.venv-sglang` (SGLang on its MLX backend).
-The exact install commands, from the lock files in `llm/env/`, are in
-[`llm/README.md` → Clean install](llm/README.md#clean-install-on-apple-silicon-verified-both-rebuilt-into-fresh-venvs-freezes-identical-to-the-working-envs).
-Linux/CUDA is untested.
+- **Tested only on** Apple Silicon (M4, 16 GB, macOS 26.3, CPython 3.12) with `uv`. Linux/CUDA is untested.
+- **Two virtualenvs** at the repository root:
+  - `.venv`: CuratorKIT, AlignTune, AuditKIT, torch, sentence-transformers;
+  - `.venv-sglang`: SGLang on MLX.
+- **Install commands** (from the lock files in `llm/env/`):
+  [`llm/README.md` → Clean install](llm/README.md#clean-install-on-apple-silicon-verified-both-rebuilt-into-fresh-venvs-freezes-identical-to-the-working-envs).
+- **Weights.** The fine-tuned checkpoint `llm/outputs/sft-qwen2.5-1.5b/merged` (2.9 GB, gitignored) must be
+  regenerated (`llm/README.md` → Reproduce) or copied from Member 2. Expected SHA-256:
+  `42f885c0a302768bb9dbf76a54ec073e01e076d3abd6a7af2b7c7c6224e53764` (`llm/verification/checkpoint_sha256.txt`).
+- **Downloads on first use:** the base model and the embedding model `sentence-transformers/all-MiniLM-L6-v2`
+  come from the Hugging Face Hub.
+- **Run one model server at a time.** On 16 GB, two 7–8B MLX servers ran out of Metal memory, and the MLX
+  backend suffered GPU faults when other GPU processes ran alongside it.
 
-The fine-tuned weights (`llm/outputs/sft-qwen2.5-1.5b/merged`, 2.9 GB) are gitignored: regenerate them with
-the training command in `llm/README.md` or copy them from Member 2. Expected SHA-256:
-`llm/verification/checkpoint_sha256.txt`.
-
-## Run
-
-All commands from `llm/`.
+## Run (all commands from `llm/`)
 
 ```bash
 cd llm
+../.venv/bin/python -m pytest -q tests                      # 129 passed, 1 skipped (no server needed)
+python3 -I verification/verify_v2.py . baseline-qwen2.5-1.5b sft-qwen2.5-1.5b   # MISMATCHES: 0
+../.venv/bin/python -m ps3_llm.real_corpus validate         # dataset schema/provenance/leakage: OK
 
-# tests (no model server needed)
-../.venv/bin/python -m pytest -q tests
+# end-to-end demo: serves the checkpoint on 127.0.0.1:30000, asks 3 questions, logs records, stops the server
+scripts/demo.sh "$PWD/outputs/sft-qwen2.5-1.5b/merged" results/demo/my_demo.jsonl
 
-# independent re-computation of the committed v2 metrics (stdlib only, no ps3_llm import)
-python3 -I verification/verify_v2.py . baseline-qwen2.5-1.5b sft-qwen2.5-1.5b    # expect MISMATCHES: 0
+# ask one question (server already running, e.g. scripts/serve_sglang.sh <ckpt> --served-model-name ps3 &)
+../.venv/bin/python -m ps3_llm.pipeline "How many layers does the BERT-base model have?" \
+    --gate data/real_train/v1/retrieval_gate.json --log results/demo/ask.jsonl
 
-# re-score committed raw outputs and compare them, writing only to a scratch directory
-mkdir -p /tmp/ps3 && cp -R results/baseline-qwen2.5-1.5b results/sft-qwen2.5-1.5b /tmp/ps3/
-../.venv/bin/python -m ps3_llm.evaluate --rescore-from baseline-qwen2.5-1.5b --tag base --results-dir /tmp/ps3
-../.venv/bin/python -m ps3_llm.evaluate --rescore-from sft-qwen2.5-1.5b --tag sft --results-dir /tmp/ps3
-../.venv/bin/python -m ps3_llm.compare base sft --results-dir /tmp/ps3        # report: /tmp/ps3/compare_base_vs_sft.md
-
-# serve the fine-tuned model with SGLang and evaluate it live (one model at a time on 16 GB)
-scripts/serve_sglang.sh "$PWD/outputs/sft-qwen2.5-1.5b/merged" --served-model-name ps3-qwen2.5-1.5b-grounded-sft &
-scripts/wait_for_server.sh http://127.0.0.1:30000
-../.venv/bin/python -m ps3_llm.evaluate --adapter sglang --tag sft-live --results-dir /tmp/ps3
-echo '{"question": "...", "evidence": [{"chunk_id": "doc#c1", "text": "..."}]}' | ../.venv/bin/python -m ps3_llm.cli --adapter sglang
-pkill -f sglang
+# locked real-corpus evaluation of one model (serve -> evaluate -> report -> stop); new tag each time
+scripts/run_real_eval.sh Qwen/Qwen2.5-1.5B-Instruct ps3-baseline real_corpus/<v>/dev/baseline \
+    data/real_corpus/converted/dev_provisional.jsonl data/real_corpus/converted/dev_provisional_adjudication.json
 ```
 
-`evaluate` refuses to write into an existing results directory, so committed runs under `llm/results/` are
-never overwritten; use a new `--tag` or a scratch `--results-dir`. Curation, training and AuditKIT-with-judge
-commands: [`llm/README.md` → Reproduce](llm/README.md#reproduce-all-commands-from-llm).
+- `evaluate` and `report` refuse to overwrite existing results.
+- Committed runs under `llm/results/` are never modified.
+- Curation, training and AuditKIT commands: [`llm/README.md`](llm/README.md).
 
-## Where things are
+## Results
 
-| What | Where |
-|---|---|
-| Curated training data (CuratorKIT export, strict-gate output, SFT train/dev) | `llm/data/curated/` |
-| Synthetic train documents / 40-item held-out set + adjudication | `llm/data/mock/` |
-| Training configs | `llm/configs/` |
-| Checkpoints (not in Git) | `llm/outputs/<run>/adapter`, `llm/outputs/<run>/merged` |
-| Metrics — current (v2) | `llm/results/v2/<tag>/summary.json`, report `llm/results/v2/compare_baseline_vs_sft.md` |
-| Metrics — historical v1 (superseded, kept unchanged) | `llm/results/<tag>/` |
-| AuditKIT runs | `llm/results/v2/<tag>/auditkit-intent/`, `llm/results/auditkit_*.json` |
-| Verification scripts and preserved logs | `llm/verification/`, [`VERIFICATION_REPORT.md`](VERIFICATION_REPORT.md) |
+### Synthetic held-out set (40 items; committed v2, `llm/results/v2/compare_baseline_vs_sft.md`)
+
+Serving decision: hallucinated answers 3/16 → 3/16; answer correct 15/23 → 18/23; unsupported-claim rate
+0.200 → 0.273; schema-valid output 50% → 100%; invented citation ids 3 → 0.
+
+### Real-paper dev split (34 items, provisional labels, `llm/results/real_corpus/v0.1.0-draft/dev-provisional-labels-r2/`)
+
+The same saved SGLang outputs are scored under three decisions. 95% Wilson intervals are in brackets.
+
+| Serving decision | Baseline Qwen2.5-1.5B | Fine-tuned (Stage 1 SFT) |
+|---|---|---|
+| Answer correct (of 20) | 5 [0.11–0.47] | 15 [0.53–0.89] |
+| False abstention (of 20) | 15 | 2 |
+| Hallucinated answer (of 14 abstain items) | 0 [0.00–0.22] | 3 [0.08–0.48] |
+| Abstention precision / recall | 14/29 / 14/14 | 11/13 / 11/14 |
+| With number guard: correct / hallucinated | 5 / 0 | 11 / 2 |
+| Schema-valid JSON (of 34) | 0.147 | 1.000 |
+| AuditKIT F1 / LexicalGroundedness (intent) | 0.420 / 0.584 | 0.588 / 0.757 |
+
+How to read this:
+
+- The baseline's flawless hallucination score comes from abstaining on 29/34 items. Most of its
+  abstentions are contract failures: 12 contradictory flags and 5 unparseable outputs.
+- The fine-tune answers much more, and correctly more often, but it does hallucinate. Examples: "two GPUs"
+  and "7.93%" on planted traps.
+- The number guard removes one hallucination at the cost of 4 correct answers.
+- The independent-judge (Llama-3.1-8B) AuditKIT run was cut short by a GPU fault and is **incomplete**
+  (`llm/results/*serving.INCOMPLETE.md`).
+- None of this is a test-set result.
+
+## What is blocked
+
+1. **Human review of the real-corpus labels → test freeze → final baseline-vs-candidate test comparison.**
+   All 106 labels are machine drafts. No review was fabricated. Queue and commands:
+   [`llm/data/real_corpus/REVIEW_QUEUE.md`](llm/data/real_corpus/REVIEW_QUEUE.md). Protocol fixed in advance:
+   [`EVAL_PROTOCOL.md`](llm/data/real_corpus/EVAL_PROTOCOL.md). The test split has never been run by any model.
+2. **Real-paper CuratorKIT data and AlignTune retraining.** The 2026-10-25 CuratorKIT run produced 234 pairs,
+   but 227 judge calls failed after the SGLang server's Metal GPU fault. Outputs are preserved, and no model
+   was trained on them ([`llm/data/real_train/v1/README.md`](llm/data/real_train/v1/README.md)).
 
 ## Limitations
 
-- **No demonstrated hallucination reduction.** v2, serving policy, 40 items
-  (`llm/results/v2/compare_baseline_vs_sft.md`): hallucinated answers 3/16 → 3/16; unsupported-claim rate
-  0.200 → 0.273; grounded accuracy 0.725 → 0.775 (3 items better, 1 worse, McNemar p = 0.625). The gain is in
-  output-contract compliance (schema-valid 50% → 100%, invented citation ids 3 → 0), not in grounding.
-  AuditKIT's LLM-judged hallucination falls (0.250 → 0.175) but its judge is the same 7B model that generated
-  the training data, and LexicalGroundedness falls (0.866 → 0.812).
-- **Synthetic, small evaluation.** 40 hand-labelled items over 3 synthetic documents; the real paper corpus
-  in `data/` has not been used for training or evaluation.
-- **No end-to-end pipeline** from the PDFs through retrieval to the model in this repository; the
-  integration contract is proposed and untested against Papermind.
-- **CuratorKIT's HallucinationGate accepted 110/110 generated pairs**; the filtering that mattered was the
-  added deterministic strict-grounding gate (`llm/data/curated/build_stats.json`).
-- **Apple-Silicon only**, single latency/memory measurements, locks without hashes.
+- **No demonstrated hallucination reduction** (see Results). Small samples: 40 synthetic, 34 dev items.
+- **Synthetic training.** The fine-tuned model was trained only on synthetic policy documents.
+- **Lexical scoring.** Answer criteria are string matches with listed alternatives.
+- **Retrieval gate.** It was refitted on 62 questions, only 8 of them negatives, and is opt-in.
+- **Stage 1 parser limitation.** It misses some refusal phrasings under the *intent* decision.
+- **Apple-Silicon only.** Latency and memory are single measurements, and the locks have no hashes.
+- **Stability.** The MLX SGLang backend crashed repeatedly under long 7–8B workloads on this machine.
 
-## Repository hygiene notes
+## Repository hygiene
 
-- No credentials or tokens found in tracked files (pattern scan for HF/OpenAI/GitHub/AWS tokens, bearer
-  tokens, private keys).
-- Local absolute paths of the original machines remain only in preserved evidence (`llm/verification/logs/`,
-  CuratorKIT provenance files, fine-tuned runs' `predictions.jsonl`/`run_info.json`) and in
-  `vector_store/grounding_calibration.json` (`metadata.trained_on`). They are kept because they are
-  provenance records.
-- `data/raw/` redistributes 13 third-party papers. Their licences have not been reviewed here; the
-  Transformer paper's own notice permits reproduction of its tables and figures only for journalistic or
-  scholarly works. Confirm redistribution terms before publishing the repository, or replace the PDFs with
-  download links. The chunk text contains the papers' published author e-mail addresses.
+- No credentials or tokens in tracked or new files (pattern scan for HF/OpenAI/GitHub/AWS tokens, bearer tokens, private keys).
+- Servers bind to 127.0.0.1 only.
+- **Local absolute paths** remain only in preserved evidence: verbatim logs, CuratorKIT manifests and
+  provenance (including the failed run in `llm/data/real_train/v1/curatorkit/`), fine-tuned runs'
+  `predictions.jsonl` and `run_info.json`, and `vector_store/grounding_calibration.json`.
+- **Third-party papers.** `data/raw/` redistributes 13 papers whose licences have not been reviewed. Confirm
+  redistribution terms before publishing. The chunk text contains the authors' published e-mail addresses.
