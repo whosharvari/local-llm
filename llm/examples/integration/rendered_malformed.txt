@@ -1,0 +1,3 @@
+
+--- rendered ---
+[system error] invalid_request: evidence[0].chunk_id '[procurement#c2]' has surrounding whitespace or brackets; evidence[1].text must be a string

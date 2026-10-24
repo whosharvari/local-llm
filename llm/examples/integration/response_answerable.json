@@ -1,0 +1,23 @@
+{
+  "answer": "A tender must remain open for a minimum of 15 business days.",
+  "citations": [
+    "procurement.pdf#p2-c2"
+  ],
+  "abstained": false,
+  "abstain_reason": "",
+  "query_id": "demo-answerable",
+  "model": "sglang:ps3-qwen2.5-1.5b-grounded-sft",
+  "latency_s": 3.930059500038624,
+  "raw_output": "{\"abstain\": false, \"answer\": \"A tender must remain open for a minimum of 15 business days.\", \"citations\": [\"procurement.pdf#p2-c2\"]}",
+  "parse_ok": true,
+  "usage": {
+    "prompt_tokens": 309,
+    "total_tokens": 350,
+    "completion_tokens": 41,
+    "prompt_tokens_details": null,
+    "reasoning_tokens": 0,
+    "invalid_citations": []
+  },
+  "warnings": [],
+  "contract_version": "1.1"
+}

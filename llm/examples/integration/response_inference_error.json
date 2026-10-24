@@ -1,0 +1,16 @@
+{
+  "answer": "",
+  "citations": [],
+  "abstained": true,
+  "abstain_reason": "inference_error: URLError: <urlopen error [Errno 61] Connection refused>",
+  "query_id": "demo-answerable",
+  "model": "sglang:unresolved",
+  "latency_s": 0.018265833146870136,
+  "raw_output": "",
+  "parse_ok": false,
+  "usage": {},
+  "warnings": [
+    "inference_error"
+  ],
+  "contract_version": "1.1"
+}
