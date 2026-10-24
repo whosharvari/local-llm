@@ -1,0 +1,8 @@
+{
+  "query_id": "demo-1",
+  "question": "How long must a tender remain open?",
+  "evidence": [
+    {"chunk_id": "procurement#c2", "text": "Purchases above EUR 25,000 require a formal tender managed by the Procurement Office. The tender must remain open for a minimum of 15 business days, and the evaluation panel must include at least one member from Finance.", "source": "halden_procurement_policy.pdf", "page": 2, "score": 0.81},
+    {"chunk_id": "procurement#c1", "text": "Purchases under EUR 2,500 may be approved by the requesting employee's line manager.", "source": "halden_procurement_policy.pdf", "page": 1, "score": 0.44}
+  ]
+}

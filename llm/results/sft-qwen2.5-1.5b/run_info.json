@@ -1,0 +1,18 @@
+{
+  "adapter": "sglang:/Users/sharvari/Desktop/untitled folder 2/llm/outputs/sft-qwen2.5-1.5b/merged",
+  "adapter_args": {
+    "base_url": "http://127.0.0.1:30000/v1",
+    "model": null,
+    "max_tokens": 384,
+    "concurrency": 4,
+    "constrained": false,
+    "temperature": 0.0
+  },
+  "data": "data/mock/heldout_eval.jsonl",
+  "data_sha256": "502167ff686ded3108f98072bc5c4e720d7025f6617d9cd6947005022b7b24f0",
+  "n_examples": 40,
+  "timestamp": "2026-10-24T01:56:40+0530",
+  "platform": "macOS-26.3-arm64-arm-64bit",
+  "machine": "arm64",
+  "python": "3.12.13"
+}

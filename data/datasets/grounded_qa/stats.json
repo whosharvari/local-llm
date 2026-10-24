@@ -1,0 +1,30 @@
+{
+  "examples": 139,
+  "by_type": {
+    "answerable": 49,
+    "unanswerable_context_swap": 49,
+    "unanswerable_out_of_corpus": 41
+  },
+  "by_split": {
+    "train": 104,
+    "test": 17,
+    "dev": 18
+  },
+  "by_evidence_resolution": {
+    "expected_page_retrieval": 40,
+    "none": 90,
+    "annotated_chunk": 9
+  },
+  "with_reference_answer": 0,
+  "claim_probes": 163,
+  "probes_by_perturbation": {
+    "verbatim": 69,
+    "foreign_sentence": 47,
+    "number_swap": 47
+  },
+  "probes_by_split": {
+    "train": 128,
+    "test": 20,
+    "dev": 15
+  }
+}

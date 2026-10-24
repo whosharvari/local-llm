@@ -1,0 +1,1 @@
+{"query_id": "demo-malformed", "question": "How long must a tender remain open?", "evidence": [{"chunk_id": "[procurement#c2]", "text": "The tender must remain open for 15 business days."}, {"chunk_id": "x", "text": 42}]}

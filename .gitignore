@@ -1,0 +1,27 @@
+.venv/
+.venv-sglang/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+llm/checkpoints/
+llm/outputs/
+llm/models/
+
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Model weights and local artifacts
+*.safetensors
+*.gguf
+*.pt
+*.pth
+*.bin
+
+# Local credentials
+credentials.json
+secrets.json

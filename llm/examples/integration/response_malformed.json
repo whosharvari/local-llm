@@ -1,0 +1,14 @@
+{
+  "answer": "",
+  "citations": [],
+  "abstained": true,
+  "abstain_reason": "invalid_request: evidence[0].chunk_id '[procurement#c2]' has surrounding whitespace or brackets; evidence[1].text must be a string",
+  "query_id": "demo-malformed",
+  "model": "sglang:unresolved",
+  "latency_s": null,
+  "raw_output": "",
+  "parse_ok": false,
+  "usage": {},
+  "warnings": [],
+  "contract_version": "1.1"
+}

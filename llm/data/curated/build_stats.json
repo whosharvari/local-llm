@@ -1,0 +1,27 @@
+{
+  "curatorkit_passed": 110,
+  "curatorkit_rejected": 0,
+  "unmatched_to_chunk": 0,
+  "strict_gate": {
+    "kept_unchanged": 60,
+    "leading_sentence_unsupported": 33,
+    "dropped_unsupported_sentences": 17
+  },
+  "qa_pairs": 77,
+  "train_examples": 109,
+  "dev_examples": 30,
+  "train_by_kind": {
+    "answerable": 60,
+    "abstain_distractor": 37,
+    "abstain_no_evidence": 12
+  },
+  "dev_by_kind": {
+    "answerable": 17,
+    "abstain_distractor": 11,
+    "abstain_no_evidence": 2
+  },
+  "dev_docs": [
+    "classification",
+    "safety"
+  ]
+}

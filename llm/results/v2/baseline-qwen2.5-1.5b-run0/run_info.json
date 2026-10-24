@@ -1,0 +1,16 @@
+{
+  "adapter": "replay:baseline-qwen2.5-1.5b-run0",
+  "adapter_args": {
+    "rescore_from": "baseline-qwen2.5-1.5b-run0"
+  },
+  "data": "data/mock/heldout_eval.jsonl",
+  "data_sha256": "502167ff686ded3108f98072bc5c4e720d7025f6617d9cd6947005022b7b24f0",
+  "adjudication": "data/mock/heldout_adjudication.json",
+  "adjudication_sha256": "ea0abad2ac40c7f0e89465a86d6e7ffffc2a911d15fe126e057b7f61187d6d5c",
+  "metrics_version": "v2",
+  "n_examples": 40,
+  "timestamp": "2026-10-24T02:31:30+0530",
+  "platform": "macOS-26.3-arm64-arm-64bit",
+  "machine": "arm64",
+  "python": "3.12.13"
+}

@@ -1,0 +1,54 @@
+{
+  "has_unsupported_claims": [
+    "h01",
+    "h13",
+    "h25",
+    "h26",
+    "h27",
+    "h31",
+    "h33",
+    "h34",
+    "h37",
+    "h40"
+  ],
+  "over_abstained": [
+    "h02",
+    "h10",
+    "h12",
+    "h14",
+    "h18",
+    "h20",
+    "h38"
+  ],
+  "cited_nonexistent_passage": [
+    "h02",
+    "h27",
+    "h31"
+  ],
+  "wrong_answer": [
+    "h17",
+    "h40"
+  ],
+  "answered_unanswerable:distractor": [
+    "h23",
+    "h25",
+    "h26",
+    "h27",
+    "h29"
+  ],
+  "answered_unanswerable:off_topic": [
+    "h31",
+    "h33",
+    "h34"
+  ],
+  "invented_numbers": [
+    "h31"
+  ],
+  "unparseable_output": [
+    "h33",
+    "h34"
+  ],
+  "answered_unanswerable:no_evidence": [
+    "h37"
+  ]
+}

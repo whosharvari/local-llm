@@ -1,0 +1,13 @@
+[project]
+name = "ps3-llm"
+version = "0.1.0"
+description = "PS3 grounded QA: SGLang model adapter, post-training and evaluation (Member 2 module)"
+requires-python = ">=3.11"
+dependencies = []  # core adapter/metrics are stdlib-only; toolkit deps in env/requirements-main.txt
+
+[tool.setuptools]
+packages = ["ps3_llm"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

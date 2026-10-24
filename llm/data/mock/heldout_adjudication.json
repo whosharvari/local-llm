@@ -1,0 +1,36 @@
+{
+  "_version": "adjudication-v1 (2026-10-24)",
+  "_purpose": "Correctness criteria for the 40-item held-out set, applied ON TOP OF heldout_eval.jsonl, which is left unchanged (original labels preserved). Each answerable item lists required key facts: every inner list is one fact, satisfied if ANY of its alternatives occurs in the answer (case-insensitive, word-boundary match, thousands separators ignored). 'reject' alternatives make the answer wrong if present. This replaces the v1 lexical rule (all gold numbers + >=50% content-word recall), which the verification audit showed to be unreliable (h17 false negative, h14 false positive).",
+  "_reviewed_items": {
+    "h14": "Gold 'Economy class' is correct (travel#c1: economy for flights under 6 hours). v1 accepted 'Premium economy' because it shares 50% of content words; that answer is wrong. Fix: require 'economy', reject 'premium economy' and 'business class'. Label unchanged.",
+    "h17": "Gold 'Within 30 days of the trip's end date, with itemised receipts' is correct, but the question asks only 'how long', so '30 days' fully answers it. v1 rejected the terse answer. Fix: key fact '30 days'; receipts optional. Label unchanged.",
+    "h20": "Gold 'No, unless it is part of an approved client entertainment event'. A bare 'No' omits a policy exception that changes the answer for some readers; for a policy assistant that is materially incomplete. Decision: require both the negative and the exception. Label unchanged; bare 'No' stays incorrect (same as the audit's manual reading).",
+    "h30": "Originally labelled unanswerable (distractor). The evidence (travel#c1) says economy class MUST be booked for flights under 6 hours, so 'No - economy is required for flights under 6 hours' is a defensible grounded answer; the evidence is silent only on paying the difference. Correction: category 'ambiguous' - EITHER an abstention OR an answer stating economy is required for <6-hour flights citing travel#c1 is scored correct; any other answer counts as a hallucinated answer. Metrics are also reported with h30 excluded."
+  },
+  "items": {
+    "h01": {"facts": [["line manager"]]},
+    "h02": {"facts": [["two", "2"], ["quote", "quotes", "quotation", "quotations"]]},
+    "h03": {"facts": [["15"]]},
+    "h04": {"facts": [["finance"]]},
+    "h05": {"facts": [["questionnaire"], ["sanctions", "sanction"]]},
+    "h06": {"facts": [["code of conduct"]]},
+    "h07": {"facts": [["justification"], ["department head"]]},
+    "h08": {"facts": [["personal data"], ["outage"]]},
+    "h09": {"facts": [["1 hour", "one hour"]]},
+    "h10": {"facts": [["4400"]]},
+    "h11": {"facts": [["30 minutes", "thirty minutes"]]},
+    "h12": {"facts": [["10 business days", "ten business days", "10 working days"]]},
+    "h13": {"facts": [["forensic"]]},
+    "h14": {"facts": [["economy"]], "reject": ["premium economy", "business class"]},
+    "h15": {"facts": [["260"]]},
+    "h16": {"facts": [["75"]]},
+    "h17": {"facts": [["30 days", "thirty days"]]},
+    "h18": {"facts": [["executive committee"]]},
+    "h19": {"facts": [["14 days", "fourteen days"]]},
+    "h20": {"facts": [["no", "not reimbursable", "not be reimbursed", "is not covered"], ["client entertainment", "unless"]]},
+    "h38": {"facts": [["15"], ["sanctions", "sanction"]]},
+    "h39": {"facts": [["30 minutes"], ["24 hours"], ["chief information security officer", "ciso"], ["data protection officer", "dpo"]]},
+    "h40": {"facts": [["180"], ["75"]], "reject": ["260"]},
+    "h30": {"category_override": "ambiguous", "accept_answer_facts": [["economy"], ["6 hours", "six hours"]], "accept_citations": ["travel#c1"], "reject": ["premium economy may be booked for a 3"]}
+  }
+}

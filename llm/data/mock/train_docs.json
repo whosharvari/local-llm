@@ -1,0 +1,81 @@
+{
+  "_note": "Synthetic, fictional organisation documents (Halden Group) used ONLY for building training/dev data. Disjoint from heldout_docs.json.",
+  "leave": {
+    "source": "halden_leave_policy.pdf",
+    "chunks": {
+      "leave#c1": "Full-time employees receive 26 days of paid annual leave per calendar year, in addition to public holidays. Part-time employees receive leave pro rata to their contracted hours.",
+      "leave#c2": "Up to 5 days of unused annual leave may be carried over into the next calendar year. Carried-over days must be used by 31 March or they are forfeited.",
+      "leave#c3": "Annual leave requests must be submitted in the HR portal at least 10 working days before the first day of leave. Requests for more than 10 consecutive days require approval from the department head.",
+      "leave#c4": "Employees who are sick must inform their line manager before 10:00 on the first day of absence. A medical certificate is required for sickness absences longer than 3 consecutive calendar days.",
+      "leave#c5": "Primary caregivers are entitled to 20 weeks of fully paid parental leave. Secondary caregivers are entitled to 6 weeks of fully paid parental leave, which must be taken within 12 months of the birth or adoption.",
+      "leave#c6": "Employees may take up to 3 days of paid compassionate leave following the death of an immediate family member. Additional unpaid leave may be granted at the line manager's discretion."
+    }
+  },
+  "it_use": {
+    "source": "halden_it_acceptable_use.pdf",
+    "chunks": {
+      "it_use#c1": "Company laptops must have full-disk encryption enabled and must lock automatically after 5 minutes of inactivity.",
+      "it_use#c2": "Passwords for company accounts must be at least 14 characters long. Multi-factor authentication is mandatory for email, VPN and all cloud applications.",
+      "it_use#c3": "Only software listed in the Approved Software Catalogue may be installed on company devices. Requests to add new software are reviewed by the IT Security team within 5 business days.",
+      "it_use#c4": "Company data must not be stored on personal cloud storage services such as personal Dropbox or Google Drive accounts. Approved storage is the corporate SharePoint and OneDrive.",
+      "it_use#c5": "Lost or stolen devices must be reported to the IT Service Desk within 2 hours so that the device can be remotely wiped.",
+      "it_use#c6": "Limited personal use of company devices is allowed provided it does not interfere with work, does not involve illegal content, and does not consume significant network bandwidth."
+    }
+  },
+  "expenses": {
+    "source": "halden_expense_policy.pdf",
+    "chunks": {
+      "expenses#c1": "Expenses must be submitted through the Halden expense app with a digital copy of the receipt. Claims without receipts are only accepted for amounts under EUR 25.",
+      "expenses#c2": "Client entertainment is capped at EUR 90 per attendee and requires pre-approval from the line manager when the total exceeds EUR 400.",
+      "expenses#c3": "Employees working from home may claim a one-off home office allowance of EUR 300 for equipment such as a desk or chair. The allowance is available once every 3 years.",
+      "expenses#c4": "Mobile phone costs are reimbursed only for employees in roles designated as requiring a business phone. Personal phone bills are not reimbursable.",
+      "expenses#c5": "Approved expense claims are paid with the next monthly payroll run, provided they are approved by the 20th of the month."
+    }
+  },
+  "remote": {
+    "source": "halden_remote_work_policy.pdf",
+    "chunks": {
+      "remote#c1": "Employees may work remotely for up to 3 days per week, subject to line manager agreement. Core collaboration days are Tuesday and Thursday, when office attendance is expected.",
+      "remote#c2": "Working remotely from another country is permitted for a maximum of 20 working days per calendar year and requires prior approval from HR because of tax and immigration implications.",
+      "remote#c3": "Remote workers must use the corporate VPN when accessing internal systems and must not work on confidential material in public places where screens can be overlooked.",
+      "remote#c4": "Remote workers are expected to be reachable during core hours of 10:00 to 16:00 local time."
+    }
+  },
+  "retention": {
+    "source": "halden_data_retention_policy.pdf",
+    "chunks": {
+      "retention#c1": "Financial records, including invoices and ledgers, must be retained for 10 years from the end of the financial year to which they relate.",
+      "retention#c2": "Recruitment records for unsuccessful candidates are deleted 6 months after the recruitment decision, unless the candidate consents to longer retention for future vacancies.",
+      "retention#c3": "Employee personnel files are retained for 7 years after the end of employment and then securely destroyed.",
+      "retention#c4": "CCTV footage from office premises is retained for 30 days unless it is required for an ongoing investigation.",
+      "retention#c5": "Requests to delete personal data must be answered within one month. The Data Protection Officer may extend this by up to two further months for complex requests."
+    }
+  },
+  "safety": {
+    "source": "halden_health_and_safety.pdf",
+    "chunks": {
+      "safety#c1": "Every office must have at least one trained first aider per 50 employees on site. The names of first aiders are posted at each reception desk.",
+      "safety#c2": "Fire evacuation drills take place twice a year. During an alarm, staff must leave by the nearest marked exit and gather at the designated assembly point; lifts must not be used.",
+      "safety#c3": "All workplace accidents and near misses must be recorded in the Safety Log within 24 hours, even when no injury occurred.",
+      "safety#c4": "Employees who work at a computer for more than 2 hours a day are entitled to a workstation assessment and, where recommended, an eye test paid for by the company."
+    }
+  },
+  "conduct": {
+    "source": "halden_code_of_conduct.pdf",
+    "chunks": {
+      "conduct#c1": "Employees may accept gifts or hospitality from business partners only if the value does not exceed EUR 75. Any gift above this value must be declined or declared to Compliance within 5 business days.",
+      "conduct#c2": "Potential conflicts of interest, including outside directorships and significant shareholdings in suppliers, must be disclosed to Compliance using the annual declaration form.",
+      "conduct#c3": "Concerns about misconduct can be raised confidentially through the Speak Up line, which is operated by an independent third party and allows anonymous reports.",
+      "conduct#c4": "Retaliation against anyone who raises a concern in good faith is prohibited and will result in disciplinary action."
+    }
+  },
+  "classification": {
+    "source": "halden_information_classification.pdf",
+    "chunks": {
+      "classification#c1": "Information is classified as Public, Internal, Confidential or Restricted. Restricted information includes customer personal data, unreleased financial results and security credentials.",
+      "classification#c2": "Restricted information may only be shared externally using the approved encrypted file transfer service, and only with recipients who have signed a non-disclosure agreement.",
+      "classification#c3": "Confidential and Restricted documents must carry a classification label in the header or footer. Printed Restricted documents must be shredded using the secure bins.",
+      "classification#c4": "The information owner is responsible for assigning a classification and reviewing it at least once a year."
+    }
+  }
+}

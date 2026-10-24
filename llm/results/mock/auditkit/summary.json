@@ -1,0 +1,9 @@
+{
+  "tag": "mock",
+  "n": 40,
+  "n_answered": 20,
+  "f1_score_all": 0.5249301001097487,
+  "f1_fingerprint": "3f48ede5efb4ea6f",
+  "lexical_groundedness_answered": 1.0,
+  "grounding_fingerprint": "88c8d15c6c75fa36"
+}

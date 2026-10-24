@@ -1,0 +1,33 @@
+{
+  "_note": "Synthetic, fictional organisation documents (Halden Group) used ONLY for held-out evaluation. None of these documents are used to build training data.",
+  "procurement": {
+    "source": "halden_procurement_policy.pdf",
+    "chunks": {
+      "procurement#c1": "Purchases under EUR 2,500 may be approved by the requesting employee's line manager. Purchases between EUR 2,500 and EUR 25,000 require approval from the department head and must include at least two written quotes.",
+      "procurement#c2": "Purchases above EUR 25,000 require a formal tender managed by the Procurement Office. The tender must remain open for a minimum of 15 business days, and the evaluation panel must include at least one member from Finance.",
+      "procurement#c3": "New suppliers must complete the Supplier Onboarding Questionnaire and pass a sanctions screening before the first purchase order is issued. Supplier onboarding normally takes 10 business days.",
+      "procurement#c4": "Splitting a single purchase into smaller orders to avoid an approval threshold is prohibited and is treated as a breach of the Code of Conduct.",
+      "procurement#c5": "Purchase orders must be raised in the Halden ERP system before goods or services are received. Retrospective purchase orders require written justification signed by the department head."
+    }
+  },
+  "incident": {
+    "source": "halden_incident_response.pdf",
+    "chunks": {
+      "incident#c1": "Security incidents are classified as P1 (critical), P2 (high), P3 (medium) or P4 (low). A P1 incident is any confirmed breach of customer personal data or a full outage of a customer-facing system.",
+      "incident#c2": "All suspected security incidents must be reported to the Security Operations Centre within 1 hour of discovery, using the hotline extension 4400 or the email address soc@halden.example.",
+      "incident#c3": "For P1 incidents the incident commander must notify the Chief Information Security Officer within 30 minutes of classification. Where personal data is affected, the Data Protection Officer must assess within 24 hours whether the regulator must be notified.",
+      "incident#c4": "A post-incident review must be completed within 10 business days for P1 and P2 incidents. The review report is stored in the Risk Register and shared with the Audit Committee quarterly.",
+      "incident#c5": "Employees must not attempt to investigate a suspected compromise on their own device, for example by running unapproved scanning tools, as this may destroy forensic evidence."
+    }
+  },
+  "travel": {
+    "source": "halden_travel_policy.pdf",
+    "chunks": {
+      "travel#c1": "Economy class must be booked for all flights under 6 hours. Premium economy may be booked for flights of 6 hours or longer. Business class requires prior approval from a member of the Executive Committee.",
+      "travel#c2": "Hotel bookings are capped at EUR 180 per night in standard cities and EUR 260 per night in high-cost cities. The list of high-cost cities is maintained by the Finance team and reviewed annually.",
+      "travel#c3": "The daily meal allowance is EUR 55 for domestic travel and EUR 75 for international travel. Alcohol is not reimbursable unless it is part of an approved client entertainment event.",
+      "travel#c4": "All business travel must be booked through the corporate travel portal at least 14 days in advance where possible. Bookings made outside the portal are reimbursed only with a written exception from Finance.",
+      "travel#c5": "Expense claims for travel must be submitted within 30 days of the trip's end date together with itemised receipts."
+    }
+  }
+}

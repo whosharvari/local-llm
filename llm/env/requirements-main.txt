@@ -1,0 +1,5 @@
+# Main env: Lexsi Labs toolkits + this module. SGLang lives in a separate env (.venv-sglang).
+aligntune @ git+https://github.com/Lexsi-Labs/aligntune@57e9a95
+curatorkit[generation]==0.1.22
+auditkit==1.1.3
+pytest

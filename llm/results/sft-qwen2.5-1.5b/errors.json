@@ -1,0 +1,27 @@
+{
+  "over_abstained": [
+    "h01",
+    "h02",
+    "h14",
+    "h20"
+  ],
+  "has_unsupported_claims": [
+    "h10",
+    "h13",
+    "h25",
+    "h38",
+    "h39",
+    "h40"
+  ],
+  "answered_unanswerable:distractor": [
+    "h23",
+    "h25",
+    "h29"
+  ],
+  "right_answer_wrong_citation": [
+    "h39"
+  ],
+  "wrong_answer": [
+    "h40"
+  ]
+}

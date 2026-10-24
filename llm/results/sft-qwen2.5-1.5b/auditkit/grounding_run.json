@@ -1,0 +1,1110 @@
+{
+  "run_id": "9e5c04986fb6f417",
+  "fingerprint": "9e5c04986fb6f417",
+  "headline": {
+    "lexical_groundedness": 0.8122265435099659,
+    "hallucination": 0.17460317460317462
+  },
+  "stats": {
+    "lexical_groundedness": {
+      "name": "lexical_groundedness",
+      "count": 22,
+      "mean": 0.8122265435099659,
+      "stderr": 0.047931739474496075,
+      "std": 0.2248197862269272,
+      "min": 0.2222222222222222,
+      "max": 1.0,
+      "values": [
+        0.75,
+        1.0,
+        1.0,
+        1.0,
+        0.9166666666666666,
+        1.0,
+        1.0,
+        0.5454545454545454,
+        0.8,
+        1.0,
+        0.5333333333333333,
+        0.9230769230769231,
+        1.0,
+        0.8235294117647058,
+        0.7692307692307693,
+        0.9444444444444444,
+        1.0,
+        0.38461538461538464,
+        1.0,
+        0.6410256410256411,
+        0.2222222222222222,
+        0.6153846153846154
+      ]
+    },
+    "hallucination": {
+      "name": "hallucination",
+      "count": 21,
+      "mean": 0.17460317460317462,
+      "stderr": 0.07974211274317723,
+      "std": 0.3654242677213123,
+      "min": 0.0,
+      "max": 1.0,
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.6666666666666667,
+        1.0,
+        1.0
+      ]
+    }
+  },
+  "predictions": [
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h03",
+      "prompt": "What is the minimum period a tender must stay open?",
+      "raw_output": "The minimum period a tender must stay open is 15 business days.",
+      "parsed_answer": "The minimum period a tender must stay open is 15 business days.",
+      "expected": null,
+      "correct": false,
+      "score": 0.75,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.75,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "The minimum period a tender must stay open is 15 business days."
+              ],
+              "verdicts": [
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h04",
+      "prompt": "Which department must be represented on a tender evaluation panel?",
+      "raw_output": "The evaluation panel must include at least one member from Finance.",
+      "parsed_answer": "The evaluation panel must include at least one member from Finance.",
+      "expected": null,
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "The evaluation panel must include at least one member from Finance."
+              ],
+              "verdicts": [
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h05",
+      "prompt": "What checks must a new supplier pass before the first purchase order?",
+      "raw_output": "A new supplier must complete the Supplier Onboarding Questionnaire and pass a sanctions screening before the first purchase order is issued.",
+      "parsed_answer": "A new supplier must complete the Supplier Onboarding Questionnaire and pass a sanctions screening before the first purchase order is issued.",
+      "expected": null,
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "A new supplier must complete the Supplier Onboarding Questionnaire before the first purchase order is issued.",
+                "A new supplier must pass a sanctions screening before the first purchase order is issued."
+              ],
+              "verdicts": [
+                "SUPPORTED",
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h06",
+      "prompt": "How is splitting a purchase to avoid an approval threshold treated?",
+      "raw_output": "Splitting a single purchase into smaller orders to avoid an approval threshold is treated as a breach of the Code of Conduct.",
+      "parsed_answer": "Splitting a single purchase into smaller orders to avoid an approval threshold is treated as a breach of the Code of Conduct.",
+      "expected": null,
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "Splitting a single purchase into smaller orders to avoid an approval threshold is treated as a breach of the Code of Conduct."
+              ],
+              "verdicts": [
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h07",
+      "prompt": "What is required for a retrospective purchase order?",
+      "raw_output": "A retrospective purchase order requires written justification signed by the department head.",
+      "parsed_answer": "A retrospective purchase order requires written justification signed by the department head.",
+      "expected": null,
+      "correct": false,
+      "score": 0.9166666666666666,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.9166666666666666,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "A retrospective purchase order requires written justification signed by the department head."
+              ],
+              "verdicts": [
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h08",
+      "prompt": "What counts as a P1 incident?",
+      "raw_output": "A P1 incident is any confirmed breach of customer personal data or a full outage of a customer-facing system.",
+      "parsed_answer": "A P1 incident is any confirmed breach of customer personal data or a full outage of a customer-facing system.",
+      "expected": null,
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "A P1 incident is any confirmed breach of customer personal data.",
+                "A P1 incident is any full outage of a customer-facing system."
+              ],
+              "verdicts": [
+                "SUPPORTED",
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h09",
+      "prompt": "Within what time must a suspected security incident be reported to the SOC?",
+      "raw_output": "All suspected security incidents must be reported to the Security Operations Centre within 1 hour of discovery, using the hotline extension 4400 or the email address soc@halden.example.",
+      "parsed_answer": "All suspected security incidents must be reported to the Security Operations Centre within 1 hour of discovery, using the hotline extension 4400 or the email address soc@halden.example.",
+      "expected": null,
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "All suspected security incidents must be reported to the Security Operations Centre within 1 hour of discovery.",
+                "The reporting can be done using the hotline extension 4400.",
+                "The reporting can also be done using the email address soc@halden.example."
+              ],
+              "verdicts": [
+                "SUPPORTED",
+                "SUPPORTED",
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h10",
+      "prompt": "What hotline extension should be used to report an incident?",
+      "raw_output": "The hotline extension to use for reporting an incident is 4400.",
+      "parsed_answer": "The hotline extension to use for reporting an incident is 4400.",
+      "expected": null,
+      "correct": false,
+      "score": 0.5454545454545454,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.5454545454545454,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "The hotline extension to use for reporting an incident is 4400."
+              ],
+              "verdicts": [
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h11",
+      "prompt": "How quickly must the CISO be notified of a P1 incident?",
+      "raw_output": "The CISO must be notified within 30 minutes of the incident being classified as P1.",
+      "parsed_answer": "The CISO must be notified within 30 minutes of the incident being classified as P1.",
+      "expected": null,
+      "correct": false,
+      "score": 0.8,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.8,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "The CISO must be notified within 30 minutes of the incident being classified as P1."
+              ],
+              "verdicts": [
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h12",
+      "prompt": "When is a post-incident review due for a P2 incident?",
+      "raw_output": "A post-incident review for a P2 incident must be completed within 10 business days.",
+      "parsed_answer": "A post-incident review for a P2 incident must be completed within 10 business days.",
+      "expected": null,
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "A post-incident review for a P2 incident must be completed within 10 business days."
+              ],
+              "verdicts": [
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h13",
+      "prompt": "Why should employees not run scanning tools on a possibly compromised laptop?",
+      "raw_output": "Employees should not run scanning tools on a possibly compromised laptop because this action may destroy forensic evidence, which is crucial for investigating and understanding the nature of the compromise.",
+      "parsed_answer": "Employees should not run scanning tools on a possibly compromised laptop because this action may destroy forensic evidence, which is crucial for investigating and understanding the nature of the compromise.",
+      "expected": null,
+      "correct": false,
+      "score": 0.5333333333333333,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.5333333333333333,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "Employees should not run scanning tools on a possibly compromised laptop."
+              ],
+              "verdicts": [
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h15",
+      "prompt": "What is the hotel cap per night in a high-cost city?",
+      "raw_output": "The hotel cap per night in a high-cost city is EUR 260.",
+      "parsed_answer": "The hotel cap per night in a high-cost city is EUR 260.",
+      "expected": null,
+      "correct": false,
+      "score": 0.9230769230769231,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.9230769230769231,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "The hotel cap per night in a high-cost city is EUR 260."
+              ],
+              "verdicts": [
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h16",
+      "prompt": "What is the daily meal allowance for international travel?",
+      "raw_output": "The daily meal allowance for international travel is EUR 75.",
+      "parsed_answer": "The daily meal allowance for international travel is EUR 75.",
+      "expected": null,
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "The daily meal allowance for international travel is EUR 75."
+              ],
+              "verdicts": [
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h17",
+      "prompt": "How long do I have to submit a travel expense claim?",
+      "raw_output": "You have to submit a travel expense claim within 30 days of the trip's end date.",
+      "parsed_answer": "You have to submit a travel expense claim within 30 days of the trip's end date.",
+      "expected": null,
+      "correct": false,
+      "score": 0.8235294117647058,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.8235294117647058,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "You have to submit a travel expense claim within 30 days of the trip's end date."
+              ],
+              "verdicts": [
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h18",
+      "prompt": "Who must approve business class travel?",
+      "raw_output": "Business class travel must be approved by a member of the Executive Committee.",
+      "parsed_answer": "Business class travel must be approved by a member of the Executive Committee.",
+      "expected": null,
+      "correct": false,
+      "score": 0.7692307692307693,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.7692307692307693,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "Business class travel must be approved by a member of the Executive Committee."
+              ],
+              "verdicts": [
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h19",
+      "prompt": "How far in advance should business travel be booked?",
+      "raw_output": "Business travel should be booked through the corporate travel portal at least 14 days in advance, where possible.",
+      "parsed_answer": "Business travel should be booked through the corporate travel portal at least 14 days in advance, where possible.",
+      "expected": null,
+      "correct": false,
+      "score": 0.9444444444444444,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.9444444444444444,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "Business travel should be booked through the corporate travel portal at least 14 days in advance, where possible."
+              ],
+              "verdicts": [
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h23",
+      "prompt": "Who chairs the tender evaluation panel?",
+      "raw_output": "The evaluation panel must include at least one member from Finance.",
+      "parsed_answer": "The evaluation panel must include at least one member from Finance.",
+      "expected": null,
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "The evaluation panel must include at least one member from Finance."
+              ],
+              "verdicts": [
+                "SUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h25",
+      "prompt": "Within how many hours must the regulator be notified of a personal data breach?",
+      "raw_output": "The regulator must be notified within 24 hours of a personal data breach.",
+      "parsed_answer": "The regulator must be notified within 24 hours of a personal data breach.",
+      "expected": null,
+      "correct": false,
+      "score": 0.38461538461538464,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.38461538461538464,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "reason": "UNSUPPORTED: The regulator must be notified within 24 hours of a personal data breach.",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "The regulator must be notified within 24 hours of a personal data breach."
+              ],
+              "verdicts": [
+                "UNSUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h29",
+      "prompt": "Which cities are on the high-cost city list?",
+      "raw_output": "The high-cost cities are maintained by the Finance team and reviewed annually.",
+      "parsed_answer": "The high-cost cities are maintained by the Finance team and reviewed annually.",
+      "expected": null,
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h38",
+      "prompt": "For a EUR 40,000 purchase, how long must the tender stay open and does the supplier need sanctions screening if they are new?",
+      "raw_output": "For a EUR 40,000 purchase, the tender must remain open for a minimum of 15 business days, and the supplier must complete the Supplier Onboarding Questionnaire and pass a sanctions screening before the first purchase order is issued.",
+      "parsed_answer": "For a EUR 40,000 purchase, the tender must remain open for a minimum of 15 business days, and the supplier must complete the Supplier Onboarding Questionnaire and pass a sanctions screening before the first purchase order is issued.",
+      "expected": null,
+      "correct": false,
+      "score": 0.6410256410256411,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.6410256410256411,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 0.6666666666666667,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "reason": "UNSUPPORTED: The supplier must complete the Supplier Onboarding Questionnaire.; UNSUPPORTED: The supplier must pass a sanctions screening before the first purchase order is issued.",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "For a EUR 40,000 purchase, the tender must remain open for a minimum of 15 business days.",
+                "The supplier must complete the Supplier Onboarding Questionnaire.",
+                "The supplier must pass a sanctions screening before the first purchase order is issued."
+              ],
+              "verdicts": [
+                "SUPPORTED",
+                "UNSUPPORTED",
+                "UNSUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h39",
+      "prompt": "For a P1 incident involving personal data, who must be notified and within what times?",
+      "raw_output": "For a P1 incident involving personal data, the Chief Information Security Officer must be notified within 30 minutes of classification, and the Data Protection Officer must assess whether the regulator must be notified within 24 hours.",
+      "parsed_answer": "For a P1 incident involving personal data, the Chief Information Security Officer must be notified within 30 minutes of classification, and the Data Protection Officer must assess whether the regulator must be notified within 24 hours.",
+      "expected": null,
+      "correct": false,
+      "score": 0.2222222222222222,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.2222222222222222,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "reason": "UNSUPPORTED: For a P1 incident involving personal data, the Chief Information Security Officer must be notified within 30 minutes of classification.; UNSUPPORTED: The Data Protection Officer must assess whether the regulator must be notified within 24 hours.",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "For a P1 incident involving personal data, the Chief Information Security Officer must be notified within 30 minutes of classification.",
+                "The Data Protection Officer must assess whether the regulator must be notified within 24 hours."
+              ],
+              "verdicts": [
+                "UNSUPPORTED",
+                "UNSUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "9e5c04986fb6f417",
+      "task": "generative",
+      "sample_id": "h40",
+      "prompt": "On an international trip staying in a standard city, what are the nightly hotel cap and the daily meal allowance?",
+      "raw_output": "On an international trip staying in a standard city, the nightly hotel cap is EUR 260 per night, and the daily meal allowance is EUR 75.",
+      "parsed_answer": "On an international trip staying in a standard city, the nightly hotel cap is EUR 260 per night, and the daily meal allowance is EUR 75.",
+      "expected": null,
+      "correct": false,
+      "score": 0.6153846153846154,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.6153846153846154,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          },
+          {
+            "name": "hallucination",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "minimize",
+            "reason": "UNSUPPORTED: The nightly hotel cap for an international trip staying in a standard city is EUR 260.; UNSUPPORTED: The daily meal allowance for an international trip staying in a standard city is EUR 75.",
+            "weight": 1.0,
+            "source": "sdk",
+            "metadata": {
+              "claims": [
+                "The nightly hotel cap for an international trip staying in a standard city is EUR 260.",
+                "The daily meal allowance for an international trip staying in a standard city is EUR 75."
+              ],
+              "verdicts": [
+                "UNSUPPORTED",
+                "UNSUPPORTED"
+              ],
+              "n_contradicted": 0
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "num_fewshot": null,
+    "limit": null,
+    "seed": null,
+    "trials": 1,
+    "batch_size": "auto",
+    "concurrency": 1,
+    "split": null,
+    "temperature": 0.0,
+    "top_p": null,
+    "top_k": null,
+    "max_tokens": null,
+    "stop_sequences": null,
+    "presence_penalty": null,
+    "frequency_penalty": null,
+    "num_completions": null,
+    "best_of": null,
+    "timeout": null,
+    "max_retries": 3,
+    "retry_delay": 1.0,
+    "judge_model": null,
+    "judge_prompt_version": null,
+    "track_performance": true,
+    "chat_template_kwargs": null,
+    "extra": {}
+  },
+  "model_spec": "<auditkit.model.PrecomputedModel object at 0x108baa420>",
+  "errors": [],
+  "unscored": {},
+  "failed_count": 0,
+  "experiment_name": "sft-qwen2.5-1.5b-grounding",
+  "tags": [],
+  "perf": {
+    "latency_ms": {
+      "count": 0,
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "std": 0.0
+    },
+    "throughput": {
+      "rps": 0.0,
+      "total_requests": 0,
+      "total_time_ms": 0.0,
+      "output_tokens_per_sec": 0.0,
+      "total_tokens_per_sec": 0.0
+    }
+  },
+  "model_size": {
+    "is_local": false,
+    "model_name": "precomputed"
+  },
+  "token_usage": {
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0
+  },
+  "metadata": {
+    "inputs": []
+  }
+}

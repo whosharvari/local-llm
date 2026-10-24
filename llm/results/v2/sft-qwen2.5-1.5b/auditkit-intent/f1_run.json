@@ -1,0 +1,1165 @@
+{
+  "run_id": "f63b6b7617534b62",
+  "fingerprint": "f63b6b7617534b62",
+  "headline": {
+    "f1_score": 0.5907273560899322
+  },
+  "stats": {
+    "f1_score": {
+      "name": "f1_score",
+      "count": 40,
+      "mean": 0.5907273560899322,
+      "stderr": 0.05848778460926896,
+      "std": 0.36990922932526243,
+      "min": 0.0,
+      "max": 1.0,
+      "values": [
+        0.0,
+        0.0,
+        0.4,
+        0.18181818181818182,
+        0.6399999999999999,
+        0.4827586206896552,
+        0.7499999999999999,
+        0.7857142857142857,
+        0.3448275862068966,
+        0.3636363636363636,
+        0.4444444444444444,
+        0.5,
+        0.25,
+        0.0,
+        0.5714285714285715,
+        0.30769230769230765,
+        0.5833333333333334,
+        0.5333333333333333,
+        0.8275862068965517,
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.5882352941176471,
+        0.56,
+        0.5142857142857142
+      ]
+    }
+  },
+  "predictions": [
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h01",
+      "prompt": "Who can approve a purchase of EUR 1,800?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "The requesting employee's line manager.",
+      "correct": false,
+      "score": 0.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h02",
+      "prompt": "How many written quotes are needed for a EUR 10,000 purchase?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "At least two written quotes.",
+      "correct": false,
+      "score": 0.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h03",
+      "prompt": "What is the minimum period a tender must stay open?",
+      "raw_output": "The minimum period a tender must stay open is 15 business days.",
+      "parsed_answer": "The minimum period a tender must stay open is 15 business days.",
+      "expected": "At least 15 business days.",
+      "correct": false,
+      "score": 0.4,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.4,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h04",
+      "prompt": "Which department must be represented on a tender evaluation panel?",
+      "raw_output": "The evaluation panel must include at least one member from Finance.",
+      "parsed_answer": "The evaluation panel must include at least one member from Finance.",
+      "expected": "Finance.",
+      "correct": false,
+      "score": 0.18181818181818182,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.18181818181818182,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h05",
+      "prompt": "What checks must a new supplier pass before the first purchase order?",
+      "raw_output": "A new supplier must complete the Supplier Onboarding Questionnaire and pass a sanctions screening before the first purchase order is issued.",
+      "parsed_answer": "A new supplier must complete the Supplier Onboarding Questionnaire and pass a sanctions screening before the first purchase order is issued.",
+      "expected": "Complete the Supplier Onboarding Questionnaire and pass a sanctions screening.",
+      "correct": false,
+      "score": 0.6399999999999999,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.6399999999999999,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h06",
+      "prompt": "How is splitting a purchase to avoid an approval threshold treated?",
+      "raw_output": "Splitting a single purchase into smaller orders to avoid an approval threshold is treated as a breach of the Code of Conduct.",
+      "parsed_answer": "Splitting a single purchase into smaller orders to avoid an approval threshold is treated as a breach of the Code of Conduct.",
+      "expected": "It is prohibited and treated as a breach of the Code of Conduct.",
+      "correct": false,
+      "score": 0.4827586206896552,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.4827586206896552,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h07",
+      "prompt": "What is required for a retrospective purchase order?",
+      "raw_output": "A retrospective purchase order requires written justification signed by the department head.",
+      "parsed_answer": "A retrospective purchase order requires written justification signed by the department head.",
+      "expected": "Written justification signed by the department head.",
+      "correct": false,
+      "score": 0.7499999999999999,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.7499999999999999,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h08",
+      "prompt": "What counts as a P1 incident?",
+      "raw_output": "A P1 incident is any confirmed breach of customer personal data or a full outage of a customer-facing system.",
+      "parsed_answer": "A P1 incident is any confirmed breach of customer personal data or a full outage of a customer-facing system.",
+      "expected": "A confirmed breach of customer personal data or a full outage of a customer-facing system.",
+      "correct": false,
+      "score": 0.7857142857142857,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.7857142857142857,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h09",
+      "prompt": "Within what time must a suspected security incident be reported to the SOC?",
+      "raw_output": "All suspected security incidents must be reported to the Security Operations Centre within 1 hour of discovery, using the hotline extension 4400 or the email address soc@halden.example.",
+      "parsed_answer": "All suspected security incidents must be reported to the Security Operations Centre within 1 hour of discovery, using the hotline extension 4400 or the email address soc@halden.example.",
+      "expected": "Within 1 hour of discovery.",
+      "correct": false,
+      "score": 0.3448275862068966,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.3448275862068966,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h10",
+      "prompt": "What hotline extension should be used to report an incident?",
+      "raw_output": "The hotline extension to use for reporting an incident is 4400.",
+      "parsed_answer": "The hotline extension to use for reporting an incident is 4400.",
+      "expected": "Extension 4400.",
+      "correct": false,
+      "score": 0.3636363636363636,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.3636363636363636,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h11",
+      "prompt": "How quickly must the CISO be notified of a P1 incident?",
+      "raw_output": "The CISO must be notified within 30 minutes of the incident being classified as P1.",
+      "parsed_answer": "The CISO must be notified within 30 minutes of the incident being classified as P1.",
+      "expected": "Within 30 minutes of classification.",
+      "correct": false,
+      "score": 0.4444444444444444,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.4444444444444444,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h12",
+      "prompt": "When is a post-incident review due for a P2 incident?",
+      "raw_output": "A post-incident review for a P2 incident must be completed within 10 business days.",
+      "parsed_answer": "A post-incident review for a P2 incident must be completed within 10 business days.",
+      "expected": "Within 10 business days.",
+      "correct": false,
+      "score": 0.5,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.5,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h13",
+      "prompt": "Why should employees not run scanning tools on a possibly compromised laptop?",
+      "raw_output": "Employees should not run scanning tools on a possibly compromised laptop because this action may destroy forensic evidence, which is crucial for investigating and understanding the nature of the compromise.",
+      "parsed_answer": "Employees should not run scanning tools on a possibly compromised laptop because this action may destroy forensic evidence, which is crucial for investigating and understanding the nature of the compromise.",
+      "expected": "It may destroy forensic evidence.",
+      "correct": false,
+      "score": 0.25,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.25,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h14",
+      "prompt": "What class can I book for a 4-hour flight?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "Economy class.",
+      "correct": false,
+      "score": 0.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h15",
+      "prompt": "What is the hotel cap per night in a high-cost city?",
+      "raw_output": "The hotel cap per night in a high-cost city is EUR 260.",
+      "parsed_answer": "The hotel cap per night in a high-cost city is EUR 260.",
+      "expected": "EUR 260 per night.",
+      "correct": false,
+      "score": 0.5714285714285715,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.5714285714285715,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h16",
+      "prompt": "What is the daily meal allowance for international travel?",
+      "raw_output": "The daily meal allowance for international travel is EUR 75.",
+      "parsed_answer": "The daily meal allowance for international travel is EUR 75.",
+      "expected": "EUR 75 per day.",
+      "correct": false,
+      "score": 0.30769230769230765,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.30769230769230765,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h17",
+      "prompt": "How long do I have to submit a travel expense claim?",
+      "raw_output": "You have to submit a travel expense claim within 30 days of the trip's end date.",
+      "parsed_answer": "You have to submit a travel expense claim within 30 days of the trip's end date.",
+      "expected": "Within 30 days of the trip's end date, with itemised receipts.",
+      "correct": false,
+      "score": 0.5833333333333334,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.5833333333333334,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h18",
+      "prompt": "Who must approve business class travel?",
+      "raw_output": "Business class travel must be approved by a member of the Executive Committee.",
+      "parsed_answer": "Business class travel must be approved by a member of the Executive Committee.",
+      "expected": "A member of the Executive Committee.",
+      "correct": false,
+      "score": 0.5333333333333333,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.5333333333333333,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h19",
+      "prompt": "How far in advance should business travel be booked?",
+      "raw_output": "Business travel should be booked through the corporate travel portal at least 14 days in advance, where possible.",
+      "parsed_answer": "Business travel should be booked through the corporate travel portal at least 14 days in advance, where possible.",
+      "expected": "At least 14 days in advance where possible, through the corporate travel portal.",
+      "correct": false,
+      "score": 0.8275862068965517,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.8275862068965517,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h20",
+      "prompt": "Is alcohol reimbursable on a business trip?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "No, unless it is part of an approved client entertainment event.",
+      "correct": false,
+      "score": 0.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h21",
+      "prompt": "What is the approval limit for corporate credit card purchases?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "The provided documents do not contain enough information to answer this question.",
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 1.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h22",
+      "prompt": "How long is a signed supplier contract valid for?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "The provided documents do not contain enough information to answer this question.",
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 1.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h23",
+      "prompt": "Who chairs the tender evaluation panel?",
+      "raw_output": "The evaluation panel must include at least one member from Finance.",
+      "parsed_answer": "The evaluation panel must include at least one member from Finance.",
+      "expected": "The provided documents do not contain enough information to answer this question.",
+      "correct": false,
+      "score": 0.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h24",
+      "prompt": "What is the penalty fine for breaching the purchase-splitting rule?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "The provided documents do not contain enough information to answer this question.",
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 1.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h25",
+      "prompt": "Within how many hours must the regulator be notified of a personal data breach?",
+      "raw_output": "The regulator must be notified within 24 hours of a personal data breach.",
+      "parsed_answer": "The regulator must be notified within 24 hours of a personal data breach.",
+      "expected": "The provided documents do not contain enough information to answer this question.",
+      "correct": false,
+      "score": 0.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h26",
+      "prompt": "Who is the current Chief Information Security Officer?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "The provided documents do not contain enough information to answer this question.",
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 1.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h27",
+      "prompt": "What is the response time target for a P3 incident?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "The provided documents do not contain enough information to answer this question.",
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 1.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h28",
+      "prompt": "What is the mileage reimbursement rate for using a personal car?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "The provided documents do not contain enough information to answer this question.",
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 1.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h29",
+      "prompt": "Which cities are on the high-cost city list?",
+      "raw_output": "The high-cost cities are maintained by the Finance team and reviewed annually.",
+      "parsed_answer": "The high-cost cities are maintained by the Finance team and reviewed annually.",
+      "expected": "The provided documents do not contain enough information to answer this question.",
+      "correct": false,
+      "score": 0.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h30",
+      "prompt": "Can I book premium economy for a 3-hour flight if I pay the difference myself?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "The provided documents do not contain enough information to answer this question.",
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 1.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h31",
+      "prompt": "How many days of annual leave do new employees receive?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "The provided documents do not contain enough information to answer this question.",
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 1.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h32",
+      "prompt": "What is the company's parental leave policy?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "The provided documents do not contain enough information to answer this question.",
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 1.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h33",
+      "prompt": "What is the minimum password length for company laptops?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "The provided documents do not contain enough information to answer this question.",
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 1.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h34",
+      "prompt": "Who founded Halden Group?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "The provided documents do not contain enough information to answer this question.",
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 1.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h35",
+      "prompt": "What is the deadline for submitting quarterly budgets?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "The provided documents do not contain enough information to answer this question.",
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 1.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h36",
+      "prompt": "What is the dress code for client meetings?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "The provided documents do not contain enough information to answer this question.",
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 1.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h37",
+      "prompt": "How do I request a second monitor?",
+      "raw_output": "The provided documents do not contain enough information to answer this question.",
+      "parsed_answer": "The provided documents do not contain enough information to answer this question.",
+      "expected": "The provided documents do not contain enough information to answer this question.",
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 1.0,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h38",
+      "prompt": "For a EUR 40,000 purchase, how long must the tender stay open and does the supplier need sanctions screening if they are new?",
+      "raw_output": "For a EUR 40,000 purchase, the tender must remain open for a minimum of 15 business days, and the supplier must complete the Supplier Onboarding Questionnaire and pass a sanctions screening before the first purchase order is issued.",
+      "parsed_answer": "For a EUR 40,000 purchase, the tender must remain open for a minimum of 15 business days, and the supplier must complete the Supplier Onboarding Questionnaire and pass a sanctions screening before the first purchase order is issued.",
+      "expected": "The tender must stay open at least 15 business days, and a new supplier must pass sanctions screening before the first purchase order.",
+      "correct": false,
+      "score": 0.5882352941176471,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.5882352941176471,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h39",
+      "prompt": "For a P1 incident involving personal data, who must be notified and within what times?",
+      "raw_output": "For a P1 incident involving personal data, the Chief Information Security Officer must be notified within 30 minutes of classification, and the Data Protection Officer must assess whether the regulator must be notified within 24 hours.",
+      "parsed_answer": "For a P1 incident involving personal data, the Chief Information Security Officer must be notified within 30 minutes of classification, and the Data Protection Officer must assess whether the regulator must be notified within 24 hours.",
+      "expected": "The CISO within 30 minutes of classification; the Data Protection Officer must assess within 24 hours whether to notify the regulator.",
+      "correct": false,
+      "score": 0.56,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.56,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "f63b6b7617534b62",
+      "task": "generative",
+      "sample_id": "h40",
+      "prompt": "On an international trip staying in a standard city, what are the nightly hotel cap and the daily meal allowance?",
+      "raw_output": "On an international trip staying in a standard city, the nightly hotel cap is EUR 260 per night, and the daily meal allowance is EUR 75.",
+      "parsed_answer": "On an international trip staying in a standard city, the nightly hotel cap is EUR 260 per night, and the daily meal allowance is EUR 75.",
+      "expected": "Hotel cap EUR 180 per night and meal allowance EUR 75 per day.",
+      "correct": false,
+      "score": 0.5142857142857142,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "f1_score",
+            "value": 0.5142857142857142,
+            "kind": "code",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "num_fewshot": null,
+    "limit": null,
+    "seed": null,
+    "trials": 1,
+    "batch_size": "auto",
+    "concurrency": 1,
+    "split": null,
+    "temperature": 0.0,
+    "top_p": null,
+    "top_k": null,
+    "max_tokens": null,
+    "stop_sequences": null,
+    "presence_penalty": null,
+    "frequency_penalty": null,
+    "num_completions": null,
+    "best_of": null,
+    "timeout": null,
+    "max_retries": 3,
+    "retry_delay": 1.0,
+    "judge_model": null,
+    "judge_prompt_version": null,
+    "track_performance": true,
+    "chat_template_kwargs": null,
+    "extra": {}
+  },
+  "model_spec": "<auditkit.model.PrecomputedModel object at 0x105e4dc40>",
+  "errors": [],
+  "unscored": {},
+  "failed_count": 0,
+  "experiment_name": "v2/sft-qwen2.5-1.5b-f1",
+  "tags": [],
+  "perf": {
+    "latency_ms": {
+      "count": 0,
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "std": 0.0
+    },
+    "throughput": {
+      "rps": 0.0,
+      "total_requests": 0,
+      "total_time_ms": 0.0,
+      "output_tokens_per_sec": 0.0,
+      "total_tokens_per_sec": 0.0
+    }
+  },
+  "model_size": {
+    "is_local": false,
+    "model_name": "precomputed"
+  },
+  "token_usage": {
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0
+  },
+  "metadata": {
+    "inputs": []
+  }
+}
