@@ -1,0 +1,706 @@
+{
+  "run_id": "879e33928571d8b6",
+  "fingerprint": "879e33928571d8b6",
+  "headline": {
+    "lexical_groundedness": 0.7566073381041009
+  },
+  "stats": {
+    "lexical_groundedness": {
+      "name": "lexical_groundedness",
+      "count": 23,
+      "mean": 0.7566073381041009,
+      "stderr": 0.04249268429930078,
+      "std": 0.20378775487276213,
+      "min": 0.25,
+      "max": 1.0,
+      "values": [
+        0.9,
+        0.25,
+        0.6428571428571429,
+        0.7222222222222222,
+        0.4782608695652174,
+        0.88,
+        1.0,
+        1.0,
+        0.9655172413793104,
+        0.9285714285714286,
+        0.5897435897435898,
+        0.65625,
+        0.7916666666666666,
+        0.7407407407407407,
+        0.875,
+        0.8214285714285714,
+        0.3333333333333333,
+        0.9655172413793104,
+        0.5961538461538461,
+        1.0,
+        0.6666666666666666,
+        0.7647058823529411,
+        0.8333333333333334
+      ]
+    }
+  },
+  "predictions": [
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-rag-01",
+      "prompt": "What two components make up a Retrieval-Augmented Generation (RAG) model?",
+      "raw_output": "A Retrieval-Augmented Generation (RAG) model consists of two components: a pre-trained parametric memory and a non-parametric memory.",
+      "parsed_answer": "A Retrieval-Augmented Generation (RAG) model consists of two components: a pre-trained parametric memory and a non-parametric memory.",
+      "expected": null,
+      "correct": false,
+      "score": 0.9,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.9,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-rag-02",
+      "prompt": "What retriever architecture does the RAG paper use to fetch supporting documents?",
+      "raw_output": "The RAG paper uses a retriever architecture called Dense Passage Retriever (DPR) to fetch supporting documents.",
+      "parsed_answer": "The RAG paper uses a retriever architecture called Dense Passage Retriever (DPR) to fetch supporting documents.",
+      "expected": null,
+      "correct": false,
+      "score": 0.25,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.25,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-rag-03",
+      "prompt": "What is the difference between the RAG-Sequence and RAG-Token model variants?",
+      "raw_output": "The RAG-Sequence model uses the same document to predict each target token, while the RAG-Token model can predict each target token based on a different document.",
+      "parsed_answer": "The RAG-Sequence model uses the same document to predict each target token, while the RAG-Token model can predict each target token based on a different document.",
+      "expected": null,
+      "correct": false,
+      "score": 0.6428571428571429,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.6428571428571429,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-rag-04",
+      "prompt": "Which generator model does RAG use, and how many parameters does it have?",
+      "raw_output": "The generator model used in RAG is BART, which is a pre-trained seq2seq transformer with 400M parameters.",
+      "parsed_answer": "The generator model used in RAG is BART, which is a pre-trained seq2seq transformer with 400M parameters.",
+      "expected": null,
+      "correct": false,
+      "score": 0.7222222222222222,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.7222222222222222,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-rag-05",
+      "prompt": "Which RAG components are fine-tuned during training, and which are kept fixed?",
+      "raw_output": "During training, the query encoder BERTq and the BART generator are fine-tuned, while the document encoder (and its index) are kept fixed.",
+      "parsed_answer": "During training, the query encoder BERTq and the BART generator are fine-tuned, while the document encoder (and its index) are kept fixed.",
+      "expected": null,
+      "correct": false,
+      "score": 0.4782608695652174,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.4782608695652174,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-rag-06",
+      "prompt": "How is the Wikipedia knowledge source split into documents for RAG, and how many documents result?",
+      "raw_output": "The Wikipedia knowledge source is split into documents by splitting each Wikipedia article into disjoint 100-word chunks, resulting in a total of 21M documents.",
+      "parsed_answer": "The Wikipedia knowledge source is split into documents by splitting each Wikipedia article into disjoint 100-word chunks, resulting in a total of 21M documents.",
+      "expected": null,
+      "correct": false,
+      "score": 0.88,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.88,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-rag-07",
+      "prompt": "How accurately does RAG answer questions about world leaders when using the index that matches the year of the leaders?",
+      "raw_output": "RAG answers 70% correctly using the 2016 index for 2016 world leaders and 68% using the 2018 index for 2018 world leaders.",
+      "parsed_answer": "RAG answers 70% correctly using the 2016 index for 2016 world leaders and 68% using the 2018 index for 2018 world leaders.",
+      "expected": null,
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-rag-08",
+      "prompt": "On FEVER, how often is the top document retrieved by RAG from a gold article?",
+      "raw_output": "The top document retrieved by RAG from a gold article is present in the top 10 retrieved articles in 90% of cases.",
+      "parsed_answer": "The top document retrieved by RAG from a gold article is present in the top 10 retrieved articles in 90% of cases.",
+      "expected": null,
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-rag-09",
+      "prompt": "What hardware were the RAG models trained on?",
+      "raw_output": "The RAG models were trained using mixed precision floating point arithmetic, distributing training across 8, 32GB NVIDIA V100 GPUs, though training and inference can be run on one GPU.",
+      "parsed_answer": "The RAG models were trained using mixed precision floating point arithmetic, distributing training across 8, 32GB NVIDIA V100 GPUs, though training and inference can be run on one GPU.",
+      "expected": null,
+      "correct": false,
+      "score": 0.9655172413793104,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.9655172413793104,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-rag-10",
+      "prompt": "How much CPU memory is needed to store the RAG document index for all of Wikipedia?",
+      "raw_output": "The RAG document index for all of Wikipedia requires \u223c100 GB of CPU memory.",
+      "parsed_answer": "The RAG document index for all of Wikipedia requires \u223c100 GB of CPU memory.",
+      "expected": null,
+      "correct": false,
+      "score": 0.9285714285714286,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.9285714285714286,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-rag-11",
+      "prompt": "In the Jeopardy question generation human evaluation, how often was RAG judged more factual than BART?",
+      "raw_output": "RAG was more factual in 42.7% of cases, and both RAG and BART were factual in a further 17% of cases, clearly demonstrating the effectiveness of RAG on the task over a state-of-the-art generation model.",
+      "parsed_answer": "RAG was more factual in 42.7% of cases, and both RAG and BART were factual in a further 17% of cases, clearly demonstrating the effectiveness of RAG on the task over a state-of-the-art generation model.",
+      "expected": null,
+      "correct": false,
+      "score": 0.5897435897435898,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.5897435897435898,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-resnet-01",
+      "prompt": "What problem do residual connections address in very deep neural networks?",
+      "raw_output": "Residual connections address the problem of vanishing/exploding gradients in very deep neural networks by allowing the network to learn residual mappings that are easier to optimize than the original, unreferenced mappings.",
+      "parsed_answer": "Residual connections address the problem of vanishing/exploding gradients in very deep neural networks by allowing the network to learn residual mappings that are easier to optimize than the original, unreferenced mappings.",
+      "expected": null,
+      "correct": false,
+      "score": 0.65625,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.65625,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-resnet-02",
+      "prompt": "What is a shortcut (skip) connection in a residual block?",
+      "raw_output": "A shortcut connection, also known as a skip connection or skip link, is a type of connection that bypasses some or all of the layers in a neural network, allowing the network to learn to map the input to the output directly, without going through the usual layers.",
+      "parsed_answer": "A shortcut connection, also known as a skip connection or skip link, is a type of connection that bypasses some or all of the layers in a neural network, allowing the network to learn to map the input to the output directly, without going through the usual layers.",
+      "expected": null,
+      "correct": false,
+      "score": 0.7916666666666666,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.7916666666666666,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-resnet-03",
+      "prompt": "What layers make up the bottleneck building block used in ResNet-50/101/152?",
+      "raw_output": "The bottleneck building block used in ResNet-50/101/152 consists of three layers: a 1\u00d71 convolution, a 3\u00d73 convolution, and another 1\u00d71 convolution.",
+      "parsed_answer": "The bottleneck building block used in ResNet-50/101/152 consists of three layers: a 1\u00d71 convolution, a 3\u00d73 convolution, and another 1\u00d71 convolution.",
+      "expected": null,
+      "correct": false,
+      "score": 0.7407407407407407,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.7407407407407407,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-resnet-04",
+      "prompt": "What top-5 error did the ResNet ensemble achieve on the ImageNet test set?",
+      "raw_output": "The ResNet ensemble achieved a top-5 localization error of 9.0% on the test set.",
+      "parsed_answer": "The ResNet ensemble achieved a top-5 localization error of 9.0% on the test set.",
+      "expected": null,
+      "correct": false,
+      "score": 0.875,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.875,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-resnet-05",
+      "prompt": "What mini-batch size, initial learning rate, weight decay and momentum were used for ImageNet training?",
+      "raw_output": "For ImageNet training, the mini-batch size was 256, the initial learning rate was 0.1, the weight decay was 0.0001, and the momentum was 0.9.",
+      "parsed_answer": "For ImageNet training, the mini-batch size was 256, the initial learning rate was 0.1, the weight decay was 0.0001, and the momentum was 0.9.",
+      "expected": null,
+      "correct": false,
+      "score": 0.8214285714285714,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.8214285714285714,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-resnet-06",
+      "prompt": "How many FLOPs does the 152-layer ResNet have?",
+      "raw_output": "The 152-layer ResNet has 11.3 billion FLOPs.",
+      "parsed_answer": "The 152-layer ResNet has 11.3 billion FLOPs.",
+      "expected": null,
+      "correct": false,
+      "score": 0.3333333333333333,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.3333333333333333,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-resnet-07",
+      "prompt": "What top-1 error (10-crop testing) do the 34-layer plain network and the 34-layer ResNet have on ImageNet validation?",
+      "raw_output": "The 34-layer plain network has a top-1 error of 28.54% on ImageNet validation, while the 34-layer ResNet has a top-1 error of 25.03%.",
+      "parsed_answer": "The 34-layer plain network has a top-1 error of 28.54% on ImageNet validation, while the 34-layer ResNet has a top-1 error of 25.03%.",
+      "expected": null,
+      "correct": false,
+      "score": 0.9655172413793104,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.9655172413793104,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-resnet-08",
+      "prompt": "How was training of the 110-layer ResNet on CIFAR-10 warmed up?",
+      "raw_output": "The training of the 110-layer ResNet on CIFAR-10 was warmed up with an initial learning rate of 0.01, which was used to warm up the training until the training error was below 80% (about 400 iterations), and then the learning rate was increased to 0.1 and continued training.",
+      "parsed_answer": "The training of the 110-layer ResNet on CIFAR-10 was warmed up with an initial learning rate of 0.01, which was used to warm up the training until the training error was below 80% (about 400 iterations), and then the learning rate was increased to 0.1 and continued training.",
+      "expected": null,
+      "correct": false,
+      "score": 0.5961538461538461,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.5961538461538461,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-resnet-09",
+      "prompt": "What two shortcut options are considered when the dimensions increase?",
+      "raw_output": "When the dimensions increase, two options are considered: (A) The shortcut still performs identity mapping, with extra zero entries padded for increasing dimensions, or (B) The projection shortcut in Eqn.(2) is used to match dimensions (done by 1\u00d71 convolutions).",
+      "parsed_answer": "When the dimensions increase, two options are considered: (A) The shortcut still performs identity mapping, with extra zero entries padded for increasing dimensions, or (B) The projection shortcut in Eqn.(2) is used to match dimensions (done by 1\u00d71 convolutions).",
+      "expected": null,
+      "correct": true,
+      "score": 1.0,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 1.0,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-resnet-10",
+      "prompt": "How many GPUs were used to train the ImageNet classification models?",
+      "raw_output": "The ImageNet classification models were trained using two GPUs.",
+      "parsed_answer": "The ImageNet classification models were trained using two GPUs.",
+      "expected": null,
+      "correct": false,
+      "score": 0.6666666666666666,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.6666666666666666,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-resnet-11",
+      "prompt": "What top-1 error does the 1202-layer ResNet achieve on ImageNet?",
+      "raw_output": "The 1202-layer ResNet achieves a top-1 error of 7.93% on the ImageNet validation set.",
+      "parsed_answer": "The 1202-layer ResNet achieves a top-1 error of 7.93% on the ImageNet validation set.",
+      "expected": null,
+      "correct": false,
+      "score": 0.7647058823529411,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.7647058823529411,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "879e33928571d8b6",
+      "task": "generative",
+      "sample_id": "rcd-swap-02",
+      "prompt": "What hardware were the RAG models trained on?",
+      "raw_output": "The RAG models were trained on the 1.28 million training images.",
+      "parsed_answer": "The RAG models were trained on the 1.28 million training images.",
+      "expected": null,
+      "correct": false,
+      "score": 0.8333333333333334,
+      "choice_likelihoods": null,
+      "context": {},
+      "metadata": {
+        "scores": [
+          {
+            "name": "lexical_groundedness",
+            "value": 0.8333333333333334,
+            "kind": "rag",
+            "data_type": "numeric",
+            "direction": "maximize",
+            "weight": 1.0,
+            "source": "sdk"
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "num_fewshot": null,
+    "limit": null,
+    "seed": null,
+    "trials": 1,
+    "batch_size": "auto",
+    "concurrency": 1,
+    "split": null,
+    "temperature": 0.0,
+    "top_p": null,
+    "top_k": null,
+    "max_tokens": null,
+    "stop_sequences": null,
+    "presence_penalty": null,
+    "frequency_penalty": null,
+    "num_completions": null,
+    "best_of": null,
+    "timeout": null,
+    "max_retries": 3,
+    "retry_delay": 1.0,
+    "judge_model": null,
+    "judge_prompt_version": null,
+    "track_performance": true,
+    "chat_template_kwargs": null,
+    "extra": {}
+  },
+  "model_spec": "<auditkit.model.PrecomputedModel object at 0x109c5bb60>",
+  "errors": [],
+  "unscored": {},
+  "failed_count": 0,
+  "experiment_name": "real_corpus/v0.1.0-draft/dev-provisional-labels-r2/sft-qwen2.5-1.5b-grounding",
+  "tags": [],
+  "perf": {
+    "latency_ms": {
+      "count": 0,
+      "mean": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "std": 0.0
+    },
+    "throughput": {
+      "rps": 0.0,
+      "total_requests": 0,
+      "total_time_ms": 0.0,
+      "output_tokens_per_sec": 0.0,
+      "total_tokens_per_sec": 0.0
+    }
+  },
+  "model_size": {
+    "is_local": false,
+    "model_name": "precomputed"
+  },
+  "token_usage": {
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0
+  },
+  "metadata": {
+    "inputs": []
+  }
+}

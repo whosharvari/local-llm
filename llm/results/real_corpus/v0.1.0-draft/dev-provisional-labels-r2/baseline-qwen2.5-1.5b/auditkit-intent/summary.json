@@ -1,0 +1,11 @@
+{
+  "tag": "real_corpus/v0.1.0-draft/dev-provisional-labels-r2/baseline-qwen2.5-1.5b",
+  "mode": "intent",
+  "n": 34,
+  "n_answered_scored": 19,
+  "n_answered_without_evidence_excluded": 0,
+  "f1_score_all": 0.420043914523696,
+  "f1_fingerprint": "df2d4dea2bdfcdca",
+  "lexical_groundedness_answered": 0.5843647644266833,
+  "grounding_fingerprint": "e0163e1f072be09b"
+}

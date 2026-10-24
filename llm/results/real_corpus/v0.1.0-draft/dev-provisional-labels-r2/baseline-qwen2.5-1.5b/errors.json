@@ -1,0 +1,154 @@
+{
+  "serving": {
+    "cited_nonexistent_passage": [
+      "rcd-rag-01"
+    ],
+    "right_answer_wrong_citation": [
+      "rcd-rag-02",
+      "rcd-rag-05"
+    ],
+    "has_unsupported_claims": [
+      "rcd-rag-02",
+      "rcd-rag-04",
+      "rcd-rag-05"
+    ],
+    "flag_misuse": [
+      "rcd-rag-03",
+      "rcd-rag-07",
+      "rcd-rag-08",
+      "rcd-rag-09",
+      "rcd-rag-10",
+      "rcd-rag-11",
+      "rcd-resnet-01",
+      "rcd-resnet-03",
+      "rcd-resnet-04",
+      "rcd-resnet-05",
+      "rcd-resnet-06",
+      "rcd-resnet-07",
+      "rcd-resnet-08",
+      "rcd-resnet-09",
+      "rcd-resnet-10",
+      "rcd-resnet-11",
+      "rcd-swap-01",
+      "rcd-swap-02",
+      "rcd-swap-04",
+      "rcd-ooc-01",
+      "rcd-ooc-02",
+      "rcd-ooc-03",
+      "rcd-ooc-05",
+      "rcd-ooc-06"
+    ],
+    "inappropriate_abstention": [
+      "rcd-rag-03",
+      "rcd-rag-07",
+      "rcd-rag-08",
+      "rcd-rag-09",
+      "rcd-rag-10",
+      "rcd-rag-11",
+      "rcd-resnet-01",
+      "rcd-resnet-02",
+      "rcd-resnet-03",
+      "rcd-resnet-04",
+      "rcd-resnet-05",
+      "rcd-resnet-06",
+      "rcd-resnet-07",
+      "rcd-resnet-08",
+      "rcd-resnet-09"
+    ],
+    "not_json": [
+      "rcd-rag-12",
+      "rcd-rag-13",
+      "rcd-resnet-02",
+      "rcd-swap-03",
+      "rcd-ooc-04"
+    ]
+  },
+  "intent": {
+    "cited_nonexistent_passage": [
+      "rcd-rag-01"
+    ],
+    "right_answer_wrong_citation": [
+      "rcd-rag-02",
+      "rcd-rag-03",
+      "rcd-rag-05",
+      "rcd-rag-11",
+      "rcd-resnet-03",
+      "rcd-resnet-06",
+      "rcd-resnet-08"
+    ],
+    "has_unsupported_claims": [
+      "rcd-rag-02",
+      "rcd-rag-03",
+      "rcd-rag-04",
+      "rcd-rag-05",
+      "rcd-rag-11",
+      "rcd-resnet-01",
+      "rcd-resnet-02",
+      "rcd-resnet-03",
+      "rcd-resnet-06",
+      "rcd-resnet-08",
+      "rcd-resnet-10",
+      "rcd-swap-01",
+      "rcd-ooc-04",
+      "rcd-ooc-05",
+      "rcd-ooc-06"
+    ],
+    "flag_misuse": [
+      "rcd-rag-03",
+      "rcd-rag-07",
+      "rcd-rag-08",
+      "rcd-rag-09",
+      "rcd-rag-10",
+      "rcd-rag-11",
+      "rcd-resnet-01",
+      "rcd-resnet-03",
+      "rcd-resnet-04",
+      "rcd-resnet-05",
+      "rcd-resnet-06",
+      "rcd-resnet-07",
+      "rcd-resnet-08",
+      "rcd-resnet-09",
+      "rcd-resnet-10",
+      "rcd-resnet-11",
+      "rcd-swap-01",
+      "rcd-swap-02",
+      "rcd-swap-04",
+      "rcd-ooc-01",
+      "rcd-ooc-02",
+      "rcd-ooc-03",
+      "rcd-ooc-05",
+      "rcd-ooc-06"
+    ],
+    "inappropriate_abstention": [
+      "rcd-rag-07",
+      "rcd-rag-08",
+      "rcd-rag-09",
+      "rcd-rag-10",
+      "rcd-resnet-04",
+      "rcd-resnet-05",
+      "rcd-resnet-07"
+    ],
+    "not_json": [
+      "rcd-rag-12",
+      "rcd-rag-13",
+      "rcd-resnet-02",
+      "rcd-swap-03",
+      "rcd-ooc-04"
+    ],
+    "wrong_answer": [
+      "rcd-resnet-02"
+    ],
+    "answered_unanswerable:unanswerable": [
+      "rcd-resnet-10",
+      "rcd-resnet-11"
+    ],
+    "answered_unanswerable:context_swap": [
+      "rcd-swap-01"
+    ],
+    "answered_unanswerable:out_of_corpus": [
+      "rcd-ooc-04",
+      "rcd-ooc-05",
+      "rcd-ooc-06"
+    ]
+  }
+}

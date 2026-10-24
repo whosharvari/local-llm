@@ -1,0 +1,22 @@
+# LoRA SFT of Qwen2.5-1.5B-Instruct on the leakage-free real-paper data (data/real_train/v1; AlignTune, TRL, MPS).
+# Starts from the base model, not from the Stage 1 checkpoint. Same LoRA/optimizer settings as Stage 1
+# (configs/sft_qwen2.5-1.5b.yaml) except the data, sequence length and epochs.
+base_model: Qwen/Qwen2.5-1.5B-Instruct
+train_file: data/real_train/v1/sft_train.jsonl        # 8 training papers (see data/real_train/v1/manifest.json)
+dev_file: data/real_train/v1/sft_validation.jsonl     # held-out training paper; used only for validation loss
+output_dir: outputs/sft-real-v1-qwen2.5-1.5b
+epochs: 2
+batch_size: 1
+grad_accum: 8
+learning_rate: 2.0e-4
+max_seq_length: 1536   # 4 passages + question + answer; checked by `ps3_llm.train_check data` (no truncation)
+lora_r: 16
+lora_alpha: 32
+lora_dropout: 0.05
+lora_target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+precision: bf16
+seed: 0
+mps_high_watermark_ratio: 0.7
+extra:
+  gradient_checkpointing: true
+  gradient_checkpointing_kwargs: {use_reentrant: false}

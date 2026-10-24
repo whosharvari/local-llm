@@ -1,0 +1,11 @@
+{
+  "tag": "real_corpus/v0.1.0-draft/dev-provisional-labels-r2/sft-qwen2.5-1.5b",
+  "mode": "intent",
+  "n": 34,
+  "n_answered_scored": 23,
+  "n_answered_without_evidence_excluded": 0,
+  "f1_score_all": 0.5876176313606924,
+  "f1_fingerprint": "ab4968cdcef37af0",
+  "lexical_groundedness_answered": 0.7566073381041009,
+  "grounding_fingerprint": "879e33928571d8b6"
+}

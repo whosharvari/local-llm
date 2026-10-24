@@ -1,0 +1,554 @@
+{
+  "_version": "real-corpus 0.1.0-draft, split=test, labels=provisional",
+  "_purpose": "Correctness criteria generated from data/real_corpus/items.jsonl by ps3_llm.real_corpus convert. Same semantics as data/mock/heldout_adjudication.json: every inner list is one required fact, satisfied if ANY alternative occurs in the answer; 'reject' phrases make the answer wrong.",
+  "_annotation_status": {
+    "machine_draft": 72
+  },
+  "items": {
+    "rct-rlhf-01": {
+      "facts": [
+        [
+          "atari"
+        ],
+        [
+          "mujoco",
+          "robotics",
+          "robot",
+          "robots"
+        ]
+      ]
+    },
+    "rct-rlhf-02": {
+      "facts": [
+        [
+          "comparison",
+          "comparisons",
+          "preference",
+          "preferences",
+          "preferred"
+        ],
+        [
+          "supervised",
+          "cross-entropy",
+          "cross entropy",
+          "bradley-terry",
+          "bradley terry"
+        ]
+      ]
+    },
+    "rct-rlhf-03": {
+      "facts": [
+        [
+          "a2c",
+          "advantage actor-critic",
+          "a3c"
+        ],
+        [
+          "trpo",
+          "trust region policy optimization"
+        ]
+      ]
+    },
+    "rct-rlhf-04": {
+      "facts": [
+        [
+          "prefer",
+          "prefers",
+          "preferred",
+          "preferable",
+          "better"
+        ],
+        [
+          "equally good",
+          "equally preferable",
+          "tie",
+          "equal"
+        ],
+        [
+          "unable to compare",
+          "incomparable",
+          "can't tell",
+          "cannot compare",
+          "can not compare"
+        ]
+      ]
+    },
+    "rct-rlhf-05": {
+      "facts": [
+        [
+          "easier",
+          "easy"
+        ],
+        [
+          "comparison",
+          "comparisons",
+          "compare",
+          "comparing"
+        ]
+      ]
+    },
+    "rct-rlhf-06": {
+      "facts": [
+        [
+          "losing points",
+          "lose points",
+          "losing",
+          "lose"
+        ],
+        [
+          "score",
+          "scoring",
+          "scores"
+        ]
+      ]
+    },
+    "rct-rlhf-07": {
+      "facts": [
+        [
+          "termination",
+          "terminate",
+          "episode end",
+          "episode ends",
+          "ending an episode"
+        ],
+        [
+          "information",
+          "supervision",
+          "signal"
+        ]
+      ]
+    },
+    "rct-rlhf-08": {
+      "facts": [
+        [
+          "1 and 2 seconds",
+          "1-2 seconds",
+          "1 to 2 seconds",
+          "1–2 seconds",
+          "one and two seconds",
+          "one to two seconds"
+        ]
+      ]
+    },
+    "rct-rlhf-09": {
+      "facts": [
+        [
+          "10%",
+          "10 %",
+          "10 percent",
+          "ten percent",
+          "0.1"
+        ]
+      ]
+    },
+    "rct-rlhf-10": {
+      "facts": [
+        [
+          "1/e"
+        ]
+      ]
+    },
+    "rct-rlhf-11": {
+      "facts": [
+        [
+          "900"
+        ]
+      ]
+    },
+    "rct-rlhf-12": {
+      "facts": [
+        [
+          "seven",
+          "7"
+        ]
+      ]
+    },
+    "rct-rlhf-13": {
+      "facts": [
+        [
+          "5500",
+          "5.5k",
+          "5.5 thousand"
+        ]
+      ]
+    },
+    "rct-rlhf-14": {
+      "facts": [
+        [
+          "eight",
+          "8"
+        ],
+        [
+          "700"
+        ]
+      ]
+    },
+    "rct-rlhf-15": {
+      "facts": [
+        [
+          "k80"
+        ],
+        [
+          "16"
+        ]
+      ]
+    },
+    "rct-rlhf-16": {
+      "facts": [
+        [
+          "0.995"
+        ]
+      ]
+    },
+    "rct-rlhf-17": {
+      "facts": [
+        [
+          "two-layer",
+          "two layer",
+          "twolayer",
+          "2-layer",
+          "2 layer",
+          "two layers",
+          "2 layers"
+        ],
+        [
+          "64"
+        ]
+      ]
+    },
+    "rct-rlhf-18": {
+      "facts": [
+        [
+          "3000",
+          "3k",
+          "three thousand"
+        ]
+      ]
+    },
+    "rct-rlhf-19": {
+      "facts": [
+        [
+          "5 hours",
+          "five hours"
+        ],
+        [
+          "36"
+        ]
+      ]
+    },
+    "rct-rlhf-20": {
+      "facts": [
+        [
+          "3-5 seconds",
+          "3–5 seconds",
+          "3 to 5 seconds",
+          "3 and 5 seconds",
+          "three to five seconds",
+          "three and five seconds"
+        ]
+      ]
+    },
+    "rct-rlhf-21": {
+      "facts": [
+        [
+          "a2c",
+          "a3c",
+          "advantage actor-critic"
+        ],
+        [
+          "0.01"
+        ]
+      ]
+    },
+    "rct-gpt3-01": {
+      "facts": [
+        [
+          "demonstration",
+          "demonstrations",
+          "examples",
+          "example"
+        ],
+        [
+          "no weight updates",
+          "no gradient updates",
+          "without any gradient updates",
+          "without gradient updates",
+          "without weight updates",
+          "no weight update",
+          "no updates",
+          "without updating",
+          "not updated",
+          "no fine-tuning",
+          "without fine-tuning"
+        ]
+      ]
+    },
+    "rct-gpt3-02": {
+      "facts": [
+        [
+          "weight",
+          "weights",
+          "gradient",
+          "gradients"
+        ],
+        [
+          "demonstration",
+          "demonstrations",
+          "examples",
+          "example"
+        ]
+      ]
+    },
+    "rct-gpt3-03": {
+      "facts": [
+        [
+          "webtext",
+          "webtext2"
+        ],
+        [
+          "books1",
+          "books2",
+          "books"
+        ],
+        [
+          "wikipedia"
+        ]
+      ]
+    },
+    "rct-gpt3-04": {
+      "facts": [
+        [
+          "filter",
+          "filtered",
+          "filtering"
+        ],
+        [
+          "deduplication",
+          "deduplicated",
+          "deduplicate",
+          "dedup",
+          "duplicates"
+        ],
+        [
+          "reference corpora",
+          "high-quality corpora",
+          "curated",
+          "high-quality datasets"
+        ]
+      ]
+    },
+    "rct-gpt3-05": {
+      "facts": [
+        [
+          "bug"
+        ]
+      ]
+    },
+    "rct-gpt3-06": {
+      "facts": [
+        [
+          "13-gram",
+          "13 gram",
+          "13-grams",
+          "13 grams",
+          "13-word",
+          "13 words",
+          "13 tokens"
+        ]
+      ]
+    },
+    "rct-gpt3-07": {
+      "facts": [
+        [
+          "piqa"
+        ],
+        [
+          "winograd"
+        ]
+      ]
+    },
+    "rct-gpt3-08": {
+      "facts": [
+        [
+          "v100"
+        ]
+      ]
+    },
+    "rct-gpt3-09": {
+      "facts": [
+        [
+          "52"
+        ]
+      ]
+    },
+    "rct-gpt3-10": {
+      "facts": [
+        [
+          "beam width of 4",
+          "beam width 4",
+          "beam size of 4",
+          "beam size 4",
+          "width of 4",
+          "4 beams",
+          "beam width of four",
+          "beam size of four",
+          "four beams",
+          "width of four"
+        ],
+        [
+          "0.6"
+        ]
+      ]
+    },
+    "rct-gpt3-11": {
+      "facts": [
+        [
+          "175 billion",
+          "175b",
+          "175.0b",
+          "175000000000"
+        ]
+      ]
+    },
+    "rct-gpt3-12": {
+      "facts": [
+        [
+          "2048"
+        ]
+      ]
+    },
+    "rct-gpt3-13": {
+      "facts": [
+        [
+          "300 billion",
+          "300b",
+          "300bn"
+        ]
+      ]
+    },
+    "rct-gpt3-14": {
+      "facts": [
+        [
+          "60%",
+          "60 %",
+          "60 percent",
+          "sixty percent"
+        ],
+        [
+          "410 billion",
+          "410b",
+          "410bn"
+        ]
+      ]
+    },
+    "rct-gpt3-15": {
+      "facts": [
+        [
+          "3.2m",
+          "3.2 million",
+          "3200000"
+        ],
+        [
+          "0.6 × 10−4",
+          "0.6 × 10^-4",
+          "0.6×10^-4",
+          "0.6 x 10^-4",
+          "0.6x10^-4",
+          "0.6 × 10-4",
+          "0.6 x 10-4",
+          "0.6e-4",
+          "6e-5",
+          "6.0e-5",
+          "0.00006",
+          "6 × 10^-5",
+          "6x10^-5"
+        ]
+      ]
+    },
+    "rct-gpt3-16": {
+      "facts": [
+        [
+          "0.4"
+        ]
+      ]
+    },
+    "rct-gpt3-17": {
+      "facts": [
+        [
+          "64.3"
+        ],
+        [
+          "68.0",
+          "68"
+        ],
+        [
+          "71.2"
+        ]
+      ]
+    },
+    "rct-gpt3-18": {
+      "facts": [
+        [
+          "20.50",
+          "20.5"
+        ]
+      ]
+    },
+    "rct-gpt3-19": {
+      "facts": [
+        [
+          "86.4"
+        ]
+      ]
+    },
+    "rct-gpt3-20": {
+      "facts": [
+        [
+          "adam"
+        ],
+        [
+          "0.95"
+        ]
+      ]
+    },
+    "rct-gpt3-21": {
+      "facts": [
+        [
+          "0.1"
+        ]
+      ]
+    },
+    "rct-gpt3-22": {
+      "facts": [
+        [
+          "375 million",
+          "375m"
+        ]
+      ]
+    },
+    "rct-gpt3-23": {
+      "facts": [
+        [
+          "7%",
+          "7 %",
+          "7 percent",
+          "seven percent"
+        ]
+      ]
+    },
+    "rct-gpt3-24": {
+      "facts": [
+        [
+          "175 billion",
+          "175b",
+          "175.0b"
+        ],
+        [
+          "300 billion",
+          "300b",
+          "300bn"
+        ]
+      ]
+    }
+  }
+}

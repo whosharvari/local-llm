@@ -1,0 +1,41 @@
+{
+  "method": "logreg[top1_score, best_coverage]",
+  "feature_names": [
+    "top1_score",
+    "best_coverage"
+  ],
+  "weights": [
+    1.0161656602606306,
+    1.0563537567434051
+  ],
+  "bias": 2.874555584410998,
+  "mean": [
+    0.6388515392618794,
+    0.5952241307080016
+  ],
+  "std": [
+    0.09843463748940483,
+    0.1743221983154668
+  ],
+  "threshold": 0.5,
+  "top_k": 4,
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "n": 62,
+  "n_in_corpus": 54,
+  "cv5": {
+    "in_corpus_kept": 0.9444444444444444,
+    "out_of_corpus_abstained": 0.5
+  },
+  "trained_on": "data/real_train/v1/grounded_qa_train_clean.jsonl",
+  "dev_check": {
+    "note": "Evaluation only (not used for fitting): real-corpus dev questions (provisional labels), top-4 retrieval over the full index. Unanswerable in-document items excluded (their topic is in the corpus).",
+    "in_corpus_kept": [
+      23,
+      24
+    ],
+    "out_of_corpus_abstained": [
+      6,
+      6
+    ]
+  }
+}

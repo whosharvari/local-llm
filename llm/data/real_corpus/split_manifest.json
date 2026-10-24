@@ -1,0 +1,31 @@
+{
+  "dataset": "ps3-real-corpus-eval",
+  "version": "0.1.0-draft",
+  "created": "2026-10-24",
+  "source": {
+    "chunks": "data/processed/chunks.json",
+    "chunks_sha256": "787e1009a2843a98960a5155f86229ff663d02df20642d17ce40f173c5c1379a",
+    "n_chunks": 2349,
+    "question_seeds": "data/datasets/grounded_qa/examples.jsonl",
+    "question_seeds_sha256": "1461156fdbfe4a37e32f370556d6bdf51cf7e22cabc8d4be61c80c2bf83dee91"
+  },
+  "split_unit": "document",
+  "assignment_method": "Inherited from Member 1's grounded_qa split (source_document of its test/dev answerable items), not drawn at random, so that grounded_qa train-split questions never refer to an evaluation document. Every one of the 13 documents is in exactly one split.",
+  "seed": 20261024,
+  "seed_used_for": "evidence order within each item (random.Random('<seed>:<item id>').shuffle). Distractor selection is a deterministic lexical ranking and uses no randomness.",
+  "evidence_k": 4,
+  "splits": {
+    "test": ["gpt3_few_shot_learners.pdf", "rlhf_human_preferences.pdf"],
+    "dev": ["rag_knowledge_intensive.pdf", "resnet_deep_residual_learning.pdf"],
+    "train": [
+      "attention_is_all_you_need.pdf", "bert.pdf", "chain_of_thought_prompting.pdf", "clip_visual_language.pdf",
+      "ddpm_diffusion_models.pdf", "instructgpt_human_feedback.pdf", "llama_open_foundation_models.pdf",
+      "lora_low_rank_adaptation.pdf", "vit_image_16x16_words.pdf"
+    ]
+  },
+  "policy": {
+    "test": "Final evaluation only. No training examples, prompt tuning, threshold tuning or model selection may use these documents, their chunks or these questions. Look at model outputs only after the test labels are frozen.",
+    "dev": "Model selection and threshold tuning allowed. No training examples may be built from these documents.",
+    "train": "May contribute training examples (Stage 3). Training data must pass `python -m ps3_llm.real_corpus leakage --train <file>`."
+  }
+}

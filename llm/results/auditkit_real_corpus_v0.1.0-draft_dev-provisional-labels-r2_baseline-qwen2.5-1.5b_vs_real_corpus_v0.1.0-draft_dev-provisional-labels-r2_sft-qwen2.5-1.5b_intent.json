@@ -1,0 +1,27 @@
+{
+  "mode": "intent",
+  "judge": null,
+  "baseline": {
+    "tag": "real_corpus/v0.1.0-draft/dev-provisional-labels-r2/baseline-qwen2.5-1.5b",
+    "mode": "intent",
+    "n": 34,
+    "n_answered_scored": 19,
+    "n_answered_without_evidence_excluded": 0,
+    "f1_score_all": 0.420043914523696,
+    "f1_fingerprint": "df2d4dea2bdfcdca",
+    "lexical_groundedness_answered": 0.5843647644266833,
+    "grounding_fingerprint": "e0163e1f072be09b"
+  },
+  "candidate": {
+    "tag": "real_corpus/v0.1.0-draft/dev-provisional-labels-r2/sft-qwen2.5-1.5b",
+    "mode": "intent",
+    "n": 34,
+    "n_answered_scored": 23,
+    "n_answered_without_evidence_excluded": 0,
+    "f1_score_all": 0.5876176313606924,
+    "f1_fingerprint": "ab4968cdcef37af0",
+    "lexical_groundedness_answered": 0.7566073381041009,
+    "grounding_fingerprint": "879e33928571d8b6"
+  },
+  "comparison": "Comparison: df2d4dea2bdfcdca (baseline) -> ab4968cdcef37af0 (candidate)\n  per-metric (baseline -> candidate | absolute delta | relative %):\n    f1_score: 0.4200 -> 0.5876  delta=+0.1676 (+39.9% rel)  (n=34->34, std=0.3926->0.3338)\n  samples: 1 went correct->wrong, 4 went wrong->correct\n  model: precomputed -> precomputed (no measurable size)"
+}

@@ -1,0 +1,29 @@
+{
+  "mode": "serving",
+  "judge": "api:mlx-community/Meta-Llama-3.1-8B-Instruct-4bit",
+  "baseline": {
+    "tag": "real_corpus/v0.1.0-draft/dev-provisional-labels-r2/baseline-qwen2.5-1.5b",
+    "mode": "serving",
+    "n": 34,
+    "n_answered_scored": 5,
+    "n_answered_without_evidence_excluded": 0,
+    "f1_score_all": 0.5011318390799512,
+    "f1_fingerprint": "a021e5df4c56ba1b",
+    "lexical_groundedness_answered": 0.6341650717703349,
+    "hallucination_answered": 0.3,
+    "grounding_fingerprint": "a68801008252b0d3"
+  },
+  "candidate": {
+    "tag": "real_corpus/v0.1.0-draft/dev-provisional-labels-r2/sft-qwen2.5-1.5b",
+    "mode": "serving",
+    "n": 34,
+    "n_answered_scored": 21,
+    "n_answered_without_evidence_excluded": 0,
+    "f1_score_all": 0.5667843403075107,
+    "f1_fingerprint": "6ddfdfe8ab8335bc",
+    "lexical_groundedness_answered": 0.7433477195108407,
+    "hallucination_answered": 0.37878787878787884,
+    "grounding_fingerprint": "09028516de698e01"
+  },
+  "comparison": "Comparison: a021e5df4c56ba1b (baseline) -> 6ddfdfe8ab8335bc (candidate)\n  per-metric (baseline -> candidate | absolute delta | relative %):\n    f1_score: 0.5011 -> 0.5668  delta=+0.0657 (+13.1% rel)  (n=34->34, std=0.4560->0.3535)\n  samples: 3 went correct->wrong, 0 went wrong->correct\n  model: precomputed -> precomputed (no measurable size)"
+}
