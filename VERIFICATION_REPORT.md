@@ -1,12 +1,129 @@
 # PS3 Verification Report — Member 2 module (model serving, post-training, evaluation)
 
-Audit date: 2026-10-24 · Branch `feat/local-llm-evaluation` @ `0fd4b8c` · Auditor: Claude (independent pass; read-only
-except for adding this report and `llm/verification/`).
+This file has two parts:
+- **Part A — Final state after fixes** (2026-10-24, branch `feat/local-llm-evaluation`). This is the current status.
+- **Part B — Original audit** (2026-10-24 @ `0fd4b8c`), kept verbatim as the historical record. Statements there
+  such as "fixes not applied" describe the state before Part A.
 
-Labels: **VERIFIED** (re-checked from primary evidence) · **PARTIALLY VERIFIED** · **FAILED** (claim is wrong or
-materially misleading) · **NOT CHECKED**.
+Labels: **VERIFIED** (re-checked from primary evidence by execution) · **PARTIALLY VERIFIED** · **FAILED** ·
+**NOT CHECKED**.
 
 ---
+
+# Part A — Final state after fixes
+
+## A1. Verdict
+
+- **Pipeline and toolkit use: VERIFIED.** SGLang serves both models, the CuratorKIT curation ran with its
+  LLM on SGLang, the AlignTune LoRA run completed, and AuditKIT re-scores saved outputs with a judge served by SGLang.
+- **Metrics: VERIFIED** under the corrected v2 definitions. They are recomputed by an independent
+  implementation (`llm/verification/verify_v2.py`, 0 mismatches over 4 runs).
+- **Improvement claim: corrected.** The fine-tuned model is verified to follow the output contract far
+  better: 100% vs 50% schema-valid output, 0 vs 3 invented citation ids. Under the serving policy it answers
+  more answerable questions (18 vs 15 of 23) at an **equal** hallucinated-answer rate (3/16 each). On model
+  intent, grounded accuracy is identical (31/40 each). **A reduction in hallucinations is not supported.**
+- **Integration: contract v1.1 is PROPOSED and tested only on this side** (mock adapter, a down server,
+  and the SGLang-served fine-tuned model). It has **not** been tested with Papermind.
+
+## A2. Resolution of the audit findings (Part B §6)
+
+| # | Finding | Status | Fix / evidence |
+|---|---|---|---|
+| 1 | Headline improvement misattributed | **RESOLVED** | README and this report state v2 serving/intent results; no hallucination-reduction claim (`llm/README.md`, `results/v2/compare_baseline_vs_sft.md`) |
+| 2 | Bare "abstain" / non-JSON refusals counted as answers | **RESOLVED** | `prompting.is_refusal_text` + non-JSON handling; tests `test_refusals_never_count_as_answers` (h33/h34/h37/h26/h27 shapes) |
+| 3 | Contradictory / non-boolean flags | **RESOLVED** | `parse_flag` (documented mapping); `abstain=true` + answer is withheld as `contradictory_flag`; intent reading is separate and used only for scoring; tests in `tests/test_parser.py` |
+| 4 | Adapter raised `URLError` when the server was down | **RESOLVED** | lazy, error-handled model discovery; tests for refused connection, hung-server timeout, and CLI without `--model` |
+| 5 | Lexical correctness rule unreliable (h17 FN, h14 FP) | **RESOLVED** | per-item key facts in `data/mock/heldout_adjudication.json` (original labels unchanged; rationales for h14, h17, h20, h30) |
+| 6 | Refusal strings counted as unsupported claims | **RESOLVED** | v2: refusals are never answers, so never claims (`test_refusal_text_is_not_a_claim_or_hallucination`) |
+| 7 | Uncited answers passed through | **RESOLVED** | policy: no valid citation → abstain (`no_valid_citation`); invented ids never returned |
+| 8 | Evidence not version-controlled | **RESOLVED** | `llm/verification/` committed (scripts, logs, checkpoint hashes) |
+| 9 | Environment not locked | **RESOLVED (macOS arm64)** | `llm/env/lock-*-macos-arm64.txt`; both rebuilt into clean venvs with identical freezes (A4) |
+| 10 | "3 epochs" | **RESOLVED** | README: 40 steps = 2.88 epochs (`trainer_state.json`: epoch 2.8807) |
+| 11 | Latency/memory single-run; repetition_penalty undocumented | **DOCUMENTED** | labelled single-run, within observed noise; the `repetition_penalty=1.1` default from `generation_config` (same for both models) is noted in A5 |
+| 12 | h30 ambiguous, h25 strict | **RESOLVED / KEPT** | h30 scored as ambiguous (abstain or the supported answer); h25 kept unanswerable with rationale in Part B §4f |
+| 13 | CuratorKIT gate accepted 100% | **DOCUMENTED** | limitation in README |
+| 14 | AuditKIT n_answered excluded evidence-less answers silently | **RESOLVED** | `audit.py` reports `n_answered_without_evidence_excluded` |
+| 15 | AuditKIT scores precomputed outputs | **DOCUMENTED** | `audit.py` docstring and README state that AuditKIT re-scores SGLang outputs and does not call the models |
+
+## A3. Corrected metrics (v2; same saved raw outputs, no new generation)
+
+Denominators: 23 answerable, 16 unanswerable, 1 ambiguous (h30), 40 total. Historical v1 files under
+`llm/results/<tag>/` verified byte-identical (55 files, SHA-256 before and after re-scoring).
+
+| Metric | Baseline serving | Fine-tuned serving | Baseline intent | Fine-tuned intent |
+|---|---|---|---|---|
+| Grounded accuracy (40) | 0.725 | 0.775 | 0.775 | 0.775 |
+| Answer correct (23) | 0.652 | 0.783 | 0.826 | 0.783 |
+| Inappropriate abstention (23) | 0.304 | 0.174 | 0.043 | 0.174 |
+| Hallucinated answer (16) | 0.188 | 0.188 | 0.312 | 0.188 |
+| Unsupported-claim rate (claims in answers) | 0.200 | 0.273 | 0.259 | 0.273 |
+| Grounded flips vs baseline / exact McNemar p | — | +3 / −1, p = 0.625 | — | +2 / −2, p = 1.000 |
+
+- Contract: schema-valid output baseline 0.500 vs fine-tuned 1.000; invented citation ids 3 vs 0.
+- AuditKIT, intent mode (`results/auditkit_v2_…_intent.json`): F1 0.639 → 0.591; LexicalGroundedness 0.866 → 0.812
+  (deterministic token-overlap metrics); LLM-judged Hallucination 0.250 → 0.175 (judge: Qwen2.5-7B-4bit on SGLang,
+  which is also the curation teacher).
+  - The judge scored 26/27 and 21/22 answers; claim-less outputs are skipped.
+  - The candidate's judged run was served from AuditKIT's run cache: fingerprint `9e5c04986fb6f417` is identical
+    to the v1 run, because the inputs and judge were identical. The judge log `serve_judge_v2.log` therefore
+    holds 53 calls, the baseline only.
+  - The judge and the deterministic metrics disagree in direction; with n = 40 this is unresolved.
+- v1 headline (0.575 → 0.775) is superseded. It is kept in `results/<tag>/` for history only.
+
+## A4. Commands executed for Part A (results)
+
+All commands run from `llm/` unless stated otherwise.
+
+| Check | Command | Result |
+|---|---|---|
+| Full tests | `../.venv/bin/python -m pytest -q tests` | **65 passed, 0 failed** |
+| Tests in clean env from lock | same, with the python of a venv rebuilt only from `env/lock-main-macos-arm64.txt` | **65 passed** |
+| Main lock reproducibility | `uv venv … && uv pip install --no-deps -r env/lock-main-macos-arm64.txt`; `uv pip freeze` diff vs `.venv` | identical; `uv pip check` OK; TRL backend imports, MPS available |
+| SGLang lock reproducibility | lock `--no-deps` + `git fetch --depth 1 origin 1e894eb92d40…` + Metal pyproject swap + `SGLANG_BUILD_RUST_EXTS=none uv pip install --no-deps "./…/python[srt_mps]"` | build OK; freeze identical except the sglang build-date suffix; Metal available |
+| SGLang source revision | `git rev-parse HEAD` in the build tree; installed version `0.0.0.dev1+g1e894eb92` | `1e894eb92d403062cf21e2910dba888cad7adb9e`; only local change is the documented pyproject swap |
+| v2 re-scoring | `python -m ps3_llm.evaluate --rescore-from <tag> --tag v2/<tag>` (4 runs) | written to `results/v2/`; refuses existing dirs |
+| Independent verifier | `python3 -I verification/verify_v2.py . baseline-qwen2.5-1.5b sft-qwen2.5-1.5b sft-qwen2.5-1.5b-run2 baseline-qwen2.5-1.5b-run0` | **MISMATCHES: 0** |
+| Comparison | `python -m ps3_llm.compare v2/baseline-qwen2.5-1.5b v2/sft-qwen2.5-1.5b --out results/v2/compare_baseline_vs_sft.md` | flips and McNemar recomputed independently; table column counts validated |
+| CLI: mock | `python -m ps3_llm.cli --adapter mock < data/mock/example_request.json` | answer with valid citation, exit 0 |
+| CLI: mixed batch | valid / invalid / empty-evidence / non-object / valid | order preserved; `invalid_request` in place; exit 0 |
+| CLI: server down | `--adapter sglang --base-url http://127.0.0.1:9/v1` (no `--model`) | structured `inference_error`, exit 0, empty stderr |
+| CLI: non-JSON stdin | `echo nope \| python -m ps3_llm.cli` | `{"error": …}`, exit 2 |
+| Live SGLang integration | `examples/integration/papermind_client.py` against `serve_sglang.sh …/merged --served-model-name ps3-qwen2.5-1.5b-grounded-sft` | answerable → cited answer; unanswerable and empty evidence → `model_abstained`; malformed → `invalid_request`; server stopped → `inference_error` (log: `verification/logs/serve_integration_sft.log`, 3 completions) |
+
+## A5. Environment (verified installed)
+
+macOS 26.3 arm64 (Apple M4, 16 GB), CPython 3.12.13, uv.
+- **Main env:** aligntune 0.1.28 @ `57e9a95e79ac…`, curatorkit 0.1.22, auditkit 1.1.3, torch 2.14.1,
+  transformers 5.20.2, trl 1.7.1, peft 0.21.2.
+- **SGLang env:** sglang @ `1e894eb92d40…` (Metal pyproject, `srt_mps`), torch 2.13.0, mlx 0.32.4, mlx-lm 0.32.2,
+  transformers 5.19.0.
+- **Decoding** for both models: temperature 0, max_tokens 384. SGLang `sampling_defaults: model` applies each
+  checkpoint's `generation_config` for unset parameters; it is identical for both (`repetition_penalty` 1.1,
+  top_p 0.8, top_k 20).
+
+## A6. Remaining limitations and blockers
+
+1. **Not integrated with Papermind.** The contract is proposed. The checklist in `llm/INTEGRATION_GUIDE.md` §9
+   is open, including an end-to-end run on real retrieval output.
+2. **Small synthetic evaluation.** 40 items from 3 synthetic documents; 95% Wilson interval around 0.775 is
+   ≈ 0.63–0.88. Generalisation to real documents is untested.
+3. **The fine-tuned model over-abstains** on inference-style questions (4/23 vs 1/23 intent) and still answers
+   3/16 unanswerable items.
+4. **Not reproducible bit-for-bit:**
+   - CuratorKIT regeneration (T = 0.3);
+   - re-training on MPS (NOT CHECKED: the audit forbade re-training);
+   - latency and memory (single measurements).
+5. **Fine-tuned weights are not in Git** (2.9 GB). Regenerate them with the training command or obtain them
+   from Member 2; hashes are in `llm/verification/checkpoint_sha256.txt`.
+6. **Locks cover macOS arm64 only** and carry no hashes. Linux/CUDA is untested.
+7. The raw logs in `llm/verification/logs/` are verbatim and contain absolute paths from the original
+   machine. That's intentional for evidence; no secrets were found in a pattern scan.
+8. **Commit `1c1bec0` alone does not pass the full suite.** The old lenient-parser test was replaced only
+   in `6c0940a`. Every later commit passes.
+
+---
+
+# Part B — Original audit (verbatim)
 
 ## 1. Executive verdict — **PARTIALLY VERIFIED**
 
