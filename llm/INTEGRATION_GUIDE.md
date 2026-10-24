@@ -117,14 +117,15 @@ An over-long prompt fails at SGLang and comes back as `inference_error`, not as 
 | `model_abstained` | model (declined, or wrote refusal text such as "abstain") | show "not found in the documents" |
 | `contradictory_flag` | policy: model set `abstain=true` but wrote an answer | treat as not found; logged in `warnings` |
 | `no_valid_citation` | policy: answer had no citation from the evidence | treat as not found |
-| `unparseable_output` | policy: model output was not JSON | treat as not found; `parse_ok=false` |
+| `unparseable_output` | policy: model output was not one valid JSON object (malformed, or several objects) | treat as not found; `parse_ok=false` |
 | `inference_error: …` | system: server down, HTTP error, timeout | **system error** — retry/alert, do not show "not found" |
 | `invalid_request: …` | system: request failed validation, model not called | **bug in the request** — fix the caller |
 
 **Empty evidence** (`"evidence": []`) is valid and is sent to the model, which (in all tests so far)
 abstains with `model_abstained`. Send it rather than skipping the call, so abstentions are logged consistently.
 
-`warnings` values: `not_json`, `missing_keys:…`, `flag_missing`, `flag_unrecognised`, `non_boolean_flag:…`,
+`warnings` values: `not_json`, `multiple_json_objects`, `text_outside_json` (prose around an otherwise valid
+object; the object is still used), `missing_keys:…`, `flag_missing`, `flag_unrecognised`, `non_boolean_flag:…`,
 `flag_true_but_substantive_answer`, `flag_false_but_refusal_or_empty`, `invalid_citation_ids`, `inference_error`.
 
 ## 5. Examples (real outputs)
@@ -253,7 +254,7 @@ are limited evidence; expect different numbers on Papermind's real documents.
 
 ```bash
 cd llm
-../.venv/bin/python -m pytest -q tests                        # 65 tests; no model server needed
+../.venv/bin/python -m pytest -q tests                        # 93 tests; no model server needed
 ../.venv/bin/python -m pytest -q tests/test_adapter_contract.py  # contract only: CLI, batch order, errors, timeout
 python3 examples/integration/papermind_client.py examples/integration/answerable.json --adapter mock   # no server
 ```

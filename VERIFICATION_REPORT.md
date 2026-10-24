@@ -1,9 +1,15 @@
 # PS3 Verification Report — Member 2 module (model serving, post-training, evaluation)
 
 This file has two parts:
-- **Part A — Final state after fixes** (2026-10-24, branch `feat/local-llm-evaluation`). This is the current status.
-- **Part B — Original audit** (2026-10-24 @ `0fd4b8c`), kept verbatim as the historical record. Statements there
-  such as "fixes not applied" describe the state before Part A.
+- **Part A — Final state after fixes** (2026-10-24, on the model module's development branch). This is the current status.
+- **Part B — Original audit** (2026-10-24, at the development commit "Document model module setup, commands,
+  results and limitations"), kept verbatim as the historical record. Statements there such as "fixes not
+  applied" describe the state before Part A.
+
+**Provenance note.** The development history this report was written against is not on `main`: `main` holds
+the module as a single squashed commit. Commits are therefore identified by their commit subject, not by
+hash; the evidence itself (results, logs, checkpoints' SHA-256) is in the files cited, which are on `main`.
+Repository changes made after this report are recorded in the root `README.md`, not here.
 
 Labels: **VERIFIED** (re-checked from primary evidence by execution) · **PARTIALLY VERIFIED** · **FAILED** ·
 **NOT CHECKED**.
@@ -123,9 +129,12 @@ macOS 26.3 arm64 (Apple M4, 16 GB), CPython 3.12.13, uv.
    evidence. Code, documentation, lock files and the integration examples contain none; new serving uses
    `--served-model-name`.
    - A secret-pattern scan over all 165 tracked files found no matches (HF/OpenAI/GitHub/AWS tokens, bearer
-     tokens, private keys).
-8. **Commit `1c1bec0` alone does not pass the full suite.** The old lenient-parser test was replaced only
-   in `6c0940a`. Every later commit passes.
+     tokens, private keys). Re-run on `main` (185 tracked files, now including the retrieval team's `data/` and
+     `vector_store/`): still no matches; see the root `README.md` for the current hygiene notes.
+8. **One intermediate development commit did not pass the full suite on its own** ("Fix abstention parsing,
+   citation policy and adapter error handling"): its old lenient-parser test was replaced only in the next
+   commit ("Add v2 metrics with adjudicated correctness and serving/intent scoring"). Every later commit
+   passed. This concerns history that is not on `main`.
 
 ---
 

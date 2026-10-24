@@ -70,7 +70,7 @@ rm sglang-src/python/pyproject.toml && mv sglang-src/python/pyproject_other.toml
 SGLANG_BUILD_RUST_EXTS=none uv pip install --no-deps -p .venv-sglang/bin/python "./sglang-src/python[srt_mps]"
 
 # verify
-(cd llm && ../.venv/bin/python -m pytest -q tests)                       # expect 65 passed
+(cd llm && ../.venv/bin/python -m pytest -q tests)                       # expect 93 passed
 .venv-sglang/bin/python -c "import sglang, mlx.core as mx; print(mx.metal.is_available())"   # True
 ```
 
@@ -81,7 +81,7 @@ yanked. Other platforms (Linux/CUDA) are untested: use `llm/env/requirements-mai
 ## Reproduce (all commands from `llm/`)
 
 ```bash
-../.venv/bin/python -m pytest -q tests                                   # 65 tests, no model server needed
+../.venv/bin/python -m pytest -q tests                                   # 93 tests, no model server needed
 
 # 1. curation (~15 min on M4; regeneration is sampled at T=0.3, so pairs will differ from the committed ones)
 scripts/serve_sglang.sh mlx-community/Qwen2.5-7B-Instruct-4bit & scripts/wait_for_server.sh

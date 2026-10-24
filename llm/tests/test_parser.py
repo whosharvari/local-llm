@@ -124,3 +124,72 @@ def test_citation_string_instead_of_list():
 def test_think_block_and_fences_are_ignored():
     out = P('<think>hmm</think>```json\n{"abstain": false, "answer": "15 days.", "citations": ["a#1"]}\n```')
     assert not out["abstained"] and out["parse_ok"]
+
+
+# --- JSON extraction (replaces the greedy {.*} match) ---
+OK = '{"abstain": false, "answer": "15 days.", "citations": ["a#1"]}'
+
+
+@pytest.mark.parametrize("text", [
+    OK,
+    "  \n\t" + OK + "\n\n  ",
+    '{\n  "abstain": false,\n  "answer": "15 days.",\n  "citations": [\n    "a#1"\n  ]\n}',
+])
+def test_valid_json_with_whitespace_is_clean(text):
+    out = P(text)
+    assert (out["abstained"], out["answer"], out["citations"]) == (False, "15 days.", ["a#1"])
+    assert out["parse_ok"] and out["schema_ok"] and out["violations"] == []
+
+
+def test_braces_inside_answer_string():
+    out = P('{"abstain": false, "answer": "Use the {project} code, then }.", "citations": ["a#1"]}')
+    assert not out["abstained"] and out["answer"] == "Use the {project} code, then }." and out["violations"] == []
+
+
+@pytest.mark.parametrize("text", [
+    OK + "\nNote: ids look like {doc#chunk}.",                   # greedy match failed on this
+    OK + " }",
+    "Here is the answer:\n" + OK,
+    "```json\n" + OK + "\n```\nHope this helps {:}",
+])
+def test_prose_around_valid_object_is_used_but_reported(text):
+    out = P(text)
+    assert (out["abstained"], out["answer"], out["citations"]) == (False, "15 days.", ["a#1"])
+    assert out["parse_ok"] and out["schema_ok"] and out["violations"] == ["text_outside_json"]
+
+
+@pytest.mark.parametrize("text", [
+    OK + "\n" + '{"abstain": true, "answer": "", "citations": []}',
+    OK + OK,
+    OK + ' Also: {"note": 1}',
+    '{"draft": 1} ' + OK,
+])
+def test_multiple_json_objects_are_ambiguous_and_rejected(text):
+    out = P(text)
+    assert out["abstained"] and out["abstain_reason"] == "unparseable_output"
+    assert not out["parse_ok"] and not out["schema_ok"] and out["answer"] == "" and out["citations"] == []
+    assert out["violations"][:2] == ["not_json", "multiple_json_objects"]
+
+
+@pytest.mark.parametrize("text", [
+    '{"abstain": false, "answer": "15 days" "citations": ["a#1"]}',          # missing comma
+    '{"abstain": false, "answer": {"x": 1}',                                  # truncated; inner object valid
+    "{'abstain': False, 'answer': '15 days.', 'citations': ['a#1']}",         # Python repr, not JSON
+    "Answer {draft}: " + OK,                                                  # first brace is not JSON
+    "   ",
+])
+def test_malformed_output_is_never_an_answer(text):
+    out = P(text)
+    assert out["abstained"] and out["abstain_reason"] == "unparseable_output" and not out["parse_ok"]
+    assert out["answer"] == "" and out["citations"] == [] and "not_json" in out["violations"]
+
+
+def test_missing_required_fields_are_not_invented():
+    out = P('{"abstain": false, "answer": "15 days."}')                     # no citations key
+    assert out["abstained"] and out["abstain_reason"] == "no_valid_citation" and out["citations"] == []
+    assert "missing_keys:citations" in out["violations"] and not out["schema_ok"]
+    out = P('{"abstain": false, "citations": ["a#1"]}')                      # no answer key
+    assert out["abstained"] and out["abstain_reason"] == "model_abstained" and out["answer"] == ""
+    assert "missing_keys:answer" in out["violations"] and not out["schema_ok"]
+    out = P("{}")
+    assert out["abstained"] and out["violations"][0] == "missing_keys:abstain,answer,citations"

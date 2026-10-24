@@ -56,7 +56,7 @@ def format_target(answer: str, citations: list[str], abstain: bool) -> str:
     return json.dumps({"abstain": False, "answer": answer, "citations": citations}, ensure_ascii=False)
 
 
-_JSON_OBJ = re.compile(r"\{.*\}", re.DOTALL)
+_DECODER = json.JSONDecoder()
 _THINK = re.compile(r"<think>.*?</think>", re.DOTALL)
 
 # A refusal written as answer text. Bare words must be the whole answer; phrases may appear anywhere.
@@ -104,6 +104,33 @@ def _clean_id(c: Any) -> str:
     return re.sub(r"^\[(.*)\]$", r"\1", str(c).strip()).strip()
 
 
+def extract_json_object(text: str) -> tuple[dict[str, Any] | None, list[str]]:
+    """Locate the single JSON object in model text -> (object or None, extra violations).
+
+    The object must start at the first "{" and decode completely (json.JSONDecoder.raw_decode, so nested
+    objects and braces inside strings are handled). Surrounding prose is tolerated but reported as
+    "text_outside_json". None is returned when the first "{" does not start a valid object (malformed or
+    truncated JSON) or when another JSON object follows it ("multiple_json_objects": which one the model
+    meant is ambiguous, so neither is trusted).
+    """
+    start = text.find("{")
+    if start < 0:
+        return None, []
+    try:
+        obj, end = _DECODER.raw_decode(text, start)
+    except json.JSONDecodeError:
+        return None, []
+    rest = text[end:]
+    i = rest.find("{")
+    while i >= 0:
+        try:
+            _DECODER.raw_decode(rest, i)
+            return None, ["multiple_json_objects"]
+        except json.JSONDecodeError:
+            i = rest.find("{", i + 1)
+    return obj, (["text_outside_json"] if text[:start].strip() or rest.strip() else [])
+
+
 def parse_model_output(text: str, valid_ids: set[str]) -> dict[str, Any]:
     """Parse raw model text deterministically into a serving decision and an intent reading.
 
@@ -112,7 +139,7 @@ def parse_model_output(text: str, valid_ids: set[str]) -> dict[str, Any]:
     * Serving (`abstained`, `answer`, `citations`, `abstain_reason`) — what the API returns.
       Conservative: answer only if the output is valid JSON, the answer text is substantive,
       the flag does not say abstain, and at least one cited id exists in the request evidence.
-        1. not JSON                                   -> abstain (unparseable_output)
+        1. not JSON (or several JSON objects)         -> abstain (unparseable_output)
         2. empty answer or refusal text               -> abstain (model_abstained)
         3. flag True + substantive answer             -> abstain (contradictory_flag)
         4. substantive, flag False/missing, no valid id -> abstain (no_valid_citation)
@@ -122,24 +149,17 @@ def parse_model_output(text: str, valid_ids: set[str]) -> dict[str, Any]:
       whole text minus a trailing "citations:" line) is substantive and not a refusal. Used to compare
       models whose flag usage differs; never used for serving.
 
-    `violations` lists every contract breach (non-JSON, missing/non-boolean flag, flag/answer
-    contradictions, invented citation ids, missing keys) so they are visible, not silently resolved.
+    `violations` lists every contract breach (non-JSON, multiple objects, prose around the object,
+    missing/non-boolean flag, flag/answer contradictions, invented citation ids, missing keys) so they
+    are visible, not silently resolved.
     Citation ids are never returned unless they are in `valid_ids`.
     """
     cleaned = _THINK.sub("", text).strip()
     cleaned = re.sub(r"^```(?:json)?\s*|\s*```$", "", cleaned)
-    obj: dict[str, Any] | None = None
-    m = _JSON_OBJ.search(cleaned)
-    if m:
-        try:
-            cand = json.loads(m.group(0))
-            obj = cand if isinstance(cand, dict) else None
-        except json.JSONDecodeError:
-            obj = None
+    obj, extra = extract_json_object(cleaned)
 
-    violations: list[str] = []
+    violations: list[str] = (["not_json"] if obj is None else []) + extra
     if obj is None:
-        violations.append("not_json")
         answer = re.sub(r"\n?\s*citations\s*:.*$", "", cleaned, flags=re.IGNORECASE | re.DOTALL).strip()
         raw_cits = re.findall(r"\[([^\[\]]+)\]", cleaned)
         flag = None
